@@ -20,6 +20,10 @@
             <input type="password" name="senha" id="senha">
         </div>
         <div>
+            <label for="text">Confirmar senha</label>
+            <input type="password" name="csenha" id="csenha">
+        </div>
+        <div>
             <label for="text">Data de nascimento</label>
             <input type="date" name="data" id="data">
         </div>        
@@ -31,9 +35,41 @@
             <label for="text">Cpf</label>
             <input type="text" name="cpf" id="cpf">
         </div>        
+    </div>
+    <div>
+        <h1>Endereço</h1>
+         <div>
+            <label for="text">CEP</label>
+            <input type="text" name="cep" id="cep">
+        </div>
         <div>
-            <a href="">Voltar</a>
-            <button>Cadastrar</button>
+            <label for="text">UF</label>
+            <input type="text" name="uf" id="uf">
+        </div>
+        <div>
+            <label for="text">Cidade</label>
+            <input type="text" name="cidade" id="cidade">
+        </div>
+        <div>
+             <label for="text">Bairro</label>
+            <input type="text" name="bairro" id="bairro">
+        </div>
+        <div>
+            <label for="text">Rua</label>
+            <input type="text" name="rua" id="rua">
+        </div>
+        <div>
+            <label for="text">Número da rua</label>
+            <input type="number" name="numero" id="numero">
+        </div>
+        <div>
+            <label for="text">Complemento</label>
+            <input type="text" name="comple" id="comple">
+        </div>
+         <div>
+            <a href="/admin/listar">Voltar</a>
+            <button id="btn-register" type="button">Cadastrar</button>
         </div>
     </div>
 </div>
+<script src="/js/user/fetchRegister.js"></script>
