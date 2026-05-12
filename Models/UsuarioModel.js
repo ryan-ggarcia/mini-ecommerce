@@ -132,3 +132,5 @@ class UsuarioModel{
         return db
     }
 }
+
+module.exports = UsuarioModel
