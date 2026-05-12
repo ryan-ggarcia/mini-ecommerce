@@ -20,7 +20,7 @@ locais como frios, doces, sapatos e etc... entregado com o Whatsapp
 
 ## Fluxo do sistema de compra
 -   Cliente acessa o catálogo
-==> Monta o carringo
+==> Monta o carrinho
 -   Cliente escolhe forma de pagamento 
 ==> PIX e etc...
 -   Sistema gera qrcode 
@@ -33,9 +33,22 @@ locais como frios, doces, sapatos e etc... entregado com o Whatsapp
 -   Sistema gurda registro de compra
 
 ## Tecnologias 
--   TYPESCRIPT
+-   JAVASCRIPT
 -   CSS/TAYWIND
--   REACT (TALVEZ)
+-   EJS
 -   MYSQL
--   MULTER (TALVEZ)
+-   MULTER 
+-   EXPRESS 
+-   MVC
 
+## 1 FAZE - BANCO DE DADOS
+-   Criar tabela de usuarios
+-   Criar tabela de produtos
+-   Criar tabela de pedidos
+
+## 2 FAZE - ARQUITETURA
+- Model, controller, view, Middleware, Routes
+
+## 3 FAZE - BACKEND
+- Gerenciar Cliente/CRUD
+- Tela de gerenciar cliente
