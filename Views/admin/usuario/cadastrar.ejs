@@ -34,6 +34,17 @@
         <div>
             <label for="text">Cpf</label>
             <input type="text" name="cpf" id="cpf">
+        </div>
+        <div>
+            <label for="text">Perfil</label>
+            <select name="perfil" id="perfil">
+                <option value="0">--Nenhum--</option>
+                <%if(perfil.length > 0){%>
+                    <%perfil.forEach(p =>{%>
+                        <option value="<%= perfil.per_id %>"><%= perfil.per_nome %></option>
+                    <%})%>
+                <%}%>
+            </select>
         </div>        
     </div>
     <div>

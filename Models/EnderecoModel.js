@@ -55,7 +55,7 @@ class EnderecoModel{
             this.#end_complemento
         ]
         let db = new database()
-        db = await db.ExecutaComandoNonQuery(sql,values)
+        db = await db.ExecutaComandoLastInserted(sql,values)
         return db 
         
     }
