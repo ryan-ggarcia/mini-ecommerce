@@ -1,9 +1,67 @@
 <div><h1>Listar Usuários</h1></div>
 <div>
-    <a href=""></a>
+    <a href="/admin/cadastrar"> + Usuário</a>
 </div>
 <div>
     <table>
-        <!-- Configurações da tabela -->
+       <thead>
+        <th>
+            ID
+        </th>
+        <th>
+            STATUS
+        </th>
+         <th>
+            PERFIL
+        </th>
+        <th>
+            NOME
+        </th>
+        <th>
+            EMAIL
+        </th>
+        <th>
+            TELEFONE
+        </th>
+        <th>
+            DATA DE NASCIMENTO
+        </th>
+        <th>
+            CPF
+        </th>
+        <th>
+            AÇÕES
+        </th>
+       </thead>
+       <tbody>
+        <%if(user.length > 0 ){%>
+            <%user.forEach(u =>{%>
+                <%if(u.getPer_id == 2){%>
+                <tr>
+                    <td><%= u.getUsu_id%></td>
+                    <td><%= u.getUsu_status%></td>
+                    <td><%= u.getPer_id%></td>
+                    <td><%= u.getUsu_nome%></td>
+                    <td><%= u.getUsu_email%></td>
+                    <td><%= u.getUsu_telefone%></td>
+                    <td><%= u.getUsu_data%></td>
+                    <td><%= u.getUsu_cpf%></td>
+                    <td>
+                        <button data-end="<%= u.getEnd_id%>" class="opem-modal">Endereço</button>
+                        <a href="#">Alterar</a>
+                        <button data-id="<%= u.getUsu_id%>" class="btn-delete">Deletar</button>
+                    </td>
+                </tr>
+                <%}%>
+            <%})%>
+        <%}else{%>
+            <tr>
+                <td>
+                   Nenhum usuário cadastrado 
+                </td>
+            </tr>
+        <%}%>
+       </tbody>
     </table>
 </div>
+<script src="/js/user/fetchDelete.js"></script>

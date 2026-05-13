@@ -6,7 +6,7 @@ class PerfilModel{
         this.#per_id = id
         this.#per_nome = nome
     }
-    get geId(){return this.#per_id}
+    get getId(){return this.#per_id}
     set setId(x){this.#per_nome = x}
 
     get getNome(){return this.#per_nome}
@@ -16,7 +16,7 @@ class PerfilModel{
         let sql = `SELECT * FROM perfil`
         let banco = new database()
         let result = await banco.ExecutaComando(sql)
-        let lista
+        let lista = []
         result.forEach(r =>{
             lista.push(new PerfilModel(
                 r['per_id'],

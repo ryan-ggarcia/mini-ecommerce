@@ -9,8 +9,10 @@ class UsuarioModel{
     #usu_cpf
     #per_id
     #end_id
+    #usu_status
+    #usu_data
 
-    constructor(usu_id, usu_nome, usu_email, usu_senha, usu_telefone, usu_cpf, per_id, end_id) {
+    constructor(usu_id, usu_nome, usu_email, usu_senha, usu_telefone, usu_cpf, per_id, end_id,usu_status,usu_data) {
         this.#usu_id = usu_id;
         this.#usu_nome = usu_nome;
         this.#usu_email = usu_email;
@@ -19,6 +21,8 @@ class UsuarioModel{
         this.#usu_cpf = usu_cpf;
         this.#per_id = per_id;
         this.#end_id = end_id;
+        this.#usu_status = usu_status;
+        this.#usu_data = usu_data;
     }
 
     get getUsu_id() { return this.#usu_id; }
@@ -45,8 +49,14 @@ class UsuarioModel{
     get getEnd_id() { return this.#end_id; }
     set setEnd_id(end_id) { this.#end_id = end_id; }
 
+    get getUsu_status() { return this.#usu_status; }
+    set setUsu_status(usu_status) { this.#usu_status = usu_status; }
+
+    get getUsu_data() { return this.#usu_data; }
+    set setUsu_data(usu_data) { this.#usu_data = usu_data; }
+
     async create(){
-        let sql = `INSERT INTO usuario (usu_nome, usu_email, usu_senha, usu_telefone, usu_cpf, per_id, end_id) values (?,?,?,?,?,?,?)`
+        let sql = `INSERT INTO usuario (usu_nome, usu_email, usu_senha, usu_telefone, usu_cpf, per_id, end_id, usu_data) values (?,?,?,?,?,?,?,?)`
         let values = [
             this.#usu_nome,
             this.#usu_email,
@@ -54,7 +64,8 @@ class UsuarioModel{
             this.#usu_telefone,
             this.#usu_cpf,
             this.#per_id,
-            this.#end_id
+            this.#end_id,
+            this.#usu_data
         ]
         let db = new database()
         db = await db.ExecutaComandoNonQuery(sql,values)
@@ -63,7 +74,7 @@ class UsuarioModel{
     }
     
     async update(){
-        let sql = `UPDATE usuario SET usu_nome = ?, usu_senha = ?, usu_telefone = ?, usu_cpf = ?, per_id = ?, end_id = ?
+        let sql = `UPDATE usuario SET usu_nome = ?, usu_senha = ?, usu_telefone = ?, usu_cpf = ?, per_id = ?, end_id = ?, usu_status = ?, usu_data = ?
         WHERE usu_id = ?`
         let values = [
             this.#usu_nome,
@@ -73,6 +84,8 @@ class UsuarioModel{
             this.#usu_cpf,
             this.#per_id,
             this.#end_id,
+            this.#usu_status,
+            this.#usu_data,
             this.#usu_id
         ]
         let result = new database()
@@ -95,6 +108,8 @@ class UsuarioModel{
                 l['usu_cpf'],
                 l['per_id'],
                 l['end_id'],
+                l['usu_status'],
+                l['usu_data']
             ))
         })
         return lista

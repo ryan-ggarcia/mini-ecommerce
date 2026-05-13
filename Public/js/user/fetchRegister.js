@@ -12,6 +12,7 @@ function newRegister(){
     const date = document.getElementById('data')
     const telefone = document.getElementById('tel')
     const cpf = document.getElementById('cpf')
+    const perfil = document.getElementById('profile')
 
     const cep = document.getElementById('cep')
     const uf = document.getElementById('uf')
@@ -28,6 +29,7 @@ function newRegister(){
     date.style.borderColor = 'green'
     telefone.style.borderColor = 'green'
     cpf.style.borderColor = 'green'
+    perfil.style.borderColor = 'green'
     
     cep.style.borderColor = 'green'
     uf.style.borderColor = 'green'
@@ -37,7 +39,7 @@ function newRegister(){
     numero.style.borderColor = 'green'
 
     let ok = true
-    if(!nome.value && !email.value && !senha.value && !csenha.value && !date.value && !telefone.value && !cpf.value){
+    if(!nome.value && !email.value && !senha.value && !csenha.value && !date.value && !telefone.value && !cpf.value && perfil.value == "0"){
         alert("Preencha todos os campos obrigatorios!")
         nome.style.borderColor = 'red'
         email.style.borderColor = 'red'
@@ -46,17 +48,19 @@ function newRegister(){
         date.style.borderColor = 'red'
         telefone.style.borderColor = 'red'
         cpf.style.borderColor = 'red'
+        perfil.style.borderColor = 'red'
         return ok = false
     }
-    if(!nome.value || !date.value || !telefone.value || !cpf.value){
+    if(!nome.value || !date.value || !telefone.value || !cpf.value || perfil.value == "0"){
         alert("Campos obrigatorios não empreenchido")
         if(!nome.value) nome.style.borderColor = 'red'
         if(!date.value) date.style.borderColor = 'red'
         if(!telefone.value) telefone.style.borderColor = 'red'
         if(!cpf.value) cpf.style.borderColor = 'red'
+        if(perfil.value == "0") perfil.style.borderColor = 'red'
         ok = false
     }
-    if(!senha.value || !csenha.value || senha.value.length > 6 || senha.value != csenha.value){
+    if(!senha.value || !csenha.value || senha.value.length < 6 || senha.value != csenha.value){
         alert("Senha e Confirmar senha incorretos")
         if(!senha.value) senha.style.borderColor = 'red'
         if(!csenha.value) csenha.style.borderColor = 'red'
@@ -79,8 +83,9 @@ function newRegister(){
         ok = false
     }
     if(comple.value == "") comple.value = "Sem complemento"
-
+    
     if(!ok){
+        
         fetch('/admin/newRegister',{
             method: 'POST',
             headers:{
@@ -99,7 +104,8 @@ function newRegister(){
                 bairro: bairro.value,
                 rua: rua.value,
                 numero: numero.value,
-                complemento: comple.value
+                perfil: perfil.value,
+                complemento: comple.value,
             })
         })
         .then(res => json())

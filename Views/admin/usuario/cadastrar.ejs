@@ -14,7 +14,7 @@
         <div>
             <label for="text">Email</label>
             <input type="text" name="email" id="email">
-        </div>        
+        </div>       
         <div>
             <label for="text">Senha</label>
             <input type="password" name="senha" id="senha">
@@ -37,11 +37,11 @@
         </div>
         <div>
             <label for="text">Perfil</label>
-            <select name="perfil" id="perfil">
+            <select name="profile" id="profile">
                 <option value="0">--Nenhum--</option>
                 <%if(perfil.length > 0){%>
                     <%perfil.forEach(p =>{%>
-                        <option value="<%= perfil.per_id %>"><%= perfil.per_nome %></option>
+                        <option value="<%= p.getId %>"><%= p.getNome %></option>
                     <%})%>
                 <%}%>
             </select>

@@ -41,14 +41,21 @@ locais como frios, doces, sapatos e etc... entregado com o Whatsapp
 -   EXPRESS 
 -   MVC
 
-## 1 FAZE - BANCO DE DADOS
+## 1 FASE - BANCO DE DADOS
 -   Criar tabela de usuarios
 -   Criar tabela de produtos
 -   Criar tabela de pedidos
 
-## 2 FAZE - ARQUITETURA
+## 2 FASE - ARQUITETURA
 - Model, controller, view, Middleware, Routes
 
-## 3 FAZE - BACKEND
+## 3 FASE - BACKEND
 - Gerenciar Cliente/CRUD
 - Tela de gerenciar cliente
+
+## 4 FASE - BACKEND
+- Gerenciar Produto/CRUD + Imagem
+- Tela de gerenciar Produto
+
+## 5 FASE - BACKEND
+- Logíca de Produtos com item_produto
