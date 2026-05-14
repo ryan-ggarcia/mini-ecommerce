@@ -64,6 +64,8 @@ function newRegister(){
         alert("Senha e Confirmar senha incorretos")
         if(!senha.value) senha.style.borderColor = 'red'
         if(!csenha.value) csenha.style.borderColor = 'red'
+        if(senha.value != csenha.value ) senha.style.borderColor = 'red'
+         csenha.style.borderColor = 'red'
         ok = false
     }
     if(!email.value || !email.value.includes('@') || !email.value.includes('.com')){
@@ -84,7 +86,7 @@ function newRegister(){
     }
     if(comple.value == "") comple.value = "Sem complemento"
     
-    if(!ok){
+    if(ok){
         
         fetch('/admin/newRegister',{
             method: 'POST',
@@ -108,11 +110,11 @@ function newRegister(){
                 complemento: comple.value,
             })
         })
-        .then(res => json())
+        .then(res => res.json())
         .then(result =>{
             if(result.ok){
                 alert("Sucesso ao cadastrar usuário!")
-                window.localStorage.href = '/admin/listar'
+                window.location.href = '/admin/listar'
             }else{
                 alert("Não foi possível cadastrar o cliente")
                 window.location.reload()

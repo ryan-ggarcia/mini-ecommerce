@@ -1,6 +1,6 @@
 const database = require('../DB/database')
 
-class UsuarioModel{
+class UsuarioModel {
     #usu_id
     #usu_nome
     #usu_email
@@ -12,7 +12,7 @@ class UsuarioModel{
     #usu_status
     #usu_data
 
-    constructor(usu_id, usu_nome, usu_email, usu_senha, usu_telefone, usu_cpf, per_id, end_id,usu_status,usu_data) {
+    constructor(usu_id, usu_nome, usu_email, usu_senha, usu_telefone, usu_cpf, per_id, end_id, usu_status, usu_data) {
         this.#usu_id = usu_id;
         this.#usu_nome = usu_nome;
         this.#usu_email = usu_email;
@@ -55,7 +55,7 @@ class UsuarioModel{
     get getUsu_data() { return this.#usu_data; }
     set setUsu_data(usu_data) { this.#usu_data = usu_data; }
 
-    async create(){
+    async create() {
         let sql = `INSERT INTO usuario (usu_nome, usu_email, usu_senha, usu_telefone, usu_cpf, per_id, end_id, usu_data) values (?,?,?,?,?,?,?,?)`
         let values = [
             this.#usu_nome,
@@ -68,19 +68,16 @@ class UsuarioModel{
             this.#usu_data
         ]
         let db = new database()
-        db = await db.ExecutaComandoNonQuery(sql,values)
-        return db 
-        
+        db = await db.ExecutaComandoNonQuery(sql, values)
+        return db
     }
-    
-    async update(){
+    async update() {
         let sql = `UPDATE usuario SET usu_nome = ?, usu_senha = ?, usu_telefone = ?, usu_cpf = ?, per_id = ?, end_id = ?, usu_status = ?, usu_data = ?
         WHERE usu_id = ?`
         let values = [
             this.#usu_nome,
-            this.#usu_email,
-            this.#usu_senha,
-            this.#usu_telefone,
+            this.#usu_senha,     // ✅
+            this.#usu_telefone,  // ✅
             this.#usu_cpf,
             this.#per_id,
             this.#end_id,
@@ -89,16 +86,15 @@ class UsuarioModel{
             this.#usu_id
         ]
         let result = new database()
-        result = await result.ExecutaComandoNonQuery(sql,values)
+        result = await result.ExecutaComandoNonQuery(sql, values)
         return result
     }
-
-    async getAll(){
+    async getAll() {
         let sql = `SELECT * FROM usuario`
         let db = new database()
         db = await db.ExecutaComando(sql)
         let lista = []
-        db.forEach(l =>{
+        db.forEach(l => {
             lista.push(new UsuarioModel(
                 l['usu_id'],
                 l['usu_nome'],
@@ -114,12 +110,11 @@ class UsuarioModel{
         })
         return lista
     }
-
-    async getForId(id){
+    async getForId(id) {
         let sql = `SELECT * FROM usuario where usu_id = ?`
         let values = [id]
         let db = new database()
-        let result = await db.ExecutaComando(sql,values)
+        let result = await db.ExecutaComando(sql, values)
         let lista = new UsuarioModel(
             result[0]['usu_id'],
             result[0]['usu_nome'],
@@ -128,24 +123,37 @@ class UsuarioModel{
             result[0]['usu_telefone'],
             result[0]['usu_cpf'],
             result[0]['per_id'],
-            result[0]['end_id']
+            result[0]['end_id'],
+            result[0]['usu_status'],
+            result[0]['usu_data']
+
         )
         return lista
     }
-    async getEmail(email){
+    async getEmail(email) {
         let sql = `SELECT usu_email,usu_senha, per_id FROM usuario WHERE usu_email = ?`
         let values = [email]
         let db = new database()
-        db = await db.ExecutaComando(sql,values)
+        db = await db.ExecutaComando(sql, values)
         return db
     }
-    async delete(id){
+    async delete(id) {
         let sql = `DELETE FROM usuario WHERE usu_id = ? `
         let values = [id]
         let db = new database()
-        db = await db.ExecutaComandoNonQuery(sql,values)
-        return db
+        let result = await db.ExecutaComandoNonQuery(sql, values)
+        return result
     }
-}
+   async findAddress(id) {
+    let sql = `SELECT end_id FROM usuario WHERE usu_id = ?`
+    let value = [id]
+    let banco = new database()
+    let result = await banco.ExecutaComando(sql, value)
 
+    if (result.length > 0) {
+        return result[0]['end_id']
+    }
+    return null
+}
+}
 module.exports = UsuarioModel
