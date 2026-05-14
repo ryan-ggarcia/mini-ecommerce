@@ -95,7 +95,17 @@ class EnderecoModel{
         let sql = `SELECT * FROM endereco`
         let db = new database()
         db = await db.ExecutaComando(sql)
-        return db 
+        let lista = new EnderecoModel(
+            db[0]['end_id'],
+            db[0]['end_cidade'],
+            db[0]['end_rua'],
+            db[0]['end_numero'],
+            db[0]['end_bairro'],
+            db[0]['end_cep'],
+            db[0]['end_uf'],
+            db[0]['end_complemento']
+        )
+        return lista
     }
 }
 module.exports = EnderecoModel

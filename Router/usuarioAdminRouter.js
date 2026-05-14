@@ -8,4 +8,5 @@ router.get('/listar',controller.readUser)
 router.get('/cadastrar',controller.registerView)
 router.post('/newRegister',controller.newRegister)
 router.post('/fecthDelete',controller.deleteUser)
+router.post('/fecthDelete',controller)
 module.exports = router

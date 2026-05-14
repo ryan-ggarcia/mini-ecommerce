@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/user/style-modal.css">
 <div><h1>Listar Usuários</h1></div>
 <div>
     <a href="/admin/cadastrar"> + Usuário</a>
@@ -47,7 +48,7 @@
                     <td><%= u.getUsu_data%></td>
                     <td><%= u.getUsu_cpf%></td>
                     <td>
-                        <button data-end="<%= u.getEnd_id%>" class="opem-modal">Endereço</button>
+                        <button data-end="<%= u.getEnd_id%>" class="open-modal">Endereço</button>
                         <a href="#">Alterar</a>
                         <button data-id="<%= u.getUsu_id%>" class="btn-delete">Deletar</button>
                     </td>
@@ -64,4 +65,46 @@
        </tbody>
     </table>
 </div>
+<div class="modal">
+    <div class="modal-card">
+        <div>
+            <h2>Endereço</h2>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        CEP
+                    </th>
+                    <th>
+                        UF
+                    </th>
+                    <th>
+                        CIDADE
+                    </th>
+                    <th>
+                        BAIRRO
+                    </th>
+                    <th>
+                        RUA
+                    </th>
+                    <th>
+                        NUMERO
+                    </th>
+                    <th>
+                        COMPLEMENTO
+                    </th>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+        </div>
+        <button class="close-modal"> Fechar</button>
+    </div>
+</div>
 <script src="/js/user/fetchDelete.js"></script>
+<script src="/js/user/modalEnd.js"></script>
