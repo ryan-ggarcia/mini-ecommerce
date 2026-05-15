@@ -1,6 +1,6 @@
 const database = require('../DB/database')
 
-class EnderecoModel{
+class EnderecoModel {
     #end_id
     #end_cidade
     #end_rua
@@ -10,7 +10,7 @@ class EnderecoModel{
     #end_uf
     #end_complemento
 
-    constructor(end_id,end_cidade,end_rua,end_numero,end_bairro,end_cep,end_uf,end_complemento){
+    constructor(end_id, end_cidade, end_rua, end_numero, end_bairro, end_cep, end_uf, end_complemento) {
         this.#end_id = end_id
         this.#end_cidade = end_cidade
         this.#end_rua = end_rua
@@ -43,7 +43,7 @@ class EnderecoModel{
 
     get getEnd_complemento() { return this.#end_complemento; }
     set setEnd_complemento(end_complemento) { this.#end_complemento = end_complemento; }
-    async create(){
+    async create() {
         let sql = `INSERT INTO endereco (end_cidade, end_rua, end_numero, end_bairro, end_cep, end_uf, end_complemento) values (?,?,?,?,?,?,?)`
         let values = [
             this.#end_cidade,
@@ -55,11 +55,11 @@ class EnderecoModel{
             this.#end_complemento
         ]
         let db = new database()
-        db = await db.ExecutaComandoLastInserted(sql,values)
-        return db 
-        
+        db = await db.ExecutaComandoLastInserted(sql, values)
+        return db
+
     }
-    async update(){
+    async update() {
         let sql = `UPDATE endereco SET end_cidade = ?, end_rua = ?, end_numero = ?, end_bairro = ?, end_cep = ?, end_uf = ?, end_complemento = ? WHERE end_id = ?`
         let values = [
             this.#end_cidade,
@@ -72,29 +72,23 @@ class EnderecoModel{
             this.#end_id
         ]
         let db = new database()
-        db = await db.ExecutaComandoNonQuery(sql,values)
-        return db 
-        
+        db = await db.ExecutaComandoNonQuery(sql, values)
+        return db
+
     }
-    async delete(id){
+    async delete(id) {
         let sql = `DELETE FROM endereco WHERE end_id = ?`
         let values = [id]
         let db = new database()
-        db = await db.ExecutaComandoNonQuery(sql,values)
-        return db 
-        
+        db = await db.ExecutaComandoNonQuery(sql, values)
+        return db
+
     }
-    async findById(id){
+    async findById(id) {
         let sql = `SELECT * FROM endereco WHERE end_id = ?`
         let values = [id]
         let db = new database()
-        db = await db.ExecutaComando(sql,values)
-        return db 
-    }   
-    async findAll(){
-        let sql = `SELECT * FROM endereco`
-        let db = new database()
-        db = await db.ExecutaComando(sql)
+        db = await db.ExecutaComando(sql, values)
         let lista = new EnderecoModel(
             db[0]['end_id'],
             db[0]['end_cidade'],
@@ -105,6 +99,25 @@ class EnderecoModel{
             db[0]['end_uf'],
             db[0]['end_complemento']
         )
+        return lista
+    }
+    async findAll() {
+        let sql = `SELECT * FROM endereco`
+        let db = new database()
+        db = await db.ExecutaComando(sql)
+        let lista = []
+        db.forEach(row => {
+            lista.push(new EnderecoModel(
+                row['end_id'],
+                row['end_cidade'],
+                row['end_rua'],
+                row['end_numero'],
+                row['end_bairro'],
+                row['end_cep'],
+                row['end_uf'],
+                row['end_complemento']
+            ))
+        })
         return lista
     }
 }
