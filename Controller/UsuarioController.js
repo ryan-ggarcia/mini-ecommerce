@@ -12,6 +12,14 @@ class UsuarioController {
         perfil = await perfil.read()
         res.render('admin/usuario/cadastrar',{perfil})
     }
+    async updateView(req,res){
+        console.log(req.params.id)
+        let perfil = new PerfilModel()
+        let getUser = new UsuarioModel()
+        getUser = await getUser.getForId(req.params.id)
+        perfil = await perfil.read()
+        res.render('admin/usuario/alterar', {perfil,getUser})
+    }
     async newRegister(req, res) {
         let ok = false
         let msg = ''
@@ -41,6 +49,7 @@ class UsuarioController {
             }
         }
     }
+
     async deleteUser(req,res){
         const { id } = req.body
         let msg = ''

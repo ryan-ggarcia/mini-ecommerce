@@ -1,0 +1,92 @@
+<div>
+    <h1>
+        Alterar Usuário
+    </h1>
+</div>
+
+<div>
+    <div>
+        <h1>Informações Pessoais</h1>
+        <div>
+            <input type="text" name="nome" id="nome" value="<%= getUser.getUsu_id%>" hidden>
+        </div>        
+        <div>
+            <label for="text">Nome</label>
+            <input type="text" name="nome" id="nome" value="<%= getUser.getUsu_nome%>">
+        </div>        
+        <div>
+            <label for="text">Email</label>
+            <input type="text" name="email" id="email" value="<%= getUser.getUsu_email %>">
+        </div>       
+        <div>
+            <label for="text">Senha</label>
+            <input type="password" name="senha" id="senha" value="<%= getUser.getUsu_senha%>">
+        </div>
+        <div>
+            <label for="text">Data de nascimento</label>
+            <input type="date" name="data" id="data" value="<%= getUser.getUsu_data%>">
+        </div>        
+        <div>
+            <label for="text">Telefone</label>
+            <input type="text" name="tel" id="tel" value="<%= getUser.getUsu_telefone%>">
+        </div>        
+        <div>
+            <label for="text">Cpf</label>
+            <input type="text" name="cpf" id="cpf" value="<%= getUser.getUsu_cpf%>">
+        </div>
+        <div>
+            <label for="text">Perfil</label>
+            <select name="profile" id="profile">
+                <option value="0">--Nenhum--</option>
+                <%if(perfil.length > 0){%>
+                    <%perfil.forEach(p =>{%>
+                        <%if(getUser.getPer_id == p.getId){ %>
+                            <option value="<%=  p.getId %>" selected ><%=  p.getNome %></option>
+                        <%}else{%>
+                            <option value="<%= p.getId %>"><%= p.getNome %></option>
+                        <%}%>
+                    <%})%>
+                <%}%>
+            </select>
+        </div>        
+    </div>
+    <div>
+        <h1>Endereço</h1>
+         <div>
+            <input type="text" name="cep" id="cep" value="<%=getUser.getEnd_id%>">
+        </div>
+         <div>
+            <label for="text">CEP</label>
+            <input type="text" name="cep" id="cep" value="<%=getUser.getEnd_cep%>">
+        </div>
+        <div>
+            <label for="text">UF</label>
+            <input type="text" name="uf" id="uf" value="<%=getUser.getEnd_uf%>">
+        </div>
+        <div>
+            <label for="text">Cidade</label>
+            <input type="text" name="cidade" id="cidade" value="<%getUser.getEnd_cidade%>">
+        </div>
+        <div>
+             <label for="text">Bairro</label>
+            <input type="text" name="bairro" id="bairro">
+        </div>
+        <div>
+            <label for="text">Rua</label>
+            <input type="text" name="rua" id="rua">
+        </div>
+        <div>
+            <label for="text">Número da rua</label>
+            <input type="number" name="numero" id="numero">
+        </div>
+        <div>
+            <label for="text">Complemento</label>
+            <input type="text" name="comple" id="comple">
+        </div>
+         <div>
+            <a href="/admin/listar">Voltar</a>
+            <button id="btn-register" type="button">Cadastrar</button>
+        </div>
+    </div>
+</div>
+<script src="/js/user/fetchUpdate.js"></script>

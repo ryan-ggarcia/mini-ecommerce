@@ -49,7 +49,8 @@
                     <td><%= u.getUsu_cpf%></td>
                     <td>
                         <button data-end="<%= u.getEnd_id%>" class="open-modal">Endereço</button>
-                        <a href="#">Alterar</a>
+                        <!-- Passando o Id do usuario pela URL e enviando para o router -->
+                        <a href="/admin/update/<%= u.getUsu_id%>">Alterar</a>
                         <button data-id="<%= u.getUsu_id%>" class="btn-delete">Deletar</button>
                     </td>
                 </tr>
