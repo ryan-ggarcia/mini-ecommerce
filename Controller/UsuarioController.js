@@ -1,6 +1,7 @@
 const UsuarioModel = require('../Models/UsuarioModel')
 const EnderecoModel = require('../Models/EnderecoModel')
 const PerfilModel = require('../Models/PerfilModel')
+const bcrypt = require('bcrypt')
 class UsuarioController {
     async readUser(req, res) {
         let model = new UsuarioModel()
@@ -38,7 +39,8 @@ class UsuarioController {
         }
         if (nome && email && senha && cpf && data && tel && perfil != 0) {
             if (end_id != 0) {
-                let model = new UsuarioModel(0, nome, email, senha, tel, cpf, perfil, end_id, 'ATIVO', data)
+                let senhaHash = await bcrypt.hash(senha,10)
+                let model = new UsuarioModel(0, nome, email, senhaHash, tel, cpf, perfil, end_id, 'ATIVO', data)
                 let result = await model.create()
                 if (result != null) {
                     ok = true
@@ -71,8 +73,16 @@ class UsuarioController {
             let result = await end.update()
             if (!result) confirm = false //Se o endereço não for atualizado o confirm retorn false
         }
+        // Verificação de senha 
+        if(senha == 0){
+            let getSenha = new UsuarioModel()
+            getSenha = await getSenha.getForId(id)
+            return senha = getSenha.getUsu_senha
+        }else{
+            // senha nova com criptografia
+        }
         // se o cadastro do endereço for bem sucedido ele continua com a atualização de usuário
-        if (confirm && id && nome && email && senha && cpf && data && tel && perfil) {
+        if (confirm && id && nome && email && cpf && data && tel && perfil) {
             let user = new UsuarioModel(id, nome, email, senha, tel, cpf, perfil, endId, status, data)
             let result = await user.update()
             // valida se o usuário foi atualizado

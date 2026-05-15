@@ -3,16 +3,17 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 function update() {
+    const id = document.getElementById('id')
     const nome = document.getElementById('nome')
     const email = document.getElementById('email')
     const senha = document.getElementById('senha')
-    const csenha = document.getElementById('csenha')
     const date = document.getElementById('data')
     const telefone = document.getElementById('tel')
     const cpf = document.getElementById('cpf')
     const perfil = document.getElementById('profile')
     const status = document.getElementById('status')
 
+    const endId = document.getElementById('endId')
     const cep = document.getElementById('cep')
     const uf = document.getElementById('uf')
     const cidade = document.getElementById('cidade')
@@ -24,7 +25,6 @@ function update() {
     nome.style.borderColor = "green"
     email.style.borderColor = 'green'
     senha.style.borderColor = 'green'
-    csenha.style.borderColor = 'green'
     date.style.borderColor = 'green'
     telefone.style.borderColor = 'green'
     cpf.style.borderColor = 'green'
@@ -38,12 +38,11 @@ function update() {
     numero.style.borderColor = 'green'
 
     let ok = true
-    if (!nome.value && !email.value && !senha.value && !csenha.value && !date.value && !telefone.value && !cpf.value && perfil.value == "0") {
+    if (!nome.value && !email.value && !senha.value && !date.value && !telefone.value && !cpf.value && perfil.value == "0") {
         alert("Preencha todos os campos obrigatorios!")
         nome.style.borderColor = 'red'
         email.style.borderColor = 'red'
         senha.style.borderColor = 'red'
-        csenha.style.borderColor = 'red'
         date.style.borderColor = 'red'
         telefone.style.borderColor = 'red'
         cpf.style.borderColor = 'red'
@@ -59,12 +58,9 @@ function update() {
         if (perfil.value == "0") perfil.style.borderColor = 'red'
         ok = false
     }
-    if (!senha.value || !csenha.value || senha.value.length < 6 || senha.value != csenha.value) {
+    if (!senha.value || senha.value.length < 6 ) {
         alert("Senha e Confirmar senha incorretos")
         if (!senha.value) senha.style.borderColor = 'red'
-        if (!csenha.value) csenha.style.borderColor = 'red'
-        if (senha.value != csenha.value) senha.style.borderColor = 'red'
-        csenha.style.borderColor = 'red'
         ok = false
     }
     if (!email.value || !email.value.includes('@') || !email.value.includes('.com')) {
@@ -91,6 +87,7 @@ function update() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                id: id.value,
                 nome: nome.value,
                 email: email.value,
                 senha: senha.value,
@@ -98,6 +95,7 @@ function update() {
                 tel: telefone.value,
                 cpf: cpf.value,
                 status: status.value,
+                endId: endId.value,
                 cep: cep.value,
                 uf: uf.value,
                 cidade: cidade.value,

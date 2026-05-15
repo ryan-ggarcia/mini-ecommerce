@@ -1,3 +1,4 @@
+<script src="/js/user/fetchUpdate.js"></script>
 <div>
     <h1>
         Alterar Usuário
@@ -8,7 +9,7 @@
     <div>
         <h1>Informações Pessoais</h1>
         <div>
-            <input type="text" name="nome" id="nome" value="<%= getUser.getUsu_id%>" hidden>
+            <input type="text" name="id" id="id" value="<%= getUser.getUsu_id%>" hidden>
         </div>        
         <div>
             <label for="text">Nome</label>
@@ -20,7 +21,7 @@
         </div>       
         <div>
             <label for="text">Senha</label>
-            <input type="password" name="senha" id="senha" value="<%= getUser.getUsu_senha%>">
+            <input type="password" name="senha" id="senha" placeholder="Digite 0 para continuar com mesma senha">
         </div>
         <div>
             <label for="text">Data de nascimento</label>
@@ -60,7 +61,7 @@
     <div>
         <h1>Endereço</h1>
          <div>
-            <input type="text" name="cep" id="cep" value="<%=getUser.getEnd_id%>" hidden>
+            <input type="text" name="endId" id="endId" value="<%=getUser.getEnd_id%>" hidden>
         </div>
          <div>
             <label for="text">CEP</label>
@@ -96,4 +97,3 @@
         </div>
     </div>
 </div>
-<script src="/js/user/fetchUpdate.js"></script>

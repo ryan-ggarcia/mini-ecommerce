@@ -8,7 +8,7 @@ router.get('/listar',controller.readUser)
 router.get('/cadastrar',controller.registerView)
 router.post('/newRegister',controller.newRegister)
 router.post('/fecthDelete',controller.deleteUser)
+router.post('/fecthUpdate',controller.update)
 // Pegando o ID via URL e passando ela para a controller onde vai ser renderizada
-router.post('/fecthUpdate',controller)
 router.get('/update/:id', controller.updateView)
 module.exports = router
