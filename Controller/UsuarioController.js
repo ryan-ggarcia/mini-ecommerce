@@ -74,12 +74,14 @@ class UsuarioController {
             if (!result) confirm = false //Se o endereço não for atualizado o confirm retorn false
         }
         // Verificação de senha 
-        if(senha == 0){
+        if(senha == 0){ //opção se caso a senha for a mesma
             let getSenha = new UsuarioModel()
             getSenha = await getSenha.getForId(id)
-            return senha = getSenha.getUsu_senha
+            senha = getSenha.getUsu_senha
         }else{
             // senha nova com criptografia
+            let senhaHash = await bcrypt.hash(senha,10)
+            senha = senhaHash
         }
         // se o cadastro do endereço for bem sucedido ele continua com a atualização de usuário
         if (confirm && id && nome && email && cpf && data && tel && perfil) {
