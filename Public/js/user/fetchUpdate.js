@@ -58,8 +58,8 @@ function update() {
         if (perfil.value == "0") perfil.style.borderColor = 'red'
         ok = false
     }
-    if (!senha.value || senha.value.length < 6 ) {
-        alert("Senha e Confirmar senha incorretos")
+    if (!senha.value) {
+        alert("Senha incorretos")
         if (!senha.value) senha.style.borderColor = 'red'
         ok = false
     }

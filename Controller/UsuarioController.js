@@ -23,6 +23,25 @@ class UsuarioController {
         perfil = await perfil.read()
         res.render('admin/usuario/alterar', { perfil, getUser, end })
     }
+    async getEndereco(req,res){
+        let model = new EnderecoModel()
+        let end = await model.findById(req.params.id)
+        if(end != null){
+            // Retornando o endereço em formato json para ser usado em javascript
+            return res.json({
+                end_id: end.getEnd_id,
+                end_cep: end.getEnd_cep,
+                end_uf: end.getEnd_uf,
+                end_cidade: end.getEnd_cidade,
+                end_bairro: end.getEnd_bairro,
+                end_rua: end.getEnd_rua,
+                end_numero: end.getEnd_numero,
+                end_complemento: end.getEnd_complemento
+            })
+        }else{
+            return res.json({end: null})
+        }
+    }
     async newRegister(req, res) {
         let ok = false
         let msg = ''
@@ -39,7 +58,7 @@ class UsuarioController {
         }
         if (nome && email && senha && cpf && data && tel && perfil != 0) {
             if (end_id != 0) {
-                let senhaHash = await bcrypt.hash(senha,10)
+                let senhaHash = await bcrypt.hash(senha, 10)
                 let model = new UsuarioModel(0, nome, email, senhaHash, tel, cpf, perfil, end_id, 'ATIVO', data)
                 let result = await model.create()
                 if (result != null) {
@@ -53,7 +72,7 @@ class UsuarioController {
                     if (!lixo)
                         console.log('Não foi possível limpar o endereço')
                     return res.send({ msg, ok })
-                } 
+                }
             } else {
                 msg = 'Erro ao cadastrar o endereco'
                 res.send({ ok, msg })
@@ -64,6 +83,7 @@ class UsuarioController {
         let ok = false
         let msg = ''
         let confirm = true
+        let senhaHash = 0
         //Pegando a requisição do corpo recebida pela API
         const { id, nome, email, senha, cpf, data, tel, perfil, status } = req.body
         const { endId, cep, uf, cidade, bairro, rua, numero, complemento } = req.body
@@ -74,18 +94,17 @@ class UsuarioController {
             if (!result) confirm = false //Se o endereço não for atualizado o confirm retorn false
         }
         // Verificação de senha 
-        if(senha == 0){ //opção se caso a senha for a mesma
+        if (senha == 0) { //opção se caso a senha for a mesma
             let getSenha = new UsuarioModel()
             getSenha = await getSenha.getForId(id)
-            senha = getSenha.getUsu_senha
-        }else{
+            senhaHash = getSenha.getUsu_senha
+        } else {
             // senha nova com criptografia
-            let senhaHash = await bcrypt.hash(senha,10)
-            senha = senhaHash
+            senhaHash = await bcrypt.hash(senha, 10)
         }
         // se o cadastro do endereço for bem sucedido ele continua com a atualização de usuário
         if (confirm && id && nome && email && cpf && data && tel && perfil) {
-            let user = new UsuarioModel(id, nome, email, senha, tel, cpf, perfil, endId, status, data)
+            let user = new UsuarioModel(id, nome, email, senhaHash, tel, cpf, perfil, endId, status, data)
             let result = await user.update()
             // valida se o usuário foi atualizado
             if (result != null) {

@@ -1,69 +1,87 @@
 <link rel="stylesheet" href="/css/user/style-modal.css">
-<div><h1>Listar Usuários</h1></div>
+<div>
+    <h1>Listar Usuários</h1>
+</div>
 <div>
     <a href="/admin/cadastrar"> + Usuário</a>
 </div>
 <div>
     <table>
-       <thead>
-        <th>
-            ID
-        </th>
-        <th>
-            STATUS
-        </th>
-         <th>
-            PERFIL
-        </th>
-        <th>
-            NOME
-        </th>
-        <th>
-            EMAIL
-        </th>
-        <th>
-            TELEFONE
-        </th>
-        <th>
-            DATA DE NASCIMENTO
-        </th>
-        <th>
-            CPF
-        </th>
-        <th>
-            AÇÕES
-        </th>
-       </thead>
-       <tbody>
-        <%if(user.length > 0 ){%>
-            <%user.forEach(u =>{%>
-                <%if(u.getPer_id == 2){%>
-                <tr>
-                    <td><%= u.getUsu_id%></td>
-                    <td><%= u.getUsu_status%></td>
-                    <td><%= u.getPer_id%></td>
-                    <td><%= u.getUsu_nome%></td>
-                    <td><%= u.getUsu_email%></td>
-                    <td><%= u.getUsu_telefone%></td>
-                    <td><%= u.getUsu_data%></td>
-                    <td><%= u.getUsu_cpf%></td>
-                    <td>
-                        <button data-end="<%= u.getEnd_id%>" class="open-modal">Endereço</button>
-                        <!-- Passando o Id do usuario pela URL e enviando para o router -->
-                        <a href="/admin/update/<%= u.getUsu_id%>">Alterar</a>
-                        <button data-id="<%= u.getUsu_id%>" class="btn-delete">Deletar</button>
-                    </td>
-                </tr>
-                <%}%>
-            <%})%>
-        <%}else{%>
-            <tr>
-                <td>
-                   Nenhum usuário cadastrado 
-                </td>
-            </tr>
-        <%}%>
-       </tbody>
+        <thead>
+            <th>
+                ID
+            </th>
+            <th>
+                STATUS
+            </th>
+            <th>
+                PERFIL
+            </th>
+            <th>
+                NOME
+            </th>
+            <th>
+                EMAIL
+            </th>
+            <th>
+                TELEFONE
+            </th>
+            <th>
+                DATA DE NASCIMENTO
+            </th>
+            <th>
+                CPF
+            </th>
+            <th>
+                AÇÕES
+            </th>
+        </thead>
+        <tbody>
+            <%if(user.length> 0 ){%>
+                <%user.forEach(u=>{%>
+                    <%if(u.getPer_id==2){%>
+                        <tr>
+                            <td>
+                                <%= u.getUsu_id%>
+                            </td>
+                            <td>
+                                <%= u.getUsu_status%>
+                            </td>
+                            <td>
+                                <%= u.getPer_id%>
+                            </td>
+                            <td>
+                                <%= u.getUsu_nome%>
+                            </td>
+                            <td>
+                                <%= u.getUsu_email%>
+                            </td>
+                            <td>
+                                <%= u.getUsu_telefone%>
+                            </td>
+                            <td>
+                                <%= u.getUsu_data%>
+                            </td>
+                            <td>
+                                <%= u.getUsu_cpf%>
+                            </td>
+                            <td>
+                                <button data-end="<%= u.getEnd_id%>" class="open-modal">Endereço</button>
+                                <!-- Passando o Id do usuario pela URL e enviando para o router -->
+                                <a href="/admin/update/<%= u.getUsu_id%>">Alterar</a>
+                                <button data-id="<%= u.getUsu_id%>" class="btn-delete">Deletar</button>
+                            </td>
+                        </tr>
+                        <%}%>
+                            <%})%>
+                                <%}else{%>
+                                    <tr>
+                                        <td>
+                                            Nenhum usuário cadastrado
+                                        </td>
+                                    </tr>
+                                    <%}%>
+        </tbody>
     </table>
 </div>
 <div class="modal">
@@ -99,8 +117,8 @@
                         COMPLEMENTO
                     </th>
                 </thead>
-                <tbody>
-                   
+                <tbody id="end_table">
+                    <!-- O código sera renderizado pelo JS -->
                 </tbody>
             </table>
         </div>

@@ -88,18 +88,21 @@ class EnderecoModel {
         let sql = `SELECT * FROM endereco WHERE end_id = ?`
         let values = [id]
         let db = new database()
-        db = await db.ExecutaComando(sql, values)
-        let lista = new EnderecoModel(
-            db[0]['end_id'],
-            db[0]['end_cidade'],
-            db[0]['end_rua'],
-            db[0]['end_numero'],
-            db[0]['end_bairro'],
-            db[0]['end_cep'],
-            db[0]['end_uf'],
-            db[0]['end_complemento']
-        )
-        return lista
+        let result = await db.ExecutaComando(sql, values)
+        if (result.length > 0) {
+            let lista = new EnderecoModel(
+                result[0]['end_id'],
+                result[0]['end_cidade'],
+                result[0]['end_rua'],
+                result[0]['end_numero'],
+                result[0]['end_bairro'],
+                result[0]['end_cep'],
+                result[0]['end_uf'],
+                result[0]['end_complemento']
+            )
+            return lista
+        }else
+            return null
     }
     async findAll() {
         let sql = `SELECT * FROM endereco`
