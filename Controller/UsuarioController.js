@@ -1,0 +1,161 @@
+const UsuarioModel = require('../Models/UsuarioModel')
+const EnderecoModel = require('../Models/EnderecoModel')
+const PerfilModel = require('../Models/PerfilModel')
+const bcrypt = require('bcrypt')
+class UsuarioController {
+    async readUser(req, res) {
+        let model = new UsuarioModel()
+        let user = await model.getAll()
+        res.render('admin/usuario/listar', { user })
+    }
+    async registerView(req, res) {
+        let perfil = new PerfilModel()
+        perfil = await perfil.read()
+        res.render('admin/usuario/cadastrar', { perfil })
+    }
+    async updateView(req, res) {
+        console.log(req.params.id)
+        let perfil = new PerfilModel()
+        let getUser = new UsuarioModel()
+        let end = new EnderecoModel()
+        getUser = await getUser.getForId(req.params.id)
+        end = await end.findById(getUser.getEnd_id)
+        perfil = await perfil.read()
+        res.render('admin/usuario/alterar', { perfil, getUser, end })
+    }
+    async getEndereco(req,res){
+        let model = new EnderecoModel()
+        let end = await model.findById(req.params.id)
+        if(end != null){
+            // Retornando o endereço em formato json para ser usado em javascript
+            return res.json({
+                end_id: end.getEnd_id,
+                end_cep: end.getEnd_cep,
+                end_uf: end.getEnd_uf,
+                end_cidade: end.getEnd_cidade,
+                end_bairro: end.getEnd_bairro,
+                end_rua: end.getEnd_rua,
+                end_numero: end.getEnd_numero,
+                end_complemento: end.getEnd_complemento
+            })
+        }else{
+            return res.json({end: null})
+        }
+    }
+    async newRegister(req, res) {
+        let ok = false
+        let msg = ''
+        let end_id = 0
+        const { nome, email, senha, cpf, data, tel, perfil, } = req.body
+        const { cep, uf, cidade, bairro, rua, numero, complemento } = req.body
+        if (cep && uf && cidade && bairro && rua && numero && complemento) {
+            let model = new EnderecoModel(0, cidade, rua, numero, bairro, cep, uf, complemento)
+            let result = await model.create()
+            if (result != null) {
+                end_id = result
+                console.log(result)
+            }
+        }
+        if (nome && email && senha && cpf && data && tel && perfil != 0) {
+            if (end_id != 0) {
+                let senhaHash = await bcrypt.hash(senha, 10)
+                let model = new UsuarioModel(0, nome, email, senhaHash, tel, cpf, perfil, end_id, 'ATIVO', data)
+                let result = await model.create()
+                if (result != null) {
+                    ok = true
+                    msg = 'Sucesso! Usuário cadastrado.'
+                    res.send({ ok, msg })
+                } else {// adicionar else para deletar o endereço caso não consiga registrar o usuário
+                    msg = 'Não foi possível cadastrar o usuário'
+                    let lixo = new EnderecoModel()
+                    lixo = await lixo.delete(end_id)
+                    if (!lixo)
+                        console.log('Não foi possível limpar o endereço')
+                    return res.send({ msg, ok })
+                }
+            } else {
+                msg = 'Erro ao cadastrar o endereco'
+                res.send({ ok, msg })
+            }
+        }
+    }
+    async update(req, res) {
+        let ok = false
+        let msg = ''
+        let confirm = true
+        let senhaHash = 0
+        //Pegando a requisição do corpo recebida pela API
+        const { id, nome, email, senha, cpf, data, tel, perfil, status } = req.body
+        const { endId, cep, uf, cidade, bairro, rua, numero, complemento } = req.body
+        //varificação de endereço
+        if (endId && cep && uf && cidade && bairro && rua && numero && complemento) {
+            let end = new EnderecoModel(endId, cidade, rua, numero, bairro, cep, uf, complemento)
+            let result = await end.update()
+            if (!result) confirm = false //Se o endereço não for atualizado o confirm retorn false
+        }
+        // Verificação de senha 
+        if (senha == 0) { //opção se caso a senha for a mesma
+            let getSenha = new UsuarioModel()
+            getSenha = await getSenha.getForId(id)
+            senhaHash = getSenha.getUsu_senha
+        } else {
+            // senha nova com criptografia
+            senhaHash = await bcrypt.hash(senha, 10)
+        }
+        // se o cadastro do endereço for bem sucedido ele continua com a atualização de usuário
+        if (confirm && id && nome && email && cpf && data && tel && perfil) {
+            let user = new UsuarioModel(id, nome, email, senhaHash, tel, cpf, perfil, endId, status, data)
+            let result = await user.update()
+            // valida se o usuário foi atualizado
+            if (result != null) {
+                ok = true
+                msg = 'Sucesso! Usuário atualizada'
+                return res.send({ msg, ok })
+            } else {
+                msg = 'Erro ao cadastrar o usuário'
+                return res.send({ msg, ok })
+            }
+        }
+    }
+    async deleteUser(req, res) {
+        const { id } = req.body
+        let msg = ''
+        let ok = false
+        if (id != null) {
+            // Pegando o Id do endereço da tabela de usuário
+            let model = new UsuarioModel()
+            let end = await model.findAddress(id)
+            if (end != null && end != 0) {
+                // Excluindo o Usuário
+                let deleteUser = await model.delete(id)
+                if (deleteUser) {
+                    //Excluindo endereço relacionado com o usuário
+                    let endModel = new EnderecoModel()
+                    endModel = await endModel.delete(end)
+                    if (endModel) {
+                        ok = true
+                        msg = 'Sucesso ao excluir o usuario'
+                        return res.send({ msg, ok })
+                    } else {
+                        msg = 'Algo deu errado...'
+                        return res.send({ msg, ok })
+                    }
+                } else {
+                    msg = 'Não foi possível excluir o Usuário'
+                    console.log(msg)
+                    return res.send({ msg, ok })
+                }
+            } else {
+                msg = 'Endereço não encontrado'
+                console.log(msg)
+                return res.send({ msg, ok })
+            }
+        } else {
+            msg = 'Id indefinido'
+            console.log(msg)
+            return res.send({ msg, ok })
+        }
+    }
+}
+
+module.exports = UsuarioController

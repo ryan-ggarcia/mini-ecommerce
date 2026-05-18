@@ -1,0 +1,12 @@
+.modal{
+    position: fixed;
+    top: 10;
+    z-index: 10;
+    height: 100%;
+    width: 98%;
+    display: none;
+    justify-content: center;
+}
+.modal.active{
+    display: flex;
+}
