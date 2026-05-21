@@ -20,4 +20,6 @@ const upload = multer({storage:storage})
 router.get('/listarProduto',controller.readProduto)
 router.get('/registerProduto',controller.registerView)
 router.post('/registerNewProduto', upload.single('image'), controller.newRegister)
+router.post('/update',upload.single('image') ,controller.update)
+router.get('/updateView/:id',controller.updateView)
 module.exports = router

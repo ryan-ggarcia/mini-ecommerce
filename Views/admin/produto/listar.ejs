@@ -2,3 +2,86 @@
 <div>
     <a href="/admin/registerProduto"> + Produto</a>
 </div>
+<div>
+    <table>
+        <thead>
+            <th>
+                ID
+            </th>
+            <th>
+                IMAGEM
+            </th>
+            <th>
+                NOME
+            </th>
+            <th>
+                PREÇO
+            </th>
+            <th>
+                QUANTIDADE
+            </th>
+            <th>
+                CATEGORIA
+            </th>
+            <th>
+                MARCA
+            </th>
+            <th>
+                STATUS
+            </th>
+            <th>
+                DESCRIÇÃO
+            </th>
+            <th>
+                AÇÕES
+            </th>
+        </thead>
+        <tbody>
+            <%if(produto.length > 0){%>
+                <%produto.forEach(p =>{%>
+                    <tr>
+                        <td>
+                            <%=p.getPro_id()%>
+                        </td>
+                        <td>
+                            <button>
+                                <img src="/image/produtos/<%=p.getPro_image()%>" width="48" alt="">
+                            </button>
+                        </td>
+                        <td>
+                            <%=p.getPro_nome()%>
+                        </td>
+                        <td>
+                            <%=p.getPro_preco()%>
+                        </td>
+                        <td>
+                            <%=p.getPro_quantidade()%>
+                        </td>
+                        <td>
+                            <%=p.getCat_id()%>
+                        </td>
+                        <td>
+                            <%=p.getMarca_id()%>
+                        </td>
+                        <td>
+                            <%=p.getPro_status()%>
+                        </td>
+                        <td>
+                            <%=p.getPro_desc()%>
+                        </td>
+                        <td>
+                            <a href="/admin/updateView/<%=p.getPro_id()%>">Alterar</a>
+                            <button>Deletar</button> 
+                        </td>
+                    </tr>
+                <%})%>
+            <%}else{%>
+                <tr>
+                    <td>
+                        Produtos não cadastrados
+                    </td>
+                </tr>
+            <%}%>
+        </tbody>
+    </table>
+</div>

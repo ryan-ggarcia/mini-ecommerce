@@ -1,18 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('btn-register').addEventListener('click', register)
-    // Evento de change para pegar a imagem do formulario
+    carregarImagem()
     document.getElementById('img').addEventListener('change', carregarPrevia)
+    document.getElementById('btn-update').addEventListener('click', update)
 })
+
+function carregarImagem() {
+    let img = document.getElementById('imgPrev').dataset.img
+    if (img != '') {
+        document.getElementById('divPrevImg').style.display = 'block'
+        document.getElementById('imgPrev').src = `/image/produtos/${img}`
+    }
+}
 function carregarPrevia() {
-    console.log(this.files)
     if (this.files.length > 0) {
-        let img = document.getElementById('imgPrev') // Pegando tag da previa da imagem
         let urlImg = URL.createObjectURL(this.files[0])
-        img.src = urlImg
+        document.getElementById('imgPrev').src = urlImg
         document.getElementById('divPrevImg').style.display = 'block'
     }
 }
-function register() {
+
+function update() {
     const nome = document.getElementById('nome')
     const preco = document.getElementById('preco')
     const quant = document.getElementById('quant')
@@ -20,8 +27,9 @@ function register() {
     const status = document.getElementById('status')
     const cat = document.getElementById('cat')
     const marca = document.getElementById('marca')
-    const img = document.getElementById('img')
+    let img = document.getElementById('img')
     const desc = document.getElementById('desc')
+    const id = document.getElementById('id')
 
     nome.style.borderColor = "green"
     preco.style.borderColor = 'green'
@@ -44,39 +52,43 @@ function register() {
     }
     if (!nome.value || !preco.value || !quant.value || !validade.value || cat.value == '0' || marca.value == '0' || !desc.value) {
         alert('Preencha todos os campos obrigatorios!')
-        if(!nome.value) nome.style.borderColor = "red"
-        if(!preco.value)preco.style.borderColor = 'red'
-        if(!quant.value) quant.style.borderColor = 'red'
-        if(!validade.value)validade.style.borderColor = 'red'
-        if(!cat.value)cat.style.borderColor = 'red'
-        if(!marca.value)marca.style.borderColor = 'red'
-        if(!desc.value)desc.style.borderColor = 'red'
+        if (!nome.value) nome.style.borderColor = "red"
+        if (!preco.value) preco.style.borderColor = 'red'
+        if (!quant.value) quant.style.borderColor = 'red'
+        if (!validade.value) validade.style.borderColor = 'red'
+        if (!cat.value) cat.style.borderColor = 'red'
+        if (!marca.value) marca.style.borderColor = 'red'
+        if (!desc.value) desc.style.borderColor = 'red'
+    }
+    if(img.files.length < 0){
+        img = null
     }
     if (nome.value && preco.value && quant.value && validade.value && cat.value != '0' && marca.value != '0' && desc.value) {
         let formData = new FormData()
-        formData.append('nome',nome.value)
-        formData.append('preco',preco.value)
-        formData.append('quantidade',quant.value)
-        formData.append('validade',validade.value)
-        formData.append('categoria',cat.value)
-        formData.append('marca',marca.value)
-        formData.append('descricao',desc.value)
-        formData.append('status',status.value)
-        formData.append('image',img.files[0])
-        fetch('/admin/registerNewProduto',{
+        formData.append('id', id.value)
+        formData.append('nome', nome.value)
+        formData.append('preco', preco.value)
+        formData.append('quantidade', quant.value)
+        formData.append('validade', validade.value)
+        formData.append('categoria', cat.value)
+        formData.append('marca', marca.value)
+        formData.append('descricao', desc.value)
+        formData.append('status', status.value)
+        formData.append('image', img.files[0])
+        fetch('/admin/update', {
             method: 'POST',
             body: formData
         })
-        .then(r => r.json())
-        .then(res =>{
-            if(res.ok){
-                alert(res.msg)
-                window.location.href = '/admin/listarProduto'
-            }else{
-                alert(res.msg)
-                window.location.reload()
-            }
-        })
+            .then(r => r.json())
+            .then(res => {
+                if (res.ok) {
+                    alert(res.msg)
+                    window.location.href = '/admin/listarProduto'
+                } else {
+                    alert(res.msg)
+                    window.location.reload()
+                }
+            })
 
     }
 

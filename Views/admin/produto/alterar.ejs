@@ -1,0 +1,81 @@
+<script src="/js/product/fetchUpdate.js"></script>
+<div>
+    <div>
+        <h1>Alterar Produto</h1>
+        <div>
+            <input type="text" name="id" id="id" value="<%=produto.getPro_id()%>" hidden>
+        </div>
+        <div>
+            <label for="nome">Nome</label>
+            <input type="text" name="nome" id="nome" value="<%=produto.getPro_nome()%>">
+        </div>        
+        <div>
+            <label for="preco">Preço</label>
+            <input type="number" name="preco" id="preco" value="<%=produto.getPro_preco()%>">
+        </div>       
+        <div>
+            <label for="quant">Quantidade</label>
+            <input type="number" name="quant" id="quant" value="<%=produto.getPro_quantidade()%>">
+        </div>
+        <div>
+            <label for="validade">Validade</label>
+            <input type="date" name="validade" id="validade" value="<%=produto.getPro_validade()%>">
+        </div>
+        <div>
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option value="EM ESTOQUE" <%if(produto.getPro_status() === 'EM ESTOQUE'){%>selected<%}%>>Em estoque</option>
+                <option value="SEM ESTOQUE" <%if(produto.getPro_status() === 'SEM ESTOQUE'){%>selected<%}%>>Sem estoque</option>
+                <option value="SALDO" <%if(produto.getPro_status() === 'SALDO'){%>selected<%}%>>Saldo</option>
+            </select>
+        </div>
+        <div>
+            <label for="cat">Categoria</label>
+            <select name="cat" id="cat">
+                <option value="0">--Nenhum--</option>
+                <% if(cat && cat.length > 0){ %>
+                    <% cat.forEach(c => { %>
+                        <% if(c.getCat_id() === produto.getCat_id()){ %>
+                            <option value="<%=c.getCat_id()%>" selected><%=c.getCat_nome()%></option>
+                        <% } else { %>
+                            <option value="<%=c.getCat_id()%>"><%=c.getCat_nome()%></option>
+                        <% } %>
+                    <% }) %>
+                <% } %>
+            </select>
+        </div>        
+        <div>
+            <label for="marca">Marca</label>
+            <select name="marca" id="marca">
+                <option value="0">--Nenhum--</option>
+                <% if(marca && marca.length > 0){ %>
+                    <% marca.forEach(m => { %>
+                        <% if(m.getMarca_id() === produto.getMarca_id()){ %>
+                            <option value="<%=m.getMarca_id()%>" selected><%=m.getMarca_nome()%></option>
+                        <% } else { %>
+                            <option value="<%=m.getMarca_id()%>"><%=m.getMarca_nome()%></option>
+                        <% } %>
+                    <% }) %>
+                <% } %>
+            </select>
+        </div>        
+        <div>
+            <label for="img">Imagem</label>
+            <input type="file" name="img" id="img" value="<%= produto.getPro_image()%>" >
+            <div id="divPrevImg" style="display: none;">
+                <label>Prévia da imagem</label>
+                <div>
+                    <img alt="prevImg" id="imgPrev" width="200" data-img="<%= produto.getPro_image()%>">
+                </div>
+            </div>
+        </div>
+        <div>
+            <label for="desc">Descrição</label>
+            <input type="text" name="desc" id="desc" value="<%=produto.getPro_desc()%>">
+        </div>
+        <div>
+            <a href="/admin/listarProduto">Voltar</a>
+            <button type="button" id="btn-update">Alterar</button>
+        </div>
+    </div>
+</div>

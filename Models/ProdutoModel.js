@@ -59,12 +59,17 @@ class ProdutoModel{
         let db = new database()
         let result = await db.ExecutaComando(sql)
         let listar = []
+        let image = ''
         result.forEach(r =>{
+            if(r['pro_image'] != null)
+                image = r['pro_image']
+            else
+                image = 'sem-imagem.png'
             listar.push(new ProdutoModel(
                r['pro_id'],
                r['pro_nome'],
                r['pro_desc'],
-               r['pro_image'],
+               image,
                r['pro_preco'],
                r['pro_quantidade'],
                r['cat_id'],
