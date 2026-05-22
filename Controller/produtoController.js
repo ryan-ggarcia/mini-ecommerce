@@ -76,5 +76,22 @@ class ProdutoController {
         }
         return res.send({ok})
     }
+    async deletar(req,res){
+        let ok = false
+        if(req.body.id != null){
+            let model = new ProdutoModel()
+            let img = await model.getForId(req.body.id)
+            let nomeImg = img.getPro_image()
+            let result = await model.deletar(req.body.id)
+            if(result){
+                ok = true
+                if(fs.existsSync(global.CAMINHO_ABS + nomeImg))
+                    fs.unlinkSync(global.CAMINHO_ABS + nomeImg)
+                return res.send({ok})
+            }else{
+                return res.send({ok})
+            }
+        }
+    }
 }
 module.exports = ProdutoController

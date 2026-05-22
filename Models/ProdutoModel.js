@@ -101,12 +101,13 @@ class ProdutoModel{
             result[0]['pro_quantidade'],
             result[0]['cat_id'],
             result[0]['marca_id'],
+            result[0]['pro_validade'],
             result[0]['pro_status']
         )
         return produto
     }
     async deletar(id){
-        let sql = `DELETE FROM prduto WHERE pro_id = ?`
+        let sql = `DELETE FROM produto WHERE pro_id = ?`
         let value = [id]
         let db = new database()
         let result = await db.ExecutaComandoNonQuery(sql,value)

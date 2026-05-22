@@ -1,4 +1,4 @@
-
+<script src="/js/product/fecthDelete.js"></script>
 <h1>Listar produtos</h1>
 <div>
     <a href="/admin/registerProduto"> + Produto</a>
@@ -72,7 +72,7 @@
                         </td>
                         <td>
                             <a href="/admin/updateView/<%=p.getPro_id()%>">Alterar</a>
-                            <button>Deletar</button> 
+                            <button class="btn-delete" data-id="<%= p.getPro_id() %>">Deletar</button> 
                         </td>
                     </tr>
                 <%})%>
