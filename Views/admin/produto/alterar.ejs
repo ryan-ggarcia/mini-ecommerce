@@ -18,10 +18,6 @@
             <input type="number" name="quant" id="quant" value="<%=produto.getPro_quantidade()%>">
         </div>
         <div>
-            <label for="validade">Validade</label>
-            <input type="date" name="validade" id="validade" value="<%=produto.getPro_validade()%>">
-        </div>
-        <div>
             <label for="status">Status</label>
             <select name="status" id="status">
                 <option value="EM ESTOQUE" <%if(produto.getPro_status() === 'EM ESTOQUE'){%>selected<%}%>>Em estoque</option>
@@ -61,11 +57,11 @@
         </div>        
         <div>
             <label for="img">Imagem</label>
-            <input type="file" name="img" id="img" value="<%= produto.getPro_image()%>" >
+            <input type="file" name="img" id="img"  >
             <div id="divPrevImg" style="display: none;">
                 <label>Prévia da imagem</label>
                 <div>
-                    <img alt="prevImg" id="imgPrev" width="200" data-img="<%= produto.getPro_image()%>">
+                    <img alt="prevImg" id="imgPrev" width="200" data-img="<%= produto.getPro_image()%>"  >
                 </div>
             </div>
         </div>

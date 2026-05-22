@@ -25,6 +25,10 @@ app.use(admin.adminLayout)
 app.use('/admin', usuarioRouter)
 app.use('/admin', homeAdminRouter)
 app.use('/admin', produtoAdminRouter)
+// Config global link
+global.CAMINHO_IMG = '/image/produtos/'
+global.CAMINHO_ABS = __dirname + '/image/produtos/'
+
 //Router listen port
 app.listen(port, () =>{
     console.log(`Server on-line in port: ${port}`) 

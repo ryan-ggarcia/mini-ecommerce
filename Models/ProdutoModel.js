@@ -48,8 +48,8 @@ class ProdutoModel{
     setPro_status(x){this.#pro_status = x}
 
     async create(){
-        let sql = `INSERT INTO produto (pro_nome,pro_desc,pro_image,pro_preco,pro_quantidade,cat_id,marca_id,pro_validade,pro_status) values (?,?,?,?,?,?,?,?,?)`
-        let values = [this.#pro_nome,this.#pro_desc,this.#pro_image ,this.#pro_preco,this.#pro_quantidade,this.#cat_id,this.#marca_id,this.#pro_validade,this.#pro_status]
+        let sql = `INSERT INTO produto (pro_nome,pro_desc,pro_image,pro_preco,pro_quantidade,cat_id,marca_id,pro_status) values (?,?,?,?,?,?,?,?)`
+        let values = [this.#pro_nome,this.#pro_desc,this.#pro_image ,this.#pro_preco,this.#pro_quantidade,this.#cat_id,this.#marca_id,this.#pro_status]
         let db = new database()
         let result = await db.ExecutaComandoNonQuery(sql,values)
         return result
@@ -81,8 +81,8 @@ class ProdutoModel{
         return listar
     }  
     async update(){
-        let sql = `UPDATE produto SET pro_nome=?,pro_desc=?,pro_image=?,pro_preco=?,pro_quantidade=?,cat_id=?,marca_id=?,pro_validade=?,pro_status=? WHERE pro_id=?`
-        let values = [this.#pro_nome,this.#pro_desc,this.#pro_image,this.#pro_preco,this.#pro_quantidade,this.#cat_id,this.#marca_id,this.#pro_id,this.#pro_validade,this.#pro_status]
+        let sql = `UPDATE produto SET pro_nome=?,pro_desc=?,pro_image=?,pro_preco=?,pro_quantidade=?,cat_id=?,marca_id=?,pro_status=? WHERE pro_id=?`
+        let values = [this.#pro_nome,this.#pro_desc,this.#pro_image,this.#pro_preco,this.#pro_quantidade,this.#cat_id,this.#marca_id,this.#pro_status,this.#pro_id]
         let db = new database()
         let result = await db.ExecutaComandoNonQuery(sql,values)
         return result
@@ -101,8 +101,7 @@ class ProdutoModel{
             result[0]['pro_quantidade'],
             result[0]['cat_id'],
             result[0]['marca_id'],
-            result['pro_validade'],
-            result['pro_status']
+            result[0]['pro_status']
         )
         return produto
     }

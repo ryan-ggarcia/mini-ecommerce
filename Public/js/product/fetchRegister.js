@@ -16,7 +16,6 @@ function register() {
     const nome = document.getElementById('nome')
     const preco = document.getElementById('preco')
     const quant = document.getElementById('quant')
-    const validade = document.getElementById('validade')
     const status = document.getElementById('status')
     const cat = document.getElementById('cat')
     const marca = document.getElementById('marca')
@@ -26,38 +25,34 @@ function register() {
     nome.style.borderColor = "green"
     preco.style.borderColor = 'green'
     quant.style.borderColor = 'green'
-    validade.style.borderColor = 'green'
     status.style.borderColor = 'green'
     cat.style.borderColor = 'green'
     marca.style.borderColor = 'green'
     desc.style.borderColor = 'green'
 
-    if (!nome.value && !preco.value && !quant.value && !validade.value && cat.value == '0' && marca.value == '0' && !desc.value) {
+    if (!nome.value && !preco.value && !quant.value && cat.value == '0' && marca.value == '0' && !desc.value) {
         alert('Preencha todos os campos obrigatorios!')
         nome.style.borderColor = "red"
         preco.style.borderColor = 'red'
         quant.style.borderColor = 'red'
-        validade.style.borderColor = 'red'
         cat.style.borderColor = 'red'
         marca.style.borderColor = 'red'
         desc.style.borderColor = 'red'
     }
-    if (!nome.value || !preco.value || !quant.value || !validade.value || cat.value == '0' || marca.value == '0' || !desc.value) {
+    if (!nome.value || !preco.value || !quant.value || cat.value == '0' || marca.value == '0' || !desc.value) {
         alert('Preencha todos os campos obrigatorios!')
         if(!nome.value) nome.style.borderColor = "red"
         if(!preco.value)preco.style.borderColor = 'red'
         if(!quant.value) quant.style.borderColor = 'red'
-        if(!validade.value)validade.style.borderColor = 'red'
         if(!cat.value)cat.style.borderColor = 'red'
         if(!marca.value)marca.style.borderColor = 'red'
         if(!desc.value)desc.style.borderColor = 'red'
     }
-    if (nome.value && preco.value && quant.value && validade.value && cat.value != '0' && marca.value != '0' && desc.value) {
+    if (nome.value && preco.value && quant.value && cat.value != '0' && marca.value != '0' && desc.value) {
         let formData = new FormData()
         formData.append('nome',nome.value)
         formData.append('preco',preco.value)
         formData.append('quantidade',quant.value)
-        formData.append('validade',validade.value)
         formData.append('categoria',cat.value)
         formData.append('marca',marca.value)
         formData.append('descricao',desc.value)

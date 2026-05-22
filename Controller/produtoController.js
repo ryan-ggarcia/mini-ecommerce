@@ -1,84 +1,80 @@
 const ProdutoModel = require('../Models/ProdutoModel')
 const CategoriaModel = require('../Models/CategoriaModel')
 const MarcaModel = require('../Models/MarcaModel')
-class ProdutoController{
-    async readProduto(req,res){
+const fs = require('fs')
+class ProdutoController {
+    async readProduto(req, res) {
         let model = new ProdutoModel()
-        let produto = await model.getAll() 
-        res.render('admin/produto/listar',{produto})
+        let produto = await model.getAll()
+        res.render('admin/produto/listar', { produto })
     }
-    async registerView(req,res){
+    async registerView(req, res) {
         let cat = new CategoriaModel()
         let marca = new MarcaModel()
         cat = await cat.read()
         marca = await marca.read()
-        res.render('admin/produto/cadastrar',{cat,marca})
+        res.render('admin/produto/cadastrar', { cat, marca })
     }
-    async updateView(req,res){
+    async updateView(req, res) {
         let produto = new ProdutoModel()
         let cat = new CategoriaModel()
         let marca = new MarcaModel()
         produto = await produto.getForId(req.params.id)
         cat = await cat.read()
         marca = await marca.read()
-        res.render('admin/produto/alterar', {produto,cat,marca})
+        res.render('admin/produto/alterar', { produto, cat, marca })
     }
-    async newRegister(req,res){
+    async newRegister(req, res) {
         let ok = true
         let msg = ''
-        if(req.body.nome && req.body.preco && req.body.quantidade && req.body.descricao
-            && req.body.status && req.body.categoria && req.body.marca && req.file ){
-                // console.log(req.file.filename)
-                let model = new ProdutoModel(0,req.body.nome,req.body.descricao,req.file.filename
-                    ,req.body.preco,req.body.quantidade,req.body.categoria,req.body.marca,req.body.validade,
-                    req.body.status)
-                let result = await model.create()
-                if(result){
-                    msg = 'Sucesso ao cadastrar o produto!'
-                    return res.send({msg,ok})
-                }else{
-                    ok = false
-                    msg = 'Não foi possível realizar o cadastro de produto'
-                    return res.send({msg,ok})
-                }
+        if (req.body.nome && req.body.preco && req.body.quantidade && req.body.descricao
+            && req.body.status && req.body.categoria && req.body.marca && req.file) {
+            // console.log(req.file.filename)
+            let model = new ProdutoModel(0, req.body.nome, req.body.descricao, req.file.filename
+                , req.body.preco, req.body.quantidade, req.body.categoria, req.body.marca,0,
+                req.body.status)
+            let result = await model.create()
+            if (result) {
+                msg = 'Sucesso ao cadastrar o produto!'
+                return res.send({ msg, ok })
+            } else {
+                ok = false
+                msg = 'Não foi possível realizar o cadastro de produto'
+                return res.send({ msg, ok })
+            }
         }
     }
-    async update(req,res){
-        let ok = true
+    async update(req, res) {
+        let ok = false
         let msg = ''
-        if(req.body.id && req.body.nome && req.body.preco && req.body.quantidade && req.body.descricao
-            && req.body.status && req.body.categoria && req.body.marca){
-                if(req.file != null){
-                    let findFile = new ProdutoModel()
-                    findFile = await findFile.getForId(req.body.id)
-                    let img_Old = findFile.getPro_status()
-                    let model = new ProdutoModel(req.body.id,req.body.nome,req.body.descricao,img_Old
-                    ,req.body.preco,req.body.quantidade,req.body.categoria,req.body.marca,req.body.validade,
-                    req.body.status)
-                    model = await model.update()
-                    if(model){
-                        msg = 'Sucesso!'
-                        return res.send({msg,ok})
-                    }else{
-                         msg = 'Erro...'
-                        ok = false
-                        return res.send({msg,ok})
-                    }
-                }else{
-                    let model = new ProdutoModel(req.body.id,req.body.nome,req.body.descricao,req.file.filename
-                    ,req.body.preco,req.body.quantidade,req.body.categoria,req.body.marca,req.body.validade,
-                    req.body.status)
-                    model = await model.update()
-                    if(model){
-                        msg = 'Sucesso!'
-                        return res.send({msg,ok})
-                    }else{
-                        msg = 'Erro...'
-                        ok = false
-                        return res.send({msg,ok})
-                    }
-                }
+        // Validação se os dados enviados pelo front
+        if (req.body.id && req.body.nome && req.body.preco && req.body.quantidade && req.body.descricao
+            && req.body.status && req.body.categoria && req.body.marca) {
+            // instenção da model de produtos e passando dados
+            let model = new ProdutoModel(req.body.id, req.body.nome, req.body.descricao, ''
+                , req.body.preco, req.body.quantidade, req.body.categoria, req.body.marca,0,
+                req.body.status)
+            //metodo para pegarmos todas as infromações do produto antes de realizamos a atualização
+            let id = await model.getForId(req.body.id)
+            //Validação de imagem --> se foi enviada ou não enviada
+            if (req.file != null) {
+                // Pega a imagem atiga e faça a exclução da propria e grava a nova imagem na model
+                let nomeImg = id.getPro_image()
+                // console.log(nomeImg)
+                if (fs.existsSync(global.CAMINHO_ABS + nomeImg))
+                    fs.unlinkSync(global.CAMINHO_ABS + nomeImg)
+                model.setPro_image(req.file.filename)
+                // console.log(model.getPro_image())
             }
+            else {
+                // Não veio imagem então permanece a mesma
+                model.setPro_image(id.getPro_image())
+            }
+            ok = await model.update()
+        } else {
+            msg = "Erro..."
+        }
+        return res.send({ok})
     }
 }
 module.exports = ProdutoController
