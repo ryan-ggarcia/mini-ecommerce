@@ -1,62 +1,57 @@
 var mysql = require('mysql2');
 
+// Pool criado UMA única vez e reutilizado (Singleton)
+const pool = mysql.createPool({
+    host: 'localhost',
+    database: 'ecomercio',
+    user: 'root',
+    password: '',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    enableKeepAlive: true,      // mantém conexões vivas
+    keepAliveInitialDelay: 0    // keepalive imediato
+});
+
+// Listener para logar erros do pool sem derrubar o servidor
+pool.on('error', function (err) {
+    console.error('Erro no pool MySQL:', err.code)
+})
+
 class Database {
 
-    #conexao;
-
-    get conexao() { return this.#conexao;} 
-    set conexao(conexao) { this.#conexao = conexao; }
-
-    constructor() {
-
-        this.#conexao = mysql.createPool({
-            host: 'localhost', //endereço do nosso banco de dados na nuvem
-            database: 'ecomercio', //a database de cada um de vocês possui a nomenclatura PFS1_(RA)
-            user: 'root', // usuario e senha de cada um de vocês é o RA
-            password: '',
-            waitForConnections: true,
-            connectionLimit: 50, // Limite de conexões
-            queueLimit: 0 // Sem limite na fila de conexões
-        });
-        
-    }
-
     ExecutaComando(sql, valores) {
-        var cnn = this.#conexao;
-        return new Promise(function(res, rej) {
-            cnn.query(sql, valores, function (error, results, fields) {
-                if (error) 
+        return new Promise(function (res, rej) {
+            pool.query(sql, valores, function (error, results) {
+                if (error)
                     rej(error);
-                else 
+                else
                     res(results);
             });
         })
     }
-    
+
     ExecutaComandoNonQuery(sql, valores) {
-        var cnn = this.#conexao;
-        return new Promise(function(res, rej) {
-            cnn.query(sql, valores, function (error, results, fields) {
-                if (error) 
+        return new Promise(function (res, rej) {
+            pool.query(sql, valores, function (error, results) {
+                if (error)
                     rej(error);
-                else 
+                else
                     res(results.affectedRows > 0);
             });
         })
     }
 
     ExecutaComandoLastInserted(sql, valores) {
-        var cnn = this.#conexao;
-        return new Promise(function(res, rej) {
-            cnn.query(sql, valores, function (error, results, fields) {
-                if (error) 
+        return new Promise(function (res, rej) {
+            pool.query(sql, valores, function (error, results) {
+                if (error)
                     rej(error);
-                else 
+                else
                     res(results.insertId);
             });
         })
     }
-
 }
 
-module.exports = Database;
+module.exports = Database;

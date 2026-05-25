@@ -1,0 +1,66 @@
+<script src="/js/product/fetchRegister.js"></script>
+<div>
+    <div>
+        <h1>Cadastrar Produto</h1>
+        <div>
+            <label for="text">Nome</label>
+            <input type="text" name="nome" id="nome">
+        </div>        
+        <div>
+            <label for="text">Preço</label>
+            <input type="number" name="preco" id="preco">
+        </div>       
+        <div>
+            <label for="text">Quantidade</label>
+            <input type="number" name="quant" id="quant">
+        </div>
+        <div>
+            <label for="text">Status</label>
+            <select name="status" id="status">
+                <option value="EM ESTOQUE">Em estoque</option>
+                <option value="SEM ESTOQUE">Sem estoque</option>
+                <option value="SALDO">Saldo</option>
+            </select>
+        </div>
+        <div>
+            <label for="text">Categoria</label>
+            <select name="cat" id="cat">
+                <option value="0">--Nenhum--</option>
+                <%if(cat.length > 0){%>
+                    <%cat.forEach(c =>{%>
+                        <option value="<%= c.getCat_id() %>"><%= c.getCat_nome() %></option>
+                    <%})%>
+                <%}%>
+            </select>
+        </div>        
+        <div>
+            <label for="text">Marca</label>
+            <select name="marca" id="marca">
+                <option value="0">--Nenhum--</option>
+                <%if(marca.length > 0){%>
+                    <%marca.forEach(m =>{%>
+                        <option value="<%= m.getMarca_id() %>"><%= m.getMarca_nome() %></option>
+                    <%})%>
+                <%}%>
+            </select>
+        </div>        
+        <div>
+            <label for="text">Imagem</label>
+            <input type="file" name="img" id="img">
+            <div id="divPrevImg" style="display: none;">
+                <label for="text">Prévia da imagem</label>
+                <div>
+                    <img  alt="prevImg" id="imgPrev" width="200">
+                </div>
+            </div>
+        </div>
+        <div>
+            <label for="text">Descrição</label>
+            <input type="text" name="desc" id="desc">
+        </div>
+        <div>
+            <a href="/admin/listarProduto">Voltar</a>
+            <button type="button" id="btn-register">Cadastrar</button>
+        </div>
+    </div>
+</div>
