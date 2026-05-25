@@ -27,7 +27,7 @@ app.use('/admin', homeAdminRouter)
 app.use('/admin', produtoAdminRouter)
 // Config global link
 global.CAMINHO_IMG = '/image/produtos/'
-global.CAMINHO_ABS = __dirname + '/image/produtos/'
+global.CAMINHO_ABS = __dirname + '/Public/image/produtos/'
 
 //Router listen port
 app.listen(port, () =>{

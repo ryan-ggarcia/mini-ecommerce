@@ -76,22 +76,30 @@ class ProdutoController {
         }
         return res.send({ok})
     }
-    async deletar(req,res){
+    async deletar(req, res) {
         let ok = false
-        if(req.body.id != null){
+        let msg = ''
+        if (req.body.id == null) {
+            msg = 'ID do produto não informado.'
+            return res.send({ ok, msg })
+        }
+        try {
             let model = new ProdutoModel()
             let img = await model.getForId(req.body.id)
             let nomeImg = img.getPro_image()
             let result = await model.deletar(req.body.id)
-            if(result){
+            if (result) {
                 ok = true
-                if(fs.existsSync(global.CAMINHO_ABS + nomeImg))
+                if (fs.existsSync(global.CAMINHO_ABS + nomeImg))
                     fs.unlinkSync(global.CAMINHO_ABS + nomeImg)
-                return res.send({ok})
-            }else{
-                return res.send({ok})
+            } else {
+                msg = 'Não foi possível deletar o produto.'
             }
+        } catch (err) {
+            console.error('Erro ao deletar produto:', err)
+            msg = 'Erro interno ao deletar o produto.'
         }
+        return res.send({ ok, msg })
     }
 }
 module.exports = ProdutoController
