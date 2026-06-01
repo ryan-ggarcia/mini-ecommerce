@@ -1,0 +1,35 @@
+<script src="/js/carrinho/carrinho.js"></script>
+<div>
+    <div>
+        <h2>
+            <%= produto.getPro_nome() %>
+        </h2>
+    </div>
+    <div>
+        <div>
+            <img src="/image/produtos/<%=produto.getPro_image()%>" width="350" alt="">
+        </div>
+        <div>
+            <div>
+                <h2> Descrição </h2>
+            </div>
+            <div>
+                <p><%= produto.getPro_desc() %></p>
+            </div>
+            <div>
+                <span>Status do estoque: <%= produto.getPro_status() %> </span>
+                <span> Quantidade: <%= produto.getPro_quantidade() %> </span>
+                <span>Preço: R$ <%= produto.getPro_preco() %> </span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a href="/"> Voltar </a>
+        <button id="adicionar-carrinho"
+        data-id="<%= produto.getPro_id() %>"
+        data-nome="<%= produto.getPro_nome() %>"
+        data-preco="<%= produto.getPro_preco() %>"
+        data-imagem="<%= produto.getPro_image() %>"
+        >Comprar</button>
+    </div>
+</div>

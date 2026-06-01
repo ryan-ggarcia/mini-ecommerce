@@ -6,6 +6,7 @@ const expressEjsLayout = require('express-ejs-layouts')
 const usuarioRouter = require('./Router/usuarioAdminRouter')
 const homeAdminRouter = require('./Router/painelAdminRouter')
 const produtoAdminRouter = require('./Router/produtoAdminRouter')
+const homeRouter = require('./Router/homeRouter')
 const layoutAdmin = require('./Middleware/AdminMiddleware')
 //Config of server
 const app = express()
@@ -20,6 +21,7 @@ app.use(cookiesParser())
 app.use(express.json())
 //Router app
 //Layout Admin route
+app.use('/', homeRouter)
 let admin = new layoutAdmin()
 app.use(admin.adminLayout)
 app.use('/admin', usuarioRouter)
