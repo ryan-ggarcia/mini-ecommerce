@@ -47,7 +47,7 @@ function montarCarrinho() {
                 <option value="pix">PIX</option>
             </select>
             <a href="#">Continuar comprando</a>
-            <button id="finalizar-compra">Finalizar Compra</button>
+            <button id="finalizar-compra" onclick="comprar()" >Finalizar Compra</button>
         `
     }else{
         let html = `
@@ -82,5 +82,24 @@ function limparCarrinho(){
     //Redesenha o carrinho (vai cair no estado "vazio")
     montarCarrinho()
 }
+function comprar(){
+    let json
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || []
+    if(carrinho.length > 0){
+        carrinho.forEach(c =>{
+            json = {
+                idProduto: c.id,
+                nomeProduto: c.nome,
+                quantidade: c.quantidade,
+                valorUnitario: c.preco,
+                valorTotal: c.preco * c.quantidade
+            }
+        })
+        //terminar fetch de pedido
+        fetch()
+    } 
+}
 // função para montar o carrinho 
-document.addEventListener('DOMContentLoaded',montarCarrinho)
+document.addEventListener('DOMContentLoaded',function(){
+    montarCarrinho()
+})
