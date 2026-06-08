@@ -83,20 +83,32 @@ function limparCarrinho(){
     montarCarrinho()
 }
 function comprar(){
-    let json
+    let json = []
     let carrinho = JSON.parse(localStorage.getItem('carrinho')) || []
     if(carrinho.length > 0){
         carrinho.forEach(c =>{
-            json = {
+            json.push({
                 idProduto: c.id,
                 nomeProduto: c.nome,
                 quantidade: c.quantidade,
                 valorUnitario: c.preco,
                 valorTotal: c.preco * c.quantidade
-            }
+            })
         })
         //terminar fetch de pedido
-        fetch()
+        fetch('/pedido/registerPedido',{
+            method: 'POST',
+            headers: { 'Content-type':'application/json' },
+            body:JSON.stringify({json})
+        })
+        .then(r => { return r.json() })
+        // .then(r => {
+        //     if(r.ok){
+        //         alert(r.msg)
+        //     }else{
+        //         alert(r.msg)
+        //     }
+        // })
     } 
 }
 // função para montar o carrinho 

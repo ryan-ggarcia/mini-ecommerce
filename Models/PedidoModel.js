@@ -30,6 +30,19 @@ class PedidoModel{
     setUsu_id(usu){ this.#usu_id = usu }
     setEnd_id(end){ this.#end_id = end }
 
-    
-
+    async create(){
+        let sql = "INSERT INTO pedido (ped_data,ped_valorTotal,ped_status,usu_id,end_id) VALUES (?,?,?,?,?)"
+        let values = [this.#ped_data,this.#ped_valorTotal,this.#ped_status,this.#usu_id,this.#end_id]
+        let banco = new database()
+        let result = await banco.ExecutaComandoLastInserted(sql,values)
+        return result
+    }
+    async deletar(id){
+        let sql = "DELETE FROM pedido WHERE ped_id = ?"
+        let values = [id]
+        let banco = new database()
+        let result = await banco.ExecutaComandoNonQuery(sql,values)
+        return result
+    }
 }
+module.exports = PedidoModel

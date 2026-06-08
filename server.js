@@ -8,6 +8,7 @@ const homeAdminRouter = require('./Router/painelAdminRouter')
 const produtoAdminRouter = require('./Router/produtoAdminRouter')
 const loginRouter = require('./Router/loginRouter')
 const homeRouter = require('./Router/homeRouter')
+const pedidoRouter = require('./Router/pedidoRouter')
 const layoutAdmin = require('./Middleware/AdminMiddleware')
 //Config of server
 const app = express()
@@ -23,6 +24,7 @@ app.use(express.json())
 //Router app
 app.use('/login', loginRouter)
 app.use('/', homeRouter)
+app.use('/pedido', pedidoRouter)
 //Layout Admin route
 let admin = new layoutAdmin()
 app.use(admin.adminLayout)
