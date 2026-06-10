@@ -92,7 +92,7 @@ function comprar(){
                 nomeProduto: c.nome,
                 quantidade: c.quantidade,
                 valorUnitario: c.preco,
-                valorTotal: c.preco * c.quantidade
+                valorTotal: c.preco * c.quantidade,
             })
         })
         //terminar fetch de pedido
@@ -102,13 +102,13 @@ function comprar(){
             body:JSON.stringify({json})
         })
         .then(r => { return r.json() })
-        // .then(r => {
-        //     if(r.ok){
-        //         alert(r.msg)
-        //     }else{
-        //         alert(r.msg)
-        //     }
-        // })
+        .then(r => {
+            if(r.ok){
+                alert(r.msg)
+            }else{
+                alert(r.msg)
+            }
+        })
     } 
 }
 // função para montar o carrinho 
