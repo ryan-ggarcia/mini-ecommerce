@@ -86,13 +86,15 @@ function comprar(){
     let json = []
     let carrinho = JSON.parse(localStorage.getItem('carrinho')) || []
     if(carrinho.length > 0){
+        let valorTotal = 0
+        carrinho.forEach(c => valorTotal+=c.preco * c.quantidade)
         carrinho.forEach(c =>{
             json.push({
                 idProduto: c.id,
                 nomeProduto: c.nome,
                 quantidade: c.quantidade,
                 valorUnitario: c.preco,
-                valorTotal: c.preco * c.quantidade,
+                valorTotal: valorTotal
             })
         })
         //terminar fetch de pedido
@@ -105,6 +107,7 @@ function comprar(){
         .then(r => {
             if(r.ok){
                 alert(r.msg)
+                limparCarrinho()
             }else{
                 alert(r.msg)
             }

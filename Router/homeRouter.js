@@ -5,6 +5,7 @@ const router = express.Router()
 let controller = new HomeController()
 
 router.get('/',controller.homeView)
+router.get('/shop',controller.shopView)
 router.get('/carrinho',controller.carrinhoView)
 router.get('/produto/:id',controller.produtoView)
 module.exports = router

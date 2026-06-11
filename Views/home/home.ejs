@@ -1,18 +1,2 @@
 
 
-<h2>Produtos</h2>
-<div>
-    <%if(produtos.length > 0){%>
-        <%produtos.forEach(p =>{%>
-            <div>
-                <h3><%=p.getPro_nome()%></h3>
-                <img src="/image/produtos/<%=p.getPro_image()%>" width="200" alt="">
-                <p>R$<%=p.getPro_preco()%></p>
-                <p><%=p.getPro_desc()%></p>
-                <a href="/produto/<%= p.getPro_id() %>">Conferir</a>
-            </div>
-        <%})%>
-    <%}else{%>
-        <p>Nenhum produto cadastrado</p>
-    <%}%>
-</div>

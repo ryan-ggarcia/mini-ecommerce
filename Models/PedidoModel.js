@@ -32,7 +32,7 @@ class PedidoModel{
 
     async create(){
         let sql = "INSERT INTO pedido (ped_data,ped_valorTotal,ped_status,usu_id,end_id) VALUES (NOW(),?,?,?,?)"
-        let values = [0,this.#ped_valorTotal,this.#ped_status,this.#usu_id,this.#end_id]
+        let values = [this.#ped_valorTotal,"PENDENTE",this.#usu_id,this.#end_id]
         let banco = new database()
         let result = await banco.ExecutaComandoLastInserted(sql,values)
         return result
