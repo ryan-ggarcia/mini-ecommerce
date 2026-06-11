@@ -131,11 +131,23 @@ class UsuarioModel {
         return lista
     }
     async getEmail(email) {
-        let sql = `SELECT usu_email,usu_senha, per_id FROM usuario WHERE usu_email = ?`
+        let sql = `SELECT usu_id,usu_email,usu_senha, per_id FROM usuario WHERE usu_email = ?`
         let values = [email]
         let db = new database()
         db = await db.ExecutaComando(sql, values)
-        return db
+        let lista = new UsuarioModel(
+            db[0]['usu_id'],
+            0,
+            db[0]['usu_email'],
+            db[0]['usu_senha'],
+            0,
+            0,
+            db[0]['per_id'],
+            0,
+            0,
+            0
+        )
+        return lista
     }
     async delete(id) {
         let sql = `DELETE FROM usuario WHERE usu_id = ? `
