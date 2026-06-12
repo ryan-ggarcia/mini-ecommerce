@@ -1,16 +1,39 @@
+<div class="product-detail-container">
+    <% if (typeof produto !== 'undefined' && produto) { %>
+        <div class="product-gallery">
+            <% if (produto.getPro_image()) { %>
+                <img src="/image/produtos/<%= produto.getPro_image() %>" alt="<%= produto.getPro_nome() %>">
+            <% } else { %>
+                <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background-color:var(--bg-off);">
+                    <span style="color:var(--text-muted)">Sem imagem</span>
+                </div>
+            <% } %>
+        </div>
+        
+        <div class="product-meta">
+            <div class="brand">Categoria: <%= produto.getCat_id() %> | Marca: <%= produto.getMarca_id() %></div>
+            <h1 class="text-gradient"><%= produto.getPro_nome() %></h1>
+            
+            <div class="price">R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %></div>
+            
+            <p class="product-description">
+                <%= produto.getPro_desc() ? produto.getPro_desc() : 'Produto exclusivo Premium Store.' %>
+            </p>
+            
+            <p class="product-description" style="font-size: 0.9rem; margin-top: -1rem; margin-bottom: 2rem;">
+                <i class="fa-solid fa-box"></i> Em estoque: <%= produto.getPro_quantidade() %> unidades
+            </p>
+
+            <button id="adicionar-carrinho" class="btn-add-cart" data-id="<%= produto.getPro_id() %>">
+                Adicionar ao Carrinho
+            </button>
+        </div>
+    <% } else { %>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 0;">
+            <h3 style="color: var(--text-muted);">Produto não encontrado.</h3>
+            <a href="/" class="btn-primary" style="margin-top: 1rem;">Voltar à Loja</a>
+        </div>
+    <% } %>
+</div>
+
 <script src="/js/carrinho/carrinho.js"></script>
-    </div>
-
-    <!-- ===== Informações ===== -->
-    <div class="flex flex-col">
-      <p class="text-sm font-semibold text-stone tracking-wide mb-2">VEXO</p>
-      <h1 class="vexo-headline text-4xl sm:text-5xl mb-4"><%= produto.getPro_nome() %></h1>
-
-      <!-- rating -->
-      <div class="flex items-center gap-3 mb-5">
-        <div class="flex text-ink">
-          <% for (var s=0;s<5;s++){ %><svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.572-.955L10 0l2.938 5.955 6.572.955-4.755 4.635 1.123 6.545z"/></svg><% } %>
-        </div>
-        </div>
-        <button id="adicionar-carrinho"
-    </div>

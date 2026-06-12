@@ -1,99 +1,112 @@
-<script src="/js/user/fetchUpdate.js"></script>
-<div>
-    <h1>
-        Alterar Usuário
-    </h1>
+<div class="admin-header">
+    <h2>Alterar Usuário</h2>
+    <a href="/admin/listar" class="btn-action btn-edit"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
 </div>
 
-<div>
-    <div>
-        <h1>Informações Pessoais</h1>
-        <div>
-            <input type="text" name="id" id="id" value="<%= getUser.getUsu_id%>" hidden>
+<div class="admin-form-card" style="max-width: 800px; margin: 0 auto;">
+    <h3 style="margin-bottom: 1.5rem; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 0.5rem;">Informações Pessoais</h3>
+    
+    <input type="hidden" name="id" id="id" value="<%= getUser.getUsu_id %>">
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="nome">Nome Completo</label>
+            <input type="text" class="form-control" name="nome" id="nome" value="<%= getUser.getUsu_nome %>">
         </div>        
-        <div>
-            <label for="text">Nome</label>
-            <input type="text" name="nome" id="nome" value="<%= getUser.getUsu_nome%>">
-        </div>        
-        <div>
-            <label for="text">Email</label>
-            <input type="text" name="email" id="email" value="<%= getUser.getUsu_email %>">
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" id="email" value="<%= getUser.getUsu_email %>">
         </div>       
-        <div>
-            <label for="text">Senha</label>
-            <input type="password" name="senha" id="senha" placeholder="Digite 0 para continuar com mesma senha">
+        
+        <div class="form-group">
+            <label for="cpf">CPF</label>
+            <input type="text" class="form-control" name="cpf" id="cpf" value="<%= getUser.getUsu_cpf %>">
         </div>
-        <div>
-            <label for="text">Data de nascimento</label>
-            <input type="date" name="data" id="data" value="<%= getUser.getUsu_data%>">
-        </div>        
-        <div>
-            <label for="text">Telefone</label>
-            <input type="text" name="tel" id="tel" value="<%= getUser.getUsu_telefone%>">
-        </div>        
-        <div>
-            <label for="text">Cpf</label>
-            <input type="text" name="cpf" id="cpf" value="<%= getUser.getUsu_cpf%>">
+        
+        <div class="form-group">
+            <label for="senha">Nova Senha</label>
+            <input type="password" class="form-control" name="senha" id="senha" placeholder="Deixe 0 para manter a mesma senha">
         </div>
-        <div>
-            <label for="text">Perfil</label>
-            <select name="profile" id="profile">
+        
+        <div class="form-group">
+            <label for="data">Data de Nascimento</label>
+            <input type="date" class="form-control" name="data" id="data" value="<%= getUser.getUsu_data %>">
+        </div>        
+        
+        <div class="form-group">
+            <label for="tel">Telefone</label>
+            <input type="text" class="form-control" name="tel" id="tel" value="<%= getUser.getUsu_telefone %>">
+        </div>        
+        
+        <div class="form-group">
+            <label for="profile">Perfil</label>
+            <select class="form-control" name="profile" id="profile">
                 <option value="0">--Nenhum--</option>
-                <%if(perfil.length > 0){%>
-                    <%perfil.forEach(p =>{%>
-                        <%if(getUser.getPer_id == p.getId){ %>
-                            <option value="<%=  p.getId %>" selected ><%=  p.getNome %></option>
-                        <%}else{%>
-                            <option value="<%= p.getId %>"><%= p.getNome %></option>
-                        <%}%>
-                    <%})%>
-                <%}%>
+                <% if(perfil && perfil.length > 0){ %>
+                    <% perfil.forEach(p => { %>
+                        <option value="<%= p.getId %>" <%= getUser.getPer_id == p.getId ? 'selected' : '' %>><%= p.getNome %></option>
+                    <% }) %>
+                <% } %>
             </select>
         </div>  
-        <div>
-            <label for="text">Status</label>
-            <select name="status" id="status">
-                <option value="ATIVO">Ativo</option>
-                <option value="INATIVO">Inativo</option>
+        
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select class="form-control" name="status" id="status">
+                <option value="ATIVO" <%= getUser.getUsu_status === 'ATIVO' ? 'selected' : '' %>>Ativo</option>
+                <option value="INATIVO" <%= getUser.getUsu_status === 'INATIVO' ? 'selected' : '' %>>Inativo</option>
             </select>
         </div>      
     </div>
-    <div>
-        <h1>Endereço</h1>
-         <div>
-            <input type="text" name="endId" id="endId" value="<%=getUser.getEnd_id%>" hidden>
+
+    <h3 style="margin-top: 2rem; margin-bottom: 1.5rem; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 0.5rem;">Endereço de Entrega</h3>
+    
+    <input type="hidden" name="endId" id="endId" value="<%= getUser.getEnd_id %>">
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div class="form-group">
+            <label for="cep">CEP</label>
+            <input type="text" class="form-control" name="cep" id="cep" value="<%= end.getEnd_cep %>">
         </div>
-         <div>
-            <label for="text">CEP</label>
-            <input type="text" name="cep" id="cep" value="<%=end.getEnd_cep%>">
+        
+        <div class="form-group">
+            <label for="uf">UF</label>
+            <input type="text" class="form-control" name="uf" id="uf" value="<%= end.getEnd_uf %>" maxlength="2">
         </div>
-        <div>
-            <label for="text">UF</label>
-            <input type="text" name="uf" id="uf" value="<%=end.getEnd_uf%>">
+        
+        <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="cidade">Cidade</label>
+            <input type="text" class="form-control" name="cidade" id="cidade" value="<%= end.getEnd_cidade %>">
         </div>
-        <div>
-            <label for="text">Cidade</label>
-            <input type="text" name="cidade" id="cidade" value="<%= end.getEnd_cidade%>">
+        
+        <div class="form-group">
+            <label for="bairro">Bairro</label>
+            <input type="text" class="form-control" name="bairro" id="bairro" value="<%= end.getEnd_bairro %>">
         </div>
-        <div>
-             <label for="text">Bairro</label>
-            <input type="text" name="bairro" id="bairro" value="<%= end.getEnd_bairro%>">
+        
+        <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="rua">Rua</label>
+            <input type="text" class="form-control" name="rua" id="rua" value="<%= end.getEnd_rua %>">
         </div>
-        <div>
-            <label for="text">Rua</label>
-            <input type="text" name="rua" id="rua" value="<%= end.getEnd_rua%>">
+        
+        <div class="form-group">
+            <label for="numero">Número</label>
+            <input type="number" class="form-control" name="numero" id="numero" value="<%= end.getEnd_numero %>">
         </div>
-        <div>
-            <label for="text">Número da rua</label>
-            <input type="number" name="numero" id="numero" value="<%= end.getEnd_numero%>">
-        </div>
-        <div>
-            <label for="text">Complemento</label>
-            <input type="text" name="comple" id="comple" value="<%= end.getEnd_complemento%>">
-        </div>
-         <div>
-            <a href="/admin/listar">Voltar</a>
-            <button id="btn-update" type="button">Cadastrar</button>
+        
+        <div class="form-group">
+            <label for="comple">Complemento</label>
+            <input type="text" class="form-control" name="comple" id="comple" value="<%= end.getEnd_complemento %>">
         </div>
     </div>
+
+    <div style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+        <button id="btn-update" type="button" class="btn-action btn-add" style="font-size: 1.1rem; padding: 1rem 2rem; width: 100%; justify-content: center; background-color: var(--primary);">
+            <i class="fa-solid fa-save"></i> Atualizar Usuário
+        </button>
+    </div>
 </div>
+
+<script src="/js/user/fetchUpdate.js"></script>
+<script src="/js/admin/usuarioForm.js"></script>

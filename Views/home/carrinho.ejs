@@ -1,19 +1,44 @@
-<script src="/js/carrinho/venda.js"></script>
-<h1>Carrinho</h1>
+<link rel="stylesheet" href="/css/carrinho.css">
 
-<div style="display: flex; flex-direction: row; justify-content: space-evenly; ">
-    <div>
-        <h2>Produtos no carrinho</h2>
-        <div id="produtos-carrinho"></div>
+<div class="cart-container">
+    <div class="cart-items-section">
+        <div class="cart-header">
+            <h1>Meu Carrinho</h1>
+        </div>
+        
+        <div id="produtos-carrinho">
+            <!-- Renderizado via JS -->
+            <p style="color: var(--text-muted); text-align: center; padding: 2rem 0;">Carregando produtos...</p>
+        </div>
         <div class="clear"></div>
     </div>
-    <div>
-        <h2>Forma de pagamento</h2>
+
+    <div class="cart-summary-section">
+        <h2>Resumo do Pedido</h2>
+        
         <div id="conta">
-            <span>Itens</span>
+            <!-- Valores do carrinho -->
+            <div class="summary-row">
+                <span>Subtotal Itens</span>
+                <span id="subtotal-valor">R$ 0,00</span>
+            </div>
+            <div class="summary-total">
+                <span>Total</span>
+                <span id="total-valor">R$ 0,00</span>
+            </div>
         </div>
-        <div class="formaPagamento">
-           
+        
+        <div class="formaPagamento" style="margin-top: 2rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Forma de Pagamento</label>
+            <select class="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                <option>Cartão de Crédito</option>
+                <option>PIX</option>
+                <option>Boleto Bancário</option>
+            </select>
         </div>
+        
+        <button class="btn-checkout">Finalizar Compra <i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem;"></i></button>
     </div>
 </div>
+
+<script src="/js/carrinho/venda.js"></script>
