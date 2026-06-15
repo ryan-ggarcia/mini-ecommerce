@@ -11,10 +11,21 @@
         </div>
         
         <div class="product-meta">
-            <div class="brand">Categoria: <%= produto.getCat_id() %> | Marca: <%= produto.getMarca_id() %></div>
+            <div class="brand">
+                <%= produto.getMarca_nome() || ('Marca ' + produto.getMarca_id()) %>
+                <% if (produto.getCat_nome()) { %> &middot; <%= produto.getCat_nome() %><% } %>
+            </div>
             <h1 class="text-gradient"><%= produto.getPro_nome() %></h1>
-            
-            <div class="price">R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %></div>
+
+            <div class="price">
+                <% if (produto.emPromocao()) { %>
+                    <span class="price-strike">R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %></span>
+                    <span class="price-final">R$ <%= produto.getPrecoFinal().toFixed(2) %></span>
+                    <span class="price-off">-<%= parseFloat(produto.getPro_desconto()) %>%</span>
+                <% } else { %>
+                    R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %>
+                <% } %>
+            </div>
             
             <p class="product-description">
                 <%= produto.getPro_desc() ? produto.getPro_desc() : 'Produto exclusivo Premium Store.' %>
@@ -35,5 +46,22 @@
         </div>
     <% } %>
 </div>
+
+<% if (typeof relacionados !== 'undefined' && relacionados.length > 0) { %>
+    <section class="section" style="max-width: 1240px; margin: 0 auto;">
+        <div class="section-header">
+            <div>
+                <span class="section-kicker">Continue explorando</span>
+                <h2>Você também pode gostar</h2>
+            </div>
+            <a href="/home/shop" class="btn-link">Ver loja completa <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="grid grid-cols-4">
+            <% relacionados.forEach(p => { %>
+                <%- include('../partials/produto-card', { p: p }) %>
+            <% }) %>
+        </div>
+    </section>
+<% } %>
 
 <script src="/js/carrinho/carrinho.js"></script>

@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/shop.css">
+
+<%
+    const lista = (typeof produtos !== 'undefined' && produtos) ? produtos : []
+    const q = (typeof query !== 'undefined' && query) ? query : {}
+    const soPromo = q.promo == '1' || q.promo === 1
+    const itens = soPromo ? lista.filter(p => p.emPromocao()) : lista
+%>
+
+<header class="shop-hero">
+    <span class="section-kicker">Catálogo completo</span>
+    <h1><%= soPromo ? 'Ofertas' : 'A loja' %></h1>
+    <p><%= soPromo ? 'Tudo o que está com desconto agora.' : 'Calçados, camisas, bonés e acessórios selecionados a dedo.' %></p>
+</header>
+
+<section class="section shop-section">
+    <div class="shop-toolbar">
+        <div class="shop-filters" role="tablist" aria-label="Filtrar produtos">
+            <a href="/home/shop" class="shop-chip<%= soPromo ? '' : ' active' %>">Todos</a>
+            <a href="/home/shop?promo=1" class="shop-chip<%= soPromo ? ' active' : '' %>">Promoções</a>
+        </div>
+        <span class="shop-count"><%= itens.length %> <%= itens.length === 1 ? 'produto' : 'produtos' %></span>
+    </div>
+
+    <% if (itens.length > 0) { %>
+        <div class="grid grid-cols-4">
+            <% itens.forEach(p => { %>
+                <%- include('../partials/produto-card', { p: p }) %>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="empty-state">
+            <h3><%= soPromo ? 'Nenhuma promoção ativa no momento.' : 'Nenhum produto cadastrado.' %></h3>
+            <p>
+                <% if (soPromo) { %>
+                    <a href="/home/shop" class="btn-link">Ver todos os produtos <i class="fa-solid fa-arrow-right"></i></a>
+                <% } else { %>
+                    Volte em breve — novidades a caminho.
+                <% } %>
+            </p>
+        </div>
+    <% } %>
+</section>

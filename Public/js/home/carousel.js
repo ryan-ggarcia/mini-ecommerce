@@ -1,33 +1,71 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dot');
-    let slideInterval;
-    
-    // We expose goToSlide to the window so the onclick attributes still work
-    window.goToSlide = function(index) {
-        if(!slides.length) return;
-        slides[currentSlide].classList.remove('active');
-        if(dots[currentSlide]) dots[currentSlide].classList.remove('active');
-        
-        currentSlide = index;
-        
-        slides[currentSlide].classList.add('active');
-        if(dots[currentSlide]) dots[currentSlide].classList.add('active');
-        resetInterval();
+    const root = document.getElementById('promo-carousel');
+    if (!root) return;
+
+    const slides = Array.from(root.querySelectorAll('.promo-slide'));
+    const dots = Array.from(root.querySelectorAll('.promo-dot'));
+    const prevBtn = document.getElementById('promo-prev');
+    const nextBtn = document.getElementById('promo-next');
+    if (slides.length === 0) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const AUTO_MS = 6000;
+    let current = 0;
+    let timer = null;
+
+    function show(index) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+            const isActive = i === current;
+            slide.classList.toggle('active', isActive);
+            slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        });
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === current);
+            dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+        });
     }
 
-    function nextSlide() {
-        if(!slides.length) return;
-        window.goToSlide((currentSlide + 1) % slides.length);
+    function next() { show(current + 1); }
+    function prev() { show(current - 1); }
+
+    function play() {
+        if (reduceMotion || slides.length < 2) return;
+        stop();
+        timer = setInterval(next, AUTO_MS);
     }
-    
-    function resetInterval() {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, 5000);
+    function stop() {
+        if (timer) clearInterval(timer);
+        timer = null;
     }
-    
-    if(slides.length > 0) {
-        slideInterval = setInterval(nextSlide, 5000);
-    }
+    // Reinicia o autoplay após uma interação manual
+    function restart() { stop(); play(); }
+
+    if (nextBtn) nextBtn.addEventListener('click', () => { next(); restart(); });
+    if (prevBtn) prevBtn.addEventListener('click', () => { prev(); restart(); });
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            show(Number(dot.dataset.index));
+            restart();
+        });
+    });
+
+    // Pausa quando o ponteiro está sobre o carrossel
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', play);
+
+    // Navegação por teclado quando o carrossel está focado
+    root.setAttribute('tabindex', '0');
+    root.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { next(); restart(); }
+        else if (e.key === 'ArrowLeft') { prev(); restart(); }
+    });
+
+    // Pausa quando a aba não está visível
+    document.addEventListener('visibilitychange', () => {
+        document.hidden ? stop() : play();
+    });
+
+    show(0);
+    play();
 });

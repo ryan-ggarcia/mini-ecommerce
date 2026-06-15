@@ -32,10 +32,18 @@
                             </button>
                         </td>
                         <td style="font-weight: 500;"><%= p.getPro_nome() %></td>
-                        <td>R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></td>
+                        <td>
+                            <% if (p.emPromocao()) { %>
+                                <span style="text-decoration: line-through; color: var(--text-muted); font-size: 0.8rem;">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span><br>
+                                <strong>R$ <%= p.getPrecoFinal().toFixed(2) %></strong>
+                                <span style="margin-left: 0.25rem; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; background: #fee2e2; color: #991b1b;">-<%= parseFloat(p.getPro_desconto()) %>%</span>
+                            <% } else { %>
+                                R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %>
+                            <% } %>
+                        </td>
                         <td><%= p.getPro_quantidade() %></td>
-                        <td><%= p.getCat_id() %></td>
-                        <td><%= p.getMarca_id() %></td>
+                        <td><%= p.getCat_nome() || p.getCat_id() %></td>
+                        <td><%= p.getMarca_nome() || p.getMarca_id() %></td>
                         <td>
                             <span style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; 
                                 <% if(p.getPro_status() === 'EM ESTOQUE'){ %> background: #dcfce7; color: #166534; 

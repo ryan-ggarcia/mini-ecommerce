@@ -15,6 +15,7 @@ function carregarPrevia() {
 function register() {
     const nome = document.getElementById('nome')
     const preco = document.getElementById('preco')
+    const desconto = document.getElementById('desconto')
     const quant = document.getElementById('quant')
     const status = document.getElementById('status')
     const cat = document.getElementById('cat')
@@ -52,6 +53,7 @@ function register() {
         let formData = new FormData()
         formData.append('nome',nome.value)
         formData.append('preco',preco.value)
+        formData.append('desconto', desconto.value || 0)
         formData.append('quantidade',quant.value)
         formData.append('categoria',cat.value)
         formData.append('marca',marca.value)

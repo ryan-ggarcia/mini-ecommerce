@@ -6,10 +6,10 @@
     <title>Premium Store</title>
     <meta name="description" content="Sua loja premium de calçados, camisas, bonés e acessórios.">
     
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Inter (UI) + Space Grotesk (display) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Global CSS -->
     <link rel="stylesheet" href="/css/global.css">
@@ -17,7 +17,7 @@
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="store">
     <%- include('../partials/nav') %>
     
     <main>
@@ -26,8 +26,21 @@
 
     <footer>
         <div class="footer-content">
-            <h2 class="nav-brand" style="margin-bottom: 1rem;">Premium Store</h2>
-            <p>&copy; 2026 Premium Store. Todos os direitos reservados.</p>
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <h2>PREMIUM</h2>
+                    <p>Seleção local de calçados, camisas, bonés e acessórios — entrega combinada pelo WhatsApp.</p>
+                </div>
+                <nav class="footer-links" aria-label="Rodapé">
+                    <a href="/home">Início</a>
+                    <a href="/home/shop">Loja</a>
+                    <a href="/home/shop?promo=1">Promoções</a>
+                    <a href="/home/carrinho">Carrinho</a>
+                </nav>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Premium Store. Todos os direitos reservados.</p>
+            </div>
         </div>
     </footer>
 </body>

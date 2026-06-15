@@ -1,67 +1,89 @@
-<!-- Estilos do Carrossel -->
+<!-- Estilos da home / carrossel -->
 <link rel="stylesheet" href="/css/home.css">
 
-<div class="carousel-container" id="main-carousel">
-    <div class="carousel-slide active" style="background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80')">
-        <div class="carousel-content">
-            <h2>Coleção Exclusiva 2026</h2>
-            <p>Elegância e sofisticação em cada detalhe.</p>
-        </div>
-    </div>
-    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1600&q=80')">
-        <div class="carousel-content">
-            <h2>Inverno Premium</h2>
-            <p>Conforto absoluto com nossas peças selecionadas.</p>
-        </div>
-    </div>
-    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=80')">
-        <div class="carousel-content">
-            <h2>Acessórios de Luxo</h2>
-            <p>O toque final que transforma o seu visual.</p>
-        </div>
+<%
+    const lista = (typeof produtos !== 'undefined' && produtos) ? produtos : []
+    const promocoes = lista.filter(p => p.emPromocao())
+    const destaques = lista.slice(0, 8)
+%>
+
+<!-- ============ CARROSSEL DE PROMOÇÕES ============ -->
+<section class="promo-carousel" id="promo-carousel" aria-roledescription="carrossel" aria-label="Produtos em promoção">
+    <div class="promo-eyebrow">
+        <span class="dot"></span> Ofertas da semana
     </div>
 
-    <div class="carousel-nav">
-        <div class="carousel-dot active" onclick="goToSlide(0)"></div>
-        <div class="carousel-dot" onclick="goToSlide(1)"></div>
-        <div class="carousel-dot" onclick="goToSlide(2)"></div>
-    </div>
-</div>
-
-<script src="/js/home/carousel.js"></script>
-
-<section class="hero" style="height: auto; padding: 6rem 1rem;">
-    <div class="hero-content">
-        <h1>Descubra o Seu Estilo Premium</h1>
-        <p>A melhor seleção de calçados, camisas, bonés e acessórios das marcas mais exclusivas.</p>
-        <a href="#produtos" class="btn-primary">Ver Coleção</a>
-    </div>
-</section>
-
-<section id="produtos" class="section">
-    <div class="section-header">
-        <h2>Nossa Coleção</h2>
-        <p>Os itens mais desejados da temporada.</p>
-    </div>
-
-    <div class="grid grid-cols-4">
-        <% if (typeof produtos !== 'undefined' && produtos.length > 0) { %>
-            <% produtos.forEach(p => { %>
-                <a href="/home/produto/<%= p.getPro_id() %>" class="product-card">
-                    <div class="product-img-wrapper">
+    <% if (promocoes.length > 0) { %>
+        <div class="promo-track" id="promo-track">
+            <% promocoes.forEach((p, i) => { %>
+                <article class="promo-slide<%= i === 0 ? ' active' : '' %>" data-index="<%= i %>" aria-hidden="<%= i === 0 ? 'false' : 'true' %>">
+                    <div class="promo-media">
+                        <span class="promo-tag">-<%= parseFloat(p.getPro_desconto()) %>%</span>
                         <img src="/image/produtos/<%= p.getPro_image() %>" alt="<%= p.getPro_nome() %>">
                     </div>
-                    <div class="product-info">
-                        <div class="product-brand">Marca: <%= p.getMarca_id() %></div>
-                        <h3 class="product-title"><%= p.getPro_nome() %></h3>
-                        <div class="product-price">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></div>
+                    <div class="promo-body">
+                        <span class="promo-kicker"><%= p.getMarca_nome() || 'Edição limitada' %></span>
+                        <h2 class="promo-name"><%= p.getPro_nome() %></h2>
+                        <p class="promo-desc"><%= p.getPro_desc() %></p>
+                        <div class="promo-prices">
+                            <span class="promo-was">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span>
+                            <span class="promo-now">R$ <%= p.getPrecoFinal().toFixed(2) %></span>
+                            <span class="promo-save">Você economiza R$ <%= (parseFloat(p.getPro_preco()) - p.getPrecoFinal()).toFixed(2) %></span>
+                        </div>
+                        <div class="promo-actions">
+                            <a href="/home/produto/<%= p.getPro_id() %>" class="btn-primary">Ver produto</a>
+                            <a href="/home/shop?promo=1" class="btn-ghost">Ver todas as ofertas</a>
+                        </div>
                     </div>
-                </a>
+                </article>
             <% }) %>
-        <% } else { %>
-            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 0;">
-                <h3 style="color: var(--text-muted);">Nenhum produto encontrado no momento.</h3>
+        </div>
+
+        <% if (promocoes.length > 1) { %>
+            <button class="promo-arrow prev" id="promo-prev" aria-label="Oferta anterior"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="promo-arrow next" id="promo-next" aria-label="Próxima oferta"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="promo-dots" id="promo-dots" role="tablist">
+                <% promocoes.forEach((p, i) => { %>
+                    <button class="promo-dot<%= i === 0 ? ' active' : '' %>" data-index="<%= i %>" role="tab" aria-label="Ir para a oferta <%= i + 1 %>"></button>
+                <% }) %>
             </div>
         <% } %>
-    </div>
+    <% } else { %>
+        <!-- Sem promoções cadastradas: convite para a loja -->
+        <div class="promo-empty">
+            <h2>Promoções chegando em breve</h2>
+            <p>Cadastre um desconto no painel para destacar produtos aqui. Enquanto isso, explore a loja completa.</p>
+            <a href="/home/shop" class="btn-primary">Ir para a loja</a>
+        </div>
+    <% } %>
 </section>
+
+<!-- ============ COLEÇÃO EM DESTAQUE ============ -->
+<section id="produtos" class="section">
+    <div class="section-header">
+        <div>
+            <span class="section-kicker">Catálogo</span>
+            <h2>Nossa coleção</h2>
+        </div>
+        <a href="/home/shop" class="btn-link">Ver todos os produtos <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <% if (destaques.length > 0) { %>
+        <div class="grid grid-cols-4">
+            <% destaques.forEach(p => { %>
+                <%- include('../partials/produto-card', { p: p }) %>
+            <% }) %>
+        </div>
+
+        <div class="section-cta">
+            <a href="/home/shop" class="btn-primary">Ver loja completa</a>
+        </div>
+    <% } else { %>
+        <div class="empty-state">
+            <h3>Nenhum produto encontrado no momento.</h3>
+            <p>Volte em breve — novidades a caminho.</p>
+        </div>
+    <% } %>
+</section>
+
+<script src="/js/home/carousel.js"></script>

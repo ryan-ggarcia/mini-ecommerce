@@ -18,8 +18,14 @@
         <div class="form-group">
             <label for="preco">Preço (R$)</label>
             <input type="text" class="form-control" name="preco" id="preco" value="<%=produto.getPro_preco()%>">
-        </div>       
-        
+        </div>
+
+        <div class="form-group">
+            <label for="desconto">Desconto (%)</label>
+            <input type="number" class="form-control" name="desconto" id="desconto" min="0" max="100" step="1" value="<%= parseFloat(produto.getPro_desconto()) || 0 %>">
+            <small style="color: var(--text-muted); font-size: 0.8rem;">Deixe 0 para produto sem promoção.</small>
+        </div>
+
         <div class="form-group">
             <label for="quant">Quantidade em Estoque</label>
             <input type="number" class="form-control" name="quant" id="quant" value="<%=produto.getPro_quantidade()%>">
