@@ -20,5 +20,5 @@ function AdicionarCarrinho(){
     else carrinho.push(produto) 
 
     localStorage.setItem("carrinho", JSON.stringify(carrinho))
-    alert("Produto adicionado no carrinho!")
+    showToast("Produto adicionado ao carrinho!", 'success')
 }

@@ -1,120 +1,152 @@
 function montarCarrinho() {
-    //pega o objeto de divConteiner
-    let divConteiner = document.getElementById('produtos-carrinho')
-    let divConta = document.getElementById('conta')
-    let valorTotal = 0
-    //Carrinho começa vazio
-    divConteiner.innerHTML = ''
-    divConta.innerHTML = ''
-    //pegando itens do localStorage 'carrinho'
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || []
+    let divConteiner = document.getElementById('produtos-carrinho');
+    let divConta = document.getElementById('conta');
+    let valorTotal = 0;
+
+    divConteiner.innerHTML = '';
+    divConta.innerHTML = '';
+
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
     if (carrinho.length > 0) {
-        //Montando Carrinho de produtos
         carrinho.forEach(c => {
+            let itemTotal = parseFloat(c.preco) * parseInt(c.quantidade);
+            valorTotal += itemTotal;
+
             let html = `
-                <div class='card-conteiner'>
-                    <div>
-                        <img src='/image/produtos/${c.imagem}' width='200'>
+                <div class="cart-item">
+                    <div class="cart-item__media">
+                        <img src="/image/produtos/${c.imagem}" alt="${c.nome}">
                     </div>
-                    <div>
-                        <span class='name'> ${c.nome} </span>
-                        <span class='preco'> ${c.preco} </span>
-                        <span class='quantidade'> ${c.quantidade} </span>
+                    <div class="cart-item__info">
+                        <h3>${c.nome}</h3>
+                        <p class="cart-item__qty">Qtd: ${c.quantidade}</p>
                     </div>
-                    <div>
-                        <a href='/produto/${c.id}'> Visualizar </a>
-                        <button class='remove' onclick='removerDoCarrinho(${c.id})'>Remover</button>
+                    <div class="cart-item__side">
+                        <div class="cart-item__price">R$ ${itemTotal.toFixed(2).replace('.', ',')}</div>
+                        <div class="cart-item__actions">
+                            <a href="/home/produto/${c.id}">Ver</a>
+                            <button onclick="removerDoCarrinho(${c.id})">Remover</button>
+                        </div>
                     </div>
                 </div>
-            `
-            //Montado div de forma de pagamento
-            divConteiner.innerHTML += html
-            let htmlx = `
-                <div>
-                    <span>${c.nome}... ${c.preco} x${c.quantidade}</span>
-                    <span>Valor total:${valorTotal+=c.preco * c.quantidade} </span>
+            `;
+            divConteiner.innerHTML += html;
+        });
+
+        let subtotalHtml = `
+            <div class="summary-row">
+                <span>Subtotal (${carrinho.length} ${carrinho.length === 1 ? 'item' : 'itens'})</span>
+                <span>R$ ${valorTotal.toFixed(2).replace('.', ',')}</span>
+            </div>
+            <div class="summary-total">
+                <span>Total</span>
+                <span>R$ ${valorTotal.toFixed(2).replace('.', ',')}</span>
+            </div>
+        `;
+        divConta.innerHTML = subtotalHtml;
+
+        document.querySelector('.clear').innerHTML = `
+            <button class="cart-clear" onclick="limparCarrinho()">
+                <i class="fa-solid fa-trash-can"></i> Limpar carrinho
+            </button>
+        `;
+
+        let formaPagamentoEl = document.querySelector('.formaPagamento');
+        if (formaPagamentoEl) {
+            formaPagamentoEl.innerHTML = `
+                <label class="cart-label" for="pagamento">Forma de pagamento</label>
+                <select id="pagamento" name="pagamento" class="cart-select">
+                    <option value="pix">Pix</option>
+                    <option value="entrega">Na entrega</option>
+                </select>
+            `;
+
+            const existingBtn = document.querySelector('.btn-checkout');
+            if (existingBtn) {
+                existingBtn.style.display = '';
+                existingBtn.onclick = comprar;
+            }
+        }
+
+    } else {
+        divConteiner.innerHTML = `
+            <div class="cart-empty">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <h2>Seu carrinho está vazio</h2>
+                <p>Explore a loja e adicione produtos para montar seu pedido.</p>
+                <a href="/home/shop" class="btn-primary">Explorar produtos</a>
+            </div>
+        `;
+        divConta.innerHTML = `
+            <div class="cart-account-empty">
+                <p>Nenhum item selecionado.</p>
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span>R$ 0,00</span>
                 </div>
-            `
-            divConta.innerHTML +=htmlx
-        })
-        //Colocando a exibição do botão de limpar carrinho
-        document.querySelector('.clear').innerHTML = ` <button onclick="limparCarrinho()">Limpar carrinho</button>`
-        document.querySelector('.formaPagamento').innerHTML = `
-            <label for="pagamento">Selecione a forma de pagamento:</label>
-            <select id="pagamento" name="pagamento">
-                <option value="cartao">Cartão de Crédito</option>
-                <option value="boleto">Boleto Bancário</option>
-                <option value="pix">PIX</option>
-            </select>
-            <a href="#">Continuar comprando</a>
-            <button id="finalizar-compra" onclick="comprar()" >Finalizar Compra</button>
-        `
-    }else{
-        let html = `
-            <div class='card-conteiner'>
-                <h1>Carrinho vazio!</h1>
-                <a href='#'>Escolher produtos</a>
             </div>
-        `
-        divConteiner.innerHTML +=html
-        let htmlx = `
-            <div>
-                <h2>Selecione um produto para realizar o págamento!</h2>
-                <span>Valor total: 0.00 </span>
-            </div>
-        `
-        divConta.innerHTML = htmlx
+        `;
+        document.querySelector('.clear').innerHTML = '';
+        let formaPagamentoEl = document.querySelector('.formaPagamento');
+        if (formaPagamentoEl) formaPagamentoEl.innerHTML = '';
+        const existingBtn = document.querySelector('.btn-checkout');
+        if (existingBtn) existingBtn.style.display = 'none';
     }
 }
-//Função para remover um produto expecifico
-function removerDoCarrinho(id){
-    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || []
-    //filtra apenas o produto que o id é diferente do parametro passado
-    carrinho = carrinho.filter(c => c.id != id)
-    //Grava o filtro no localstorage
-    localStorage.setItem('carrinho',JSON.stringify(carrinho))
-    //Redesenha o carrinho na tela sem precisar recarregar a página
-    montarCarrinho()
+
+function removerDoCarrinho(id) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    carrinho = carrinho.filter(c => c.id != id);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    montarCarrinho();
 }
-//Limpar localstorage do carrinho por completo
-function limparCarrinho(){
-    localStorage.removeItem('carrinho')
-    //Redesenha o carrinho (vai cair no estado "vazio")
-    montarCarrinho()
+
+function limparCarrinho() {
+    localStorage.removeItem('carrinho');
+    montarCarrinho();
 }
-function comprar(){
-    let json = []
-    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || []
-    if(carrinho.length > 0){
-        let valorTotal = 0
-        carrinho.forEach(c => valorTotal+=c.preco * c.quantidade)
-        carrinho.forEach(c =>{
+
+function comprar() {
+    let json = [];
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    if (carrinho.length > 0) {
+        let valorTotal = 0;
+        carrinho.forEach(c => valorTotal += parseFloat(c.preco) * parseInt(c.quantidade));
+
+        carrinho.forEach(c => {
             json.push({
                 idProduto: c.id,
                 nomeProduto: c.nome,
                 quantidade: c.quantidade,
                 valorUnitario: c.preco,
                 valorTotal: valorTotal
-            })
-        })
-        //terminar fetch de pedido
-        fetch('/pedido/registerPedido',{
+            });
+        });
+
+        fetch('/pedido/registerPedido', {
             method: 'POST',
-            headers: { 'Content-type':'application/json' },
-            body:JSON.stringify({json})
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ json })
         })
-        .then(r => { return r.json() })
+        .then(r => r.json())
         .then(r => {
-            if(r.ok){
-                alert(r.msg)
-                limparCarrinho()
-            }else{
-                alert(r.msg)
+            if (r.ok) {
+                showToast("Pedido realizado com sucesso!", 'success');
+                limparCarrinho();
+                setTimeout(() => { window.location.href = "/home"; }, 1200);
+            } else {
+                showToast(r.msg || "Erro ao finalizar pedido.", 'error');
             }
         })
-    } 
+        .catch(e => {
+            console.error(e);
+            showToast("Erro de conexão ao finalizar o pedido.", 'error');
+        });
+    }
 }
-// função para montar o carrinho 
-document.addEventListener('DOMContentLoaded',function(){
-    montarCarrinho()
-})
+
+document.addEventListener('DOMContentLoaded', function () {
+    montarCarrinho();
+});

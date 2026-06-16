@@ -17,28 +17,33 @@ function viewImg() {
     close.addEventListener('click', ()=>{ modal.classList.remove('active') })
 }
 
-function excluir() {
+async function excluir() {
     const id = Number(this.dataset.id)
-    if (id != null && id > 0) {
-        if (confirm('Você realmente deseja excluir esse produto?')) {
-            fetch('/admin/deletarProduto', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: id })
-            })
-                .then(r => r.json())
-                .then(result => {
-                    if (result.ok) {
-                        alert('Sucesso!! Produto excluído!')
-                        window.location.reload()
-                    } else {
-                        alert('Ops... Algo deu errado! ' + (result.msg || ''))
-                    }
-                })
-                .catch(err => {
-                    console.error('Erro na requisição:', err)
-                    alert('Erro de comunicação com o servidor.')
-                })
-        }
-    }
+    if (!(id != null && id > 0)) return
+
+    const confirmado = await confirmDialog('Esta ação remove o produto permanentemente e não pode ser desfeita.', {
+        title: 'Excluir produto?',
+        confirmText: 'Excluir',
+        danger: true
+    })
+    if (!confirmado) return
+
+    fetch('/admin/deletarProduto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id })
+    })
+        .then(r => r.json())
+        .then(result => {
+            if (result.ok) {
+                showToast('Produto excluído com sucesso!', 'success')
+                setTimeout(() => window.location.reload(), 1000)
+            } else {
+                showToast('Algo deu errado ao excluir. ' + (result.msg || ''), 'error')
+            }
+        })
+        .catch(err => {
+            console.error('Erro na requisição:', err)
+            showToast('Erro de comunicação com o servidor.', 'error')
+        })
 }

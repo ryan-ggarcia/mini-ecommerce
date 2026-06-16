@@ -1,66 +1,88 @@
 <script src="/js/product/fetchRegister.js"></script>
-<div>
-    <div>
-        <h1>Cadastrar Produto</h1>
-        <div>
-            <label for="text">Nome</label>
-            <input type="text" name="nome" id="nome">
-        </div>        
-        <div>
-            <label for="text">Preço</label>
-            <input type="number" name="preco" id="preco">
-        </div>       
-        <div>
-            <label for="text">Quantidade</label>
-            <input type="number" name="quant" id="quant">
+
+<div class="admin-header">
+    <h2>Cadastrar produto</h2>
+    <a href="/admin/listarProduto" class="btn-action btn-edit"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+</div>
+
+<div class="admin-form-card">
+    <div class="admin-form-grid">
+        <div class="form-group span-2">
+            <label for="nome">Nome do produto</label>
+            <input type="text" class="form-control" name="nome" id="nome" placeholder="Ex: Tênis Air Max">
         </div>
-        <div>
-            <label for="text">Status</label>
-            <select name="status" id="status">
+
+        <div class="form-group">
+            <label for="preco">Preço (R$)</label>
+            <input type="text" class="form-control" name="preco" id="preco" placeholder="0,00">
+        </div>
+
+        <div class="form-group">
+            <label for="desconto">Desconto (%)</label>
+            <input type="number" class="form-control" name="desconto" id="desconto" min="0" max="100" step="1" value="0" placeholder="0">
+            <small class="form-hint">Deixe 0 para produto sem promoção.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="quant">Quantidade em estoque</label>
+            <input type="number" class="form-control" name="quant" id="quant" placeholder="0">
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select class="form-control" name="status" id="status">
                 <option value="EM ESTOQUE">Em estoque</option>
                 <option value="SEM ESTOQUE">Sem estoque</option>
                 <option value="SALDO">Saldo</option>
             </select>
         </div>
-        <div>
-            <label for="text">Categoria</label>
-            <select name="cat" id="cat">
+
+        <div class="form-group">
+            <label for="cat">Categoria</label>
+            <select class="form-control" name="cat" id="cat">
                 <option value="0">--Nenhum--</option>
-                <%if(cat.length > 0){%>
-                    <%cat.forEach(c =>{%>
+                <% if(cat && cat.length > 0){ %>
+                    <% cat.forEach(c => { %>
                         <option value="<%= c.getCat_id() %>"><%= c.getCat_nome() %></option>
-                    <%})%>
-                <%}%>
+                    <% }) %>
+                <% } %>
             </select>
-        </div>        
-        <div>
-            <label for="text">Marca</label>
-            <select name="marca" id="marca">
+        </div>
+
+        <div class="form-group">
+            <label for="marca">Marca</label>
+            <select class="form-control" name="marca" id="marca">
                 <option value="0">--Nenhum--</option>
-                <%if(marca.length > 0){%>
-                    <%marca.forEach(m =>{%>
+                <% if(marca && marca.length > 0){ %>
+                    <% marca.forEach(m => { %>
                         <option value="<%= m.getMarca_id() %>"><%= m.getMarca_nome() %></option>
-                    <%})%>
-                <%}%>
+                    <% }) %>
+                <% } %>
             </select>
-        </div>        
-        <div>
-            <label for="text">Imagem</label>
-            <input type="file" name="img" id="img">
+        </div>
+
+        <div class="form-group span-2">
+            <label for="img">Imagem do produto</label>
+            <input type="file" class="form-control" name="img" id="img" accept="image/*">
             <div id="divPrevImg" style="display: none;">
-                <label for="text">Prévia da imagem</label>
-                <div>
-                    <img  alt="prevImg" id="imgPrev" width="200">
+                <span class="form-hint">Prévia da imagem</span>
+                <div class="img-preview">
+                    <img alt="prevImg" id="imgPrev">
                 </div>
             </div>
         </div>
-        <div>
-            <label for="text">Descrição</label>
-            <input type="text" name="desc" id="desc">
-        </div>
-        <div>
-            <a href="/admin/listarProduto">Voltar</a>
-            <button type="button" id="btn-register">Cadastrar</button>
+
+        <div class="form-group span-2">
+            <label for="desc">Descrição detalhada</label>
+            <textarea class="form-control" name="desc" id="desc" rows="4" placeholder="Detalhes do produto, material, etc..."></textarea>
         </div>
     </div>
+
+    <div class="form-footer">
+        <button type="button" id="btn-register" class="btn-action btn-add btn-submit">
+            <i class="fa-solid fa-save"></i> Salvar produto
+        </button>
+    </div>
 </div>
+
+<script src="/js/admin/produtoForm.js"></script>

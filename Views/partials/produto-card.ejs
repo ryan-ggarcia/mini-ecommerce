@@ -1,0 +1,27 @@
+<%
+    // Espera receber `p` (ProdutoModel)
+    const emPromo = p.emPromocao()
+    const semEstoque = p.getPro_status() === 'SEM ESTOQUE'
+    const eyebrow = p.getMarca_nome() || p.getCat_nome() || 'Premium Store'
+%>
+<a href="/home/produto/<%= p.getPro_id() %>" class="product-card<%= semEstoque ? ' is-out' : '' %>">
+    <div class="product-img-wrapper">
+        <% if (emPromo) { %>
+            <span class="product-badge">-<%= parseFloat(p.getPro_desconto()) %>%</span>
+        <% } %>
+        <img src="/image/produtos/<%= p.getPro_image() %>" alt="<%= p.getPro_nome() %>" loading="lazy">
+        <% if (semEstoque) { %>
+            <span class="product-soldout">Esgotado</span>
+        <% } %>
+    </div>
+    <div class="product-info">
+        <div class="product-brand"><%= eyebrow %></div>
+        <h3 class="product-title"><%= p.getPro_nome() %></h3>
+        <div class="product-price-row">
+            <span class="price-now">R$ <%= p.getPrecoFinal().toFixed(2) %></span>
+            <% if (emPromo) { %>
+                <span class="price-was">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span>
+            <% } %>
+        </div>
+    </div>
+</a>

@@ -84,6 +84,7 @@ CREATE TABLE produto (
     pro_desc VARCHAR(75) NOT NULL,
     pro_image VARCHAR(255),
     pro_preco DECIMAL(10,2) NOT NULL,
+    pro_desconto DECIMAL(5,2) NOT NULL DEFAULT 0,
     pro_quantidade INT NOT NULL,
     pro_validade DATE NOT NULL,
     pro_status ENUM('EM ESTOQUE','SEM ESTOQUE','SALDO') DEFAULT 'EM ESTOQUE',

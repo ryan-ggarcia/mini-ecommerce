@@ -31,8 +31,8 @@ class ProdutoController {
             && req.body.status && req.body.categoria && req.body.marca && req.file) {
             // console.log(req.file.filename)
             let model = new ProdutoModel(0, req.body.nome, req.body.descricao, req.file.filename
-                , req.body.preco, req.body.quantidade, req.body.categoria, req.body.marca,0,
-                req.body.status)
+                , req.body.preco, req.body.quantidade, req.body.categoria, req.body.marca, 0,
+                req.body.status, req.body.desconto || 0)
             let result = await model.create()
             if (result) {
                 msg = 'Sucesso ao cadastrar o produto!'
@@ -52,8 +52,8 @@ class ProdutoController {
             && req.body.status && req.body.categoria && req.body.marca) {
             // instenção da model de produtos e passando dados
             let model = new ProdutoModel(req.body.id, req.body.nome, req.body.descricao, ''
-                , req.body.preco, req.body.quantidade, req.body.categoria, req.body.marca,0,
-                req.body.status)
+                , req.body.preco, req.body.quantidade, req.body.categoria, req.body.marca, 0,
+                req.body.status, req.body.desconto || 0)
             //metodo para pegarmos todas as infromações do produto antes de realizamos a atualização
             let id = await model.getForId(req.body.id)
             //Validação de imagem --> se foi enviada ou não enviada

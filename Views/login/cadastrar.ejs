@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Premium Store</title>
+    
+    <!-- Google Fonts: Inter (UI) + Space Grotesk (display) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="/css/global.css">
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- IMask for input masks -->
+    <script src="https://unpkg.com/imask"></script>
+
+    <!-- Tailwind (Play CDN) — usado nos toasts/alerts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { corePlugins: { preflight: false } }</script>
+
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    
+    <div class="auth-card">
+        <a href="/" class="auth-brand">PREMIUM STORE</a>
+        
+        <div class="auth-header">
+            <h1>Criar Conta</h1>
+            <p>Junte-se a nós para uma experiência exclusiva.</p>
+        </div>
+        
+        <form id="form-cadastro">
+            <div class="form-grid">
+                
+                <div class="section-title">Informações Pessoais</div>
+                
+                <div class="form-group full-width">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite seu nome completo">
+                </div>        
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="seu@email.com">
+                </div>       
+                <div class="form-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" class="form-control" name="cpf" id="cpf" placeholder="000.000.000-00">
+                </div>
+                
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" class="form-control" name="senha" id="senha" placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="csenha">Confirmar Senha</label>
+                    <input type="password" class="form-control" name="csenha" id="csenha" placeholder="••••••••">
+                </div>
+                
+                <div class="form-group">
+                    <label for="data">Data de Nascimento</label>
+                    <input type="date" class="form-control" name="data" id="data">
+                </div>        
+                <div class="form-group">
+                    <label for="tel">Telefone</label>
+                    <input type="text" class="form-control" name="tel" id="tel" placeholder="(00) 00000-0000">
+                </div>
+                
+                <div class="section-title">Endereço de Entrega</div>
+                
+                <div class="form-group">
+                    <label for="cep">CEP</label>
+                    <input type="text" class="form-control" name="cep" id="cep" placeholder="00000-000">
+                </div>
+                <div class="form-group">
+                    <label for="uf">UF</label>
+                    <input type="text" class="form-control" name="uf" id="uf" placeholder="Ex: SP" maxlength="2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" class="form-control" name="cidade" id="cidade" placeholder="Sua cidade">
+                </div>
+                <div class="form-group">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Seu bairro">
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="rua">Rua</label>
+                    <input type="text" class="form-control" name="rua" id="rua" placeholder="Nome da rua/avenida">
+                </div>
+                
+                <div class="form-group">
+                    <label for="numero">Número</label>
+                    <input type="number" class="form-control" name="numero" id="numero" placeholder="123">
+                </div>
+                <div class="form-group">
+                    <label for="comple">Complemento</label>
+                    <input type="text" class="form-control" name="comple" id="comple" placeholder="Apto, Bloco, etc. (Opcional)">
+                </div>
+                
+                <!-- Forçando perfil cliente (2) implicitamente -->
+                <input type="hidden" name="profile" id="profile" value="2">
+                
+                <button type="button" id="btn-register" class="btn-auth">Cadastrar</button>
+            </div>
+        </form>
+        
+        <div class="auth-footer">
+            Já tem uma conta? <a href="/login">Faça Login</a>
+        </div>
+    </div>
+
+    <script src="/js/ui/toast.js"></script>
+    <script src="/js/user/fetchRegister.js"></script>
+    <script src="/js/admin/usuarioForm.js"></script>
+</body>
+</html>

@@ -29,5 +29,12 @@ class LoginController {
             return res.send({ok,msg})
         }
     }
+    async logout(req, res) {
+        res.clearCookie('UsuarioLogado')
+        res.redirect('/login')
+    }
+    async cadastro(req,res){
+        res.render('login/cadastrar',{layout:false})
+    }
 }
 module.exports = LoginController

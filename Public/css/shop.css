@@ -1,0 +1,65 @@
+/* ============================================================
+   Página da loja (catálogo completo)
+   ============================================================ */
+.shop-hero {
+    padding: 3.5rem 5% 2.5rem;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.shop-hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    margin: 0.4rem 0 0.6rem;
+}
+
+.shop-hero p {
+    color: var(--mist);
+    font-size: 1.05rem;
+    max-width: 52ch;
+}
+
+.shop-section {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-top: 0;
+}
+
+.shop-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.shop-filters {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.shop-chip {
+    padding: 0.55rem 1.25rem;
+    border-radius: 2rem;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.shop-chip:hover { border-color: var(--ink); }
+
+.shop-chip.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+}
+
+.shop-count {
+    font-size: 0.85rem;
+    color: var(--mist);
+    font-variant-numeric: tabular-nums;
+}

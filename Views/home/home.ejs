@@ -1,2 +1,89 @@
+<!-- Estilos da home / carrossel -->
+<link rel="stylesheet" href="/css/home.css">
 
+<%
+    const lista = (typeof produtos !== 'undefined' && produtos) ? produtos : []
+    const promocoes = lista.filter(p => p.emPromocao())
+    const destaques = lista.slice(0, 8)
+%>
 
+<!-- ============ CARROSSEL DE PROMOÇÕES ============ -->
+<section class="promo-carousel" id="promo-carousel" aria-roledescription="carrossel" aria-label="Produtos em promoção">
+    <div class="promo-eyebrow">
+        <span class="dot"></span> Ofertas da semana
+    </div>
+
+    <% if (promocoes.length > 0) { %>
+        <div class="promo-track" id="promo-track">
+            <% promocoes.forEach((p, i) => { %>
+                <article class="promo-slide<%= i === 0 ? ' active' : '' %>" data-index="<%= i %>" aria-hidden="<%= i === 0 ? 'false' : 'true' %>">
+                    <div class="promo-media">
+                        <span class="promo-tag">-<%= parseFloat(p.getPro_desconto()) %>%</span>
+                        <img src="/image/produtos/<%= p.getPro_image() %>" alt="<%= p.getPro_nome() %>">
+                    </div>
+                    <div class="promo-body">
+                        <span class="promo-kicker"><%= p.getMarca_nome() || 'Edição limitada' %></span>
+                        <h2 class="promo-name"><%= p.getPro_nome() %></h2>
+                        <p class="promo-desc"><%= p.getPro_desc() %></p>
+                        <div class="promo-prices">
+                            <span class="promo-was">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span>
+                            <span class="promo-now">R$ <%= p.getPrecoFinal().toFixed(2) %></span>
+                            <span class="promo-save">Você economiza R$ <%= (parseFloat(p.getPro_preco()) - p.getPrecoFinal()).toFixed(2) %></span>
+                        </div>
+                        <div class="promo-actions">
+                            <a href="/home/produto/<%= p.getPro_id() %>" class="btn-primary">Ver produto</a>
+                            <a href="/home/shop?promo=1" class="btn-ghost">Ver todas as ofertas</a>
+                        </div>
+                    </div>
+                </article>
+            <% }) %>
+        </div>
+
+        <% if (promocoes.length > 1) { %>
+            <button class="promo-arrow prev" id="promo-prev" aria-label="Oferta anterior"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="promo-arrow next" id="promo-next" aria-label="Próxima oferta"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="promo-dots" id="promo-dots" role="tablist">
+                <% promocoes.forEach((p, i) => { %>
+                    <button class="promo-dot<%= i === 0 ? ' active' : '' %>" data-index="<%= i %>" role="tab" aria-label="Ir para a oferta <%= i + 1 %>"></button>
+                <% }) %>
+            </div>
+        <% } %>
+    <% } else { %>
+        <!-- Sem promoções cadastradas: convite para a loja -->
+        <div class="promo-empty">
+            <h2>Promoções chegando em breve</h2>
+            <p>Cadastre um desconto no painel para destacar produtos aqui. Enquanto isso, explore a loja completa.</p>
+            <a href="/home/shop" class="btn-primary">Ir para a loja</a>
+        </div>
+    <% } %>
+</section>
+
+<!-- ============ COLEÇÃO EM DESTAQUE ============ -->
+<section id="produtos" class="section">
+    <div class="section-header">
+        <div>
+            <span class="section-kicker">Catálogo</span>
+            <h2>Nossa coleção</h2>
+        </div>
+        <a href="/home/shop" class="btn-link">Ver todos os produtos <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <% if (destaques.length > 0) { %>
+        <div class="grid grid-cols-4">
+            <% destaques.forEach(p => { %>
+                <%- include('../partials/produto-card', { p: p }) %>
+            <% }) %>
+        </div>
+
+        <div class="section-cta">
+            <a href="/home/shop" class="btn-primary">Ver loja completa</a>
+        </div>
+    <% } else { %>
+        <div class="empty-state">
+            <h3>Nenhum produto encontrado no momento.</h3>
+            <p>Volte em breve — novidades a caminho.</p>
+        </div>
+    <% } %>
+</section>
+
+<script src="/js/home/carousel.js"></script>

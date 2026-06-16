@@ -1,16 +1,82 @@
+<div class="pdp">
+    <% if (typeof produto !== 'undefined' && produto) { %>
+        <% const semEstoque = produto.getPro_status() === 'SEM ESTOQUE' || produto.getPro_quantidade() <= 0 %>
+
+        <div class="pdp-gallery">
+            <% if (produto.emPromocao()) { %>
+                <span class="pdp-badge">-<%= parseFloat(produto.getPro_desconto()) %>%</span>
+            <% } %>
+            <% if (produto.getPro_image()) { %>
+                <img src="/image/produtos/<%= produto.getPro_image() %>" alt="<%= produto.getPro_nome() %>">
+            <% } else { %>
+                <div class="pdp-gallery__empty"><span>Sem imagem</span></div>
+            <% } %>
+        </div>
+
+        <div class="pdp-meta">
+            <span class="pdp-eyebrow">
+                <%= produto.getMarca_nome() || ('Marca ' + produto.getMarca_id()) %><% if (produto.getCat_nome()) { %> &middot; <%= produto.getCat_nome() %><% } %>
+            </span>
+            <h1 class="pdp-name"><%= produto.getPro_nome() %></h1>
+
+            <div class="pdp-price">
+                <% if (produto.emPromocao()) { %>
+                    <span class="pdp-price__was">R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %></span>
+                    <span class="pdp-price__now">R$ <%= produto.getPrecoFinal().toFixed(2) %></span>
+                    <span class="pdp-price__off">-<%= parseFloat(produto.getPro_desconto()) %>%</span>
+                <% } else { %>
+                    <span class="pdp-price__now">R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %></span>
+                <% } %>
+            </div>
+
+            <p class="pdp-desc">
+                <%= produto.getPro_desc() ? produto.getPro_desc() : 'Produto exclusivo Premium Store.' %>
+            </p>
+
+            <div class="pdp-stock<%= semEstoque ? ' is-out' : (produto.getPro_quantidade() <= 5 ? ' is-low' : '') %>">
+                <i class="fa-solid fa-box"></i>
+                <% if (semEstoque) { %>Esgotado<% } else { %><%= produto.getPro_quantidade() %> em estoque<% } %>
+            </div>
+
+            <button id="adicionar-carrinho" class="pdp-add"
+                    data-id="<%= produto.getPro_id() %>"
+                    data-nome="<%= produto.getPro_nome() %>"
+                    data-preco="<%= produto.getPrecoFinal().toFixed(2) %>"
+                    data-imagem="<%= produto.getPro_image() %>"
+                    <%= semEstoque ? 'disabled' : '' %>>
+                <i class="fa-solid fa-bag-shopping"></i>
+                <%= semEstoque ? 'Indisponível' : 'Adicionar ao carrinho' %>
+            </button>
+
+            <ul class="pdp-trust">
+                <li>Entrega combinada pelo WhatsApp</li>
+                <li>Pagamento via Pix ou na entrega</li>
+                <li>Seleção local, conferida peça a peça</li>
+            </ul>
+        </div>
+    <% } else { %>
+        <div class="pdp-missing">
+            <h3>Produto não encontrado.</h3>
+            <a href="/home/shop" class="btn-primary">Voltar à loja</a>
+        </div>
+    <% } %>
+</div>
+
+<% if (typeof relacionados !== 'undefined' && relacionados.length > 0) { %>
+    <section class="section" style="max-width: 1240px; margin: 0 auto;">
+        <div class="section-header">
+            <div>
+                <span class="section-kicker">Continue explorando</span>
+                <h2>Você também pode gostar</h2>
+            </div>
+            <a href="/home/shop" class="btn-link">Ver loja completa <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="grid grid-cols-4">
+            <% relacionados.forEach(p => { %>
+                <%- include('../partials/produto-card', { p: p }) %>
+            <% }) %>
+        </div>
+    </section>
+<% } %>
+
 <script src="/js/carrinho/carrinho.js"></script>
-    </div>
-
-    <!-- ===== Informações ===== -->
-    <div class="flex flex-col">
-      <p class="text-sm font-semibold text-stone tracking-wide mb-2">VEXO</p>
-      <h1 class="vexo-headline text-4xl sm:text-5xl mb-4"><%= produto.getPro_nome() %></h1>
-
-      <!-- rating -->
-      <div class="flex items-center gap-3 mb-5">
-        <div class="flex text-ink">
-          <% for (var s=0;s<5;s++){ %><svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.572-.955L10 0l2.938 5.955 6.572.955-4.755 4.635 1.123 6.545z"/></svg><% } %>
-        </div>
-        </div>
-        <button id="adicionar-carrinho"
-    </div>

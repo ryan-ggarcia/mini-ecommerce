@@ -22,8 +22,8 @@ app.use(expressEjsLayout)
 app.use(cookiesParser())
 app.use(express.json())
 //Router app
-app.use('/login', loginRouter)
-app.use('/', homeRouter)
+app.use('/', loginRouter)
+app.use('/home', homeRouter)
 app.use('/pedido', pedidoRouter)
 //Layout Admin route
 let admin = new layoutAdmin()

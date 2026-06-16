@@ -1,96 +1,102 @@
-<link rel="stylesheet" href="/css/product/style-modal.css">
 <script src="/js/product/fecthDelete.js"></script>
-<h1>Listar produtos</h1>
-<div>
-    <a href="/admin/registerProduto"> + Produto</a>
+
+<div class="admin-header">
+    <div class="admin-header-left">
+        <h2>Produtos</h2>
+        <span class="admin-count"><%= produto.length %> <%= produto.length === 1 ? 'item' : 'itens' %></span>
+    </div>
+    <a href="/admin/registerProduto" class="btn-action btn-add"><i class="fa-solid fa-plus"></i> Novo produto</a>
 </div>
-<div>
-    <table>
+
+<div class="admin-table-container">
+    <table class="admin-table">
         <thead>
-            <th>
-                ID
-            </th>
-            <th>
-                IMAGEM
-            </th>
-            <th>
-                NOME
-            </th>
-            <th>
-                PREÇO
-            </th>
-            <th>
-                QUANTIDADE
-            </th>
-            <th>
-                CATEGORIA
-            </th>
-            <th>
-                MARCA
-            </th>
-            <th>
-                STATUS
-            </th>
-            <th>
-                DESCRIÇÃO
-            </th>
-            <th>
-                AÇÕES
-            </th>
+            <tr>
+                <th>ID</th>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Qtd</th>
+                <th>Categoria</th>
+                <th>Marca</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
         </thead>
         <tbody>
-            <%if(produto.length > 0){%>
-                <%produto.forEach(p =>{%>
+            <% if(produto.length > 0){ %>
+                <% produto.forEach(p =>{ %>
+                    <% const st = p.getPro_status();
+                       const stClass = st === 'EM ESTOQUE' ? 'badge--ok' : (st === 'SEM ESTOQUE' ? 'badge--out' : 'badge--warn'); %>
                     <tr>
+                        <td class="num"><%= p.getPro_id() %></td>
                         <td>
-                            <%=p.getPro_id()%>
-                        </td>
-                        <td>
-                            <button class="btn-preview" data-image="/image/produtos/<%=p.getPro_image()%>" style="cursor: pointer;">
-                                <img src="/image/produtos/<%=p.getPro_image()%>" width="48" alt="">
+                            <button class="btn-preview admin-thumb-btn" data-image="/image/produtos/<%=p.getPro_image()%>" title="Ver imagem">
+                                <img class="admin-thumb" src="/image/produtos/<%=p.getPro_image()%>" alt="">
                             </button>
                         </td>
-                        <td>
-                            <%=p.getPro_nome()%>
+                        <td style="font-weight: 500;"><%= p.getPro_nome() %></td>
+                        <td class="cell-price">
+                            <% if (p.emPromocao()) { %>
+                                <span class="was">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span><br>
+                                <span class="now">R$ <%= p.getPrecoFinal().toFixed(2) %></span>
+                                <span class="cell-discount">-<%= parseFloat(p.getPro_desconto()) %>%</span>
+                            <% } else { %>
+                                <span class="now">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span>
+                            <% } %>
                         </td>
+                        <td class="num"><%= p.getPro_quantidade() %></td>
+                        <td><%= p.getCat_nome() || p.getCat_id() %></td>
+                        <td><%= p.getMarca_nome() || p.getMarca_id() %></td>
+                        <td><span class="badge <%= stClass %>"><%= st %></span></td>
                         <td>
-                            <%=p.getPro_preco()%>
-                        </td>
-                        <td>
-                            <%=p.getPro_quantidade()%>
-                        </td>
-                        <td>
-                            <%=p.getCat_id()%>
-                        </td>
-                        <td>
-                            <%=p.getMarca_id()%>
-                        </td>
-                        <td>
-                            <%=p.getPro_status()%>
-                        </td>
-                        <td>
-                            <%=p.getPro_desc()%>
-                        </td>
-                        <td>
-                            <a href="/admin/updateView/<%=p.getPro_id()%>">Alterar</a>
-                            <button class="btn-delete" data-id="<%= p.getPro_id() %>">Deletar</button> 
+                            <div class="table-actions">
+                                <a href="/admin/updateView/<%=p.getPro_id()%>" class="btn-action btn-edit" title="Editar"><i class="fa-solid fa-pen"></i></a>
+                                <button class="btn-action btn-delete" data-id="<%= p.getPro_id() %>" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </td>
                     </tr>
-                <%})%>
-            <%}else{%>
+                <% }) %>
+            <% } else { %>
                 <tr>
-                    <td>
-                        Produtos não cadastrados
-                    </td>
+                    <td colspan="9" class="admin-empty">Nenhum produto cadastrado no momento.</td>
                 </tr>
-            <%}%>
+            <% } %>
         </tbody>
     </table>
 </div>
-<div id="modal">
-    <div id="card-modal">
-        <h2>Modal</h2>
-        <button id="btn-close">X</button>
-        <img alt="" id="img-modal" width="300">
+
+<div id="modal" class="admin-modal" style="display: none;">
+    <div class="admin-modal-card" style="max-width: 560px;">
+        <button id="btn-close" class="admin-modal-close" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+        <h3>Prévia da imagem</h3>
+        <img alt="Prévia" id="img-modal" style="width: 100%; border-radius: var(--radius-md);">
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const modal = document.getElementById('modal');
+        const btnClose = document.getElementById('btn-close');
+        const imgModal = document.getElementById('img-modal');
+        const btnsPreview = document.querySelectorAll('.btn-preview');
+
+        btnsPreview.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const src = btn.getAttribute('data-image');
+                imgModal.src = src;
+                modal.style.display = 'flex';
+            });
+        });
+
+        btnClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>
