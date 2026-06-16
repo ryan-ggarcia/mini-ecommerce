@@ -1,0 +1,61 @@
+<script src="/js/vendas/montarTabela.js"></script>
+<div class="admin-header">
+    <div class="admin-header-left">
+        <h2>Vendas</h2>
+    </div>
+</div>
+<div class="filter-container">
+    <div class="filter-form">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="produto-search" class="filter-input" placeholder="Pesquisar por nome..."
+            onkeypress="montarTabela(this.value)" autocomplete="off">
+    </div>
+</div>
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                 <th>Cliente</th>
+                <th>Produto</th>
+                <th>Data da compra</th>
+                <th>Quantidade</th>
+                <th>Valor unitario</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="table">
+            <% if(itens && itens.length> 0){ %>
+                <% itens.forEach(i=> { %>
+                    <tr>
+                        <td>
+                            #<%=i.getIProd_id() %>
+                        </td>
+                        <td>
+                            <%= i.getUsu_nome() %>
+                        </td>
+                        <td>
+                            <%= i.getPro_nome() %>
+                        </td>
+                        <td>
+                            <%= i.getPed_data().toLocaleDateString('pt-BR', { day: '2-digit' , month: '2-digit' ,
+                                year: 'numeric' }) %>
+                        </td>
+                         <td>
+                            <%= i.getIProd_quantidade() %>
+                        </td>
+                        <td>
+                            R$<%= i.getIProd_valorUnitario() %>
+                        </td>
+                        <td>
+                            R$ <%= i.getIProd_valorTotal() %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center">Nenhuma venda encontrada.</td>
+                            </tr>
+                            <% } %>
+        </tbody>
+    </table>

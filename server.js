@@ -9,6 +9,7 @@ const produtoAdminRouter = require('./Router/produtoAdminRouter')
 const loginRouter = require('./Router/loginRouter')
 const homeRouter = require('./Router/homeRouter')
 const pedidoRouter = require('./Router/pedidoRouter')
+const vendaRouter = require('./Router/vendaRouter')
 const layoutAdmin = require('./Middleware/AdminMiddleware')
 //Config of server
 const app = express()
@@ -31,6 +32,7 @@ app.use(admin.adminLayout)
 app.use('/admin', usuarioRouter)
 app.use('/admin', homeAdminRouter)
 app.use('/admin', produtoAdminRouter)
+app.use('/admin',vendaRouter)
 // Config global link
 global.CAMINHO_IMG = '/image/produtos/'
 global.CAMINHO_ABS = __dirname + '/Public/image/produtos/'
