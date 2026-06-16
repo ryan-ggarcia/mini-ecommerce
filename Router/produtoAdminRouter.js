@@ -23,4 +23,5 @@ router.post('/registerNewProduto', upload.single('image'), controller.newRegiste
 router.post('/update',upload.single('image') ,controller.update)
 router.post('/deletarProduto', controller.deletar)
 router.get('/updateView/:id',controller.updateView)
+router.get('/listarProduto/:produto',controller.searchProduct)
 module.exports = router
