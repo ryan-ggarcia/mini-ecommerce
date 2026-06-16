@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Premium Store</title>
     
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Inter (UI) + Space Grotesk (display) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Global CSS -->
     <link rel="stylesheet" href="/css/global.css">
     
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    <!-- Tailwind (Play CDN) — usado nos toasts/alerts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { corePlugins: { preflight: false } }</script>
+
     <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body>
@@ -55,13 +59,15 @@
         </div>
         
         <div class="auth-banner">
+            <span class="auth-banner-mark">Premium</span>
             <div class="auth-banner-overlay">
-                <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Estilo e Autenticidade</h2>
-                <p style="font-size: 1.1rem; opacity: 0.9;">As melhores marcas selecionadas exclusivamente para você.</p>
+                <h2>Estilo e autenticidade</h2>
+                <p>Seleção local de calçados, camisas, bonés e acessórios — entrega combinada pelo WhatsApp.</p>
             </div>
         </div>
     </div>
 
+    <script src="/js/ui/toast.js"></script>
     <script src="/js/login/fetchLogin.js"></script>
 </body>
 </html>

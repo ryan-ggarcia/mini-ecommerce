@@ -1,1 +1,42 @@
-<h1>Painel de controle </h1>
+<div class="dash-head">
+    <h1>Bem vindo de volta, <span style="color: var(--accent);"><%= usuNome %></span> </h1> 
+</div>
+<div class="dash-head">
+    <span class="dash-eyebrow"><span class="dot"></span> Painel</span>
+    <h2>Central da loja</h2>
+    <p>Gerencie o catálogo, os clientes e os pedidos da Premium Store. As entregas são combinadas pelo WhatsApp e o pagamento é via Pix ou na entrega.</p>
+</div>
+
+<div class="dash-grid">
+    <a href="/admin/listarProduto" class="dash-card">
+        <span class="dash-card__icon"><i class="fa-solid fa-box"></i></span>
+        <h3>Produtos</h3>
+        <p>Cadastre itens, ajuste preços, descontos e controle o estoque do catálogo.</p>
+        <span class="dash-card__cta">Gerenciar produtos <i class="fa-solid fa-arrow-right"></i></span>
+    </a>
+
+    <a href="/admin/listar" class="dash-card">
+        <span class="dash-card__icon"><i class="fa-solid fa-users"></i></span>
+        <h3>Usuários</h3>
+        <p>Veja os clientes cadastrados, consulte endereços de entrega e edite acessos.</p>
+        <span class="dash-card__cta">Gerenciar usuários <i class="fa-solid fa-arrow-right"></i></span>
+    </a>
+
+    <a href="/home" class="dash-card">
+        <span class="dash-card__icon"><i class="fa-solid fa-store"></i></span>
+        <h3>Ver a loja</h3>
+        <p>Abra a vitrine como o cliente vê — catálogo, ofertas e carrinho.</p>
+        <span class="dash-card__cta">Abrir vitrine <i class="fa-solid fa-arrow-right"></i></span>
+    </a>
+</div>
+
+<div class="dash-quick">
+    <div class="dash-quick__text">
+        <h3>Ações rápidas</h3>
+        <p>Comece um novo cadastro sem sair daqui.</p>
+    </div>
+    <div class="dash-quick__actions">
+        <a href="/admin/registerProduto" class="btn-quick btn-quick--solid"><i class="fa-solid fa-plus"></i> Novo produto</a>
+        <a href="/admin/cadastrar" class="btn-quick btn-quick--ghost"><i class="fa-solid fa-user-plus"></i> Novo usuário</a>
+    </div>
+</div>

@@ -1,9 +1,11 @@
-<link rel="stylesheet" href="/css/product/style-modal.css">
 <script src="/js/product/fecthDelete.js"></script>
 
 <div class="admin-header">
-    <h2>Listagem de Produtos</h2>
-    <a href="/admin/registerProduto" class="btn-action btn-add"><i class="fa-solid fa-plus"></i> Novo Produto</a>
+    <div class="admin-header-left">
+        <h2>Produtos</h2>
+        <span class="admin-count"><%= produto.length %> <%= produto.length === 1 ? 'item' : 'itens' %></span>
+    </div>
+    <a href="/admin/registerProduto" class="btn-action btn-add"><i class="fa-solid fa-plus"></i> Novo produto</a>
 </div>
 
 <div class="admin-table-container">
@@ -24,57 +26,50 @@
         <tbody>
             <% if(produto.length > 0){ %>
                 <% produto.forEach(p =>{ %>
+                    <% const st = p.getPro_status();
+                       const stClass = st === 'EM ESTOQUE' ? 'badge--ok' : (st === 'SEM ESTOQUE' ? 'badge--out' : 'badge--warn'); %>
                     <tr>
-                        <td><%= p.getPro_id() %></td>
+                        <td class="num"><%= p.getPro_id() %></td>
                         <td>
-                            <button class="btn-preview" data-image="/image/produtos/<%=p.getPro_image()%>" style="cursor: pointer; background: none; border: none; padding: 0;">
-                                <img src="/image/produtos/<%=p.getPro_image()%>" width="48" height="48" style="object-fit: cover; border-radius: 4px;" alt="">
+                            <button class="btn-preview admin-thumb-btn" data-image="/image/produtos/<%=p.getPro_image()%>" title="Ver imagem">
+                                <img class="admin-thumb" src="/image/produtos/<%=p.getPro_image()%>" alt="">
                             </button>
                         </td>
                         <td style="font-weight: 500;"><%= p.getPro_nome() %></td>
-                        <td>
+                        <td class="cell-price">
                             <% if (p.emPromocao()) { %>
-                                <span style="text-decoration: line-through; color: var(--text-muted); font-size: 0.8rem;">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span><br>
-                                <strong>R$ <%= p.getPrecoFinal().toFixed(2) %></strong>
-                                <span style="margin-left: 0.25rem; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; background: #fee2e2; color: #991b1b;">-<%= parseFloat(p.getPro_desconto()) %>%</span>
+                                <span class="was">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span><br>
+                                <span class="now">R$ <%= p.getPrecoFinal().toFixed(2) %></span>
+                                <span class="cell-discount">-<%= parseFloat(p.getPro_desconto()) %>%</span>
                             <% } else { %>
-                                R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %>
+                                <span class="now">R$ <%= parseFloat(p.getPro_preco()).toFixed(2) %></span>
                             <% } %>
                         </td>
-                        <td><%= p.getPro_quantidade() %></td>
+                        <td class="num"><%= p.getPro_quantidade() %></td>
                         <td><%= p.getCat_nome() || p.getCat_id() %></td>
                         <td><%= p.getMarca_nome() || p.getMarca_id() %></td>
+                        <td><span class="badge <%= stClass %>"><%= st %></span></td>
                         <td>
-                            <span style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; 
-                                <% if(p.getPro_status() === 'EM ESTOQUE'){ %> background: #dcfce7; color: #166534; 
-                                <% } else if(p.getPro_status() === 'SEM ESTOQUE'){ %> background: #fee2e2; color: #991b1b; 
-                                <% } else { %> background: #fef9c3; color: #854d0e; <% } %>">
-                                <%= p.getPro_status() %>
-                            </span>
-                        </td>
-                        <td>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <a href="/admin/updateView/<%=p.getPro_id()%>" class="btn-action btn-edit" style="padding: 0.25rem 0.5rem;"><i class="fa-solid fa-pen"></i></a>
-                                <button class="btn-action btn-delete" data-id="<%= p.getPro_id() %>" style="padding: 0.25rem 0.5rem;"><i class="fa-solid fa-trash"></i></button>
+                            <div class="table-actions">
+                                <a href="/admin/updateView/<%=p.getPro_id()%>" class="btn-action btn-edit" title="Editar"><i class="fa-solid fa-pen"></i></a>
+                                <button class="btn-action btn-delete" data-id="<%= p.getPro_id() %>" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
                 <% }) %>
             <% } else { %>
                 <tr>
-                    <td colspan="9" style="text-align: center; padding: 2rem; color: var(--text-muted);">
-                        Nenhum produto cadastrado no momento.
-                    </td>
+                    <td colspan="9" class="admin-empty">Nenhum produto cadastrado no momento.</td>
                 </tr>
             <% } %>
         </tbody>
     </table>
 </div>
 
-<div id="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-    <div id="card-modal" style="background: white; padding: 2rem; border-radius: var(--radius-md); max-width: 500px; width: 100%; position: relative;">
-        <h3 style="margin-bottom: 1rem;">Prévia da Imagem</h3>
-        <button id="btn-close" style="position: absolute; top: 1rem; right: 1rem; background: #f4f4f5; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+<div id="modal" class="admin-modal" style="display: none;">
+    <div class="admin-modal-card" style="max-width: 560px;">
+        <button id="btn-close" class="admin-modal-close" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+        <h3>Prévia da imagem</h3>
         <img alt="Prévia" id="img-modal" style="width: 100%; border-radius: var(--radius-md);">
     </div>
 </div>

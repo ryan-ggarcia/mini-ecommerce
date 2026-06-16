@@ -1,48 +1,63 @@
-<div class="product-detail-container">
+<div class="pdp">
     <% if (typeof produto !== 'undefined' && produto) { %>
-        <div class="product-gallery">
+        <% const semEstoque = produto.getPro_status() === 'SEM ESTOQUE' || produto.getPro_quantidade() <= 0 %>
+
+        <div class="pdp-gallery">
+            <% if (produto.emPromocao()) { %>
+                <span class="pdp-badge">-<%= parseFloat(produto.getPro_desconto()) %>%</span>
+            <% } %>
             <% if (produto.getPro_image()) { %>
                 <img src="/image/produtos/<%= produto.getPro_image() %>" alt="<%= produto.getPro_nome() %>">
             <% } else { %>
-                <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background-color:var(--bg-off);">
-                    <span style="color:var(--text-muted)">Sem imagem</span>
-                </div>
+                <div class="pdp-gallery__empty"><span>Sem imagem</span></div>
             <% } %>
         </div>
-        
-        <div class="product-meta">
-            <div class="brand">
-                <%= produto.getMarca_nome() || ('Marca ' + produto.getMarca_id()) %>
-                <% if (produto.getCat_nome()) { %> &middot; <%= produto.getCat_nome() %><% } %>
-            </div>
-            <h1 class="text-gradient"><%= produto.getPro_nome() %></h1>
 
-            <div class="price">
+        <div class="pdp-meta">
+            <span class="pdp-eyebrow">
+                <%= produto.getMarca_nome() || ('Marca ' + produto.getMarca_id()) %><% if (produto.getCat_nome()) { %> &middot; <%= produto.getCat_nome() %><% } %>
+            </span>
+            <h1 class="pdp-name"><%= produto.getPro_nome() %></h1>
+
+            <div class="pdp-price">
                 <% if (produto.emPromocao()) { %>
-                    <span class="price-strike">R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %></span>
-                    <span class="price-final">R$ <%= produto.getPrecoFinal().toFixed(2) %></span>
-                    <span class="price-off">-<%= parseFloat(produto.getPro_desconto()) %>%</span>
+                    <span class="pdp-price__was">R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %></span>
+                    <span class="pdp-price__now">R$ <%= produto.getPrecoFinal().toFixed(2) %></span>
+                    <span class="pdp-price__off">-<%= parseFloat(produto.getPro_desconto()) %>%</span>
                 <% } else { %>
-                    R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %>
+                    <span class="pdp-price__now">R$ <%= parseFloat(produto.getPro_preco()).toFixed(2) %></span>
                 <% } %>
             </div>
-            
-            <p class="product-description">
+
+            <p class="pdp-desc">
                 <%= produto.getPro_desc() ? produto.getPro_desc() : 'Produto exclusivo Premium Store.' %>
             </p>
-            
-            <p class="product-description" style="font-size: 0.9rem; margin-top: -1rem; margin-bottom: 2rem;">
-                <i class="fa-solid fa-box"></i> Em estoque: <%= produto.getPro_quantidade() %> unidades
-            </p>
 
-            <button id="adicionar-carrinho" class="btn-add-cart" data-id="<%= produto.getPro_id() %>">
-                Adicionar ao Carrinho
+            <div class="pdp-stock<%= semEstoque ? ' is-out' : (produto.getPro_quantidade() <= 5 ? ' is-low' : '') %>">
+                <i class="fa-solid fa-box"></i>
+                <% if (semEstoque) { %>Esgotado<% } else { %><%= produto.getPro_quantidade() %> em estoque<% } %>
+            </div>
+
+            <button id="adicionar-carrinho" class="pdp-add"
+                    data-id="<%= produto.getPro_id() %>"
+                    data-nome="<%= produto.getPro_nome() %>"
+                    data-preco="<%= produto.getPrecoFinal().toFixed(2) %>"
+                    data-imagem="<%= produto.getPro_image() %>"
+                    <%= semEstoque ? 'disabled' : '' %>>
+                <i class="fa-solid fa-bag-shopping"></i>
+                <%= semEstoque ? 'Indisponível' : 'Adicionar ao carrinho' %>
             </button>
+
+            <ul class="pdp-trust">
+                <li>Entrega combinada pelo WhatsApp</li>
+                <li>Pagamento via Pix ou na entrega</li>
+                <li>Seleção local, conferida peça a peça</li>
+            </ul>
         </div>
     <% } else { %>
-        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 0;">
-            <h3 style="color: var(--text-muted);">Produto não encontrado.</h3>
-            <a href="/" class="btn-primary" style="margin-top: 1rem;">Voltar à Loja</a>
+        <div class="pdp-missing">
+            <h3>Produto não encontrado.</h3>
+            <a href="/home/shop" class="btn-primary">Voltar à loja</a>
         </div>
     <% } %>
 </div>

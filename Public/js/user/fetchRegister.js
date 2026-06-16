@@ -40,7 +40,7 @@ function newRegister(){
 
     let ok = true
     if(!nome.value && !email.value && !senha.value && !csenha.value && !date.value && !telefone.value && !cpf.value && perfil.value == "0"){
-        alert("Preencha todos os campos obrigatorios!")
+        showToast("Preencha todos os campos obrigatórios!", 'error')
         nome.style.borderColor = 'red'
         email.style.borderColor = 'red'
         senha.style.borderColor = 'red'
@@ -52,7 +52,7 @@ function newRegister(){
         return ok = false
     }
     if(!nome.value || !date.value || !telefone.value || !cpf.value || perfil.value == "0"){
-        alert("Campos obrigatorios não empreenchido")
+        showToast("Campos obrigatórios não preenchidos.", 'error')
         if(!nome.value) nome.style.borderColor = 'red'
         if(!date.value) date.style.borderColor = 'red'
         if(!telefone.value) telefone.style.borderColor = 'red'
@@ -61,7 +61,7 @@ function newRegister(){
         ok = false
     }
     if(!senha.value || !csenha.value || senha.value.length < 6 || senha.value != csenha.value){
-        alert("Senha e Confirmar senha incorretos")
+        showToast("Senha e confirmação não conferem (mínimo 6 caracteres).", 'error')
         if(!senha.value) senha.style.borderColor = 'red'
         if(!csenha.value) csenha.style.borderColor = 'red'
         if(senha.value != csenha.value ) senha.style.borderColor = 'red'
@@ -69,13 +69,13 @@ function newRegister(){
         ok = false
     }
     if(!email.value || !email.value.includes('@') || !email.value.includes('.com')){
-        alert("Dados do email incorretos!")
+        showToast("E-mail inválido. Verifique o formato.", 'error')
         email.style.borderColor = 'red'
         ok = false
     }
 
     if(!cep.value || !uf.value || !cidade.value || !bairro.value || !rua.value || !numero.value){
-        alert("Preencha todos os dados do endereço para proseguir!")
+        showToast("Preencha todos os dados do endereço para prosseguir.", 'error')
         if(!cep.value) cep.style.borderColor ='red'
         if(!uf.value) uf.style.borderColor ='red'
         if(!cidade.value) cidade.style.borderColor ='red'
@@ -113,11 +113,10 @@ function newRegister(){
         .then(res => res.json())
         .then(result =>{
             if(result.ok){
-                alert("Sucesso ao cadastrar usuário!")
-                window.location.href = '/admin/listar'
+                showToast("Usuário cadastrado com sucesso!", 'success')
+                setTimeout(() => { window.location.href = '/admin/listar' }, 1100)
             }else{
-                alert("Não foi possível cadastrar o cliente")
-                window.location.reload()
+                showToast("Não foi possível cadastrar o usuário.", 'error')
             }
         })
     }

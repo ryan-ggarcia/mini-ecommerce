@@ -1,44 +1,25 @@
 <link rel="stylesheet" href="/css/carrinho.css">
 
-<div class="cart-container">
-    <div class="cart-items-section">
-        <div class="cart-header">
-            <h1>Meu Carrinho</h1>
-        </div>
-        
-        <div id="produtos-carrinho">
-            <!-- Renderizado via JS -->
-            <p style="color: var(--text-muted); text-align: center; padding: 2rem 0;">Carregando produtos...</p>
+<section class="cart">
+    <div class="cart-main">
+        <header class="cart-head">
+            <span class="cart-eyebrow">Seu carrinho</span>
+            <h1>Revise seu pedido</h1>
+        </header>
+
+        <div id="produtos-carrinho" class="cart-list">
+            <p class="cart-loading">Carregando produtos…</p>
         </div>
         <div class="clear"></div>
     </div>
 
-    <div class="cart-summary-section">
-        <h2>Resumo do Pedido</h2>
-        
-        <div id="conta">
-            <!-- Valores do carrinho -->
-            <div class="summary-row">
-                <span>Subtotal Itens</span>
-                <span id="subtotal-valor">R$ 0,00</span>
-            </div>
-            <div class="summary-total">
-                <span>Total</span>
-                <span id="total-valor">R$ 0,00</span>
-            </div>
-        </div>
-        
-        <div class="formaPagamento" style="margin-top: 2rem;">
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Forma de Pagamento</label>
-            <select class="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border);">
-                <option>Cartão de Crédito</option>
-                <option>PIX</option>
-                <option>Boleto Bancário</option>
-            </select>
-        </div>
-        
-        <button class="btn-checkout">Finalizar Compra <i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem;"></i></button>
-    </div>
-</div>
+    <aside class="cart-summary">
+        <h2>Resumo</h2>
+        <div id="conta" class="cart-account"></div>
+        <div class="formaPagamento"></div>
+        <button class="btn-checkout">Finalizar pedido <i class="fa-solid fa-arrow-right"></i></button>
+        <p class="cart-note"><i class="fa-brands fa-whatsapp"></i> Entrega combinada pelo WhatsApp após o pedido.</p>
+    </aside>
+</section>
 
 <script src="/js/carrinho/venda.js"></script>

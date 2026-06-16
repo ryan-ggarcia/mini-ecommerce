@@ -15,3 +15,4 @@ ALTER TABLE produto
 -- UPDATE produto SET pro_desconto = 30 WHERE pro_id = 1;
 -- UPDATE produto SET pro_desconto = 15 WHERE pro_id = 2;
 -- UPDATE produto SET pro_desconto = 50 WHERE pro_id = 3;
+1

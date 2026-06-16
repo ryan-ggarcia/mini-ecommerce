@@ -39,7 +39,7 @@ function update() {
 
     let ok = true
     if (!nome.value && !email.value && !senha.value && !date.value && !telefone.value && !cpf.value && perfil.value == "0") {
-        alert("Preencha todos os campos obrigatorios!")
+        showToast("Preencha todos os campos obrigatórios!", 'error')
         nome.style.borderColor = 'red'
         email.style.borderColor = 'red'
         senha.style.borderColor = 'red'
@@ -50,7 +50,7 @@ function update() {
         return ok = false
     }
     if (!nome.value || !date.value || !telefone.value || !cpf.value || perfil.value == "0") {
-        alert("Campos obrigatorios não empreenchido")
+        showToast("Campos obrigatórios não preenchidos.", 'error')
         if (!nome.value) nome.style.borderColor = 'red'
         if (!date.value) date.style.borderColor = 'red'
         if (!telefone.value) telefone.style.borderColor = 'red'
@@ -59,18 +59,18 @@ function update() {
         ok = false
     }
     if (!senha.value) {
-        alert("Senha incorretos")
+        showToast("Informe a nova senha.", 'error')
         if (!senha.value) senha.style.borderColor = 'red'
         ok = false
     }
     if (!email.value || !email.value.includes('@') || !email.value.includes('.com')) {
-        alert("Dados do email incorretos!")
+        showToast("E-mail inválido. Verifique o formato.", 'error')
         email.style.borderColor = 'red'
         ok = false
     }
 
     if (!cep.value || !uf.value || !cidade.value || !bairro.value || !rua.value || !numero.value) {
-        alert("Preencha todos os dados do endereço para proseguir!")
+        showToast("Preencha todos os dados do endereço para prosseguir.", 'error')
         if (!cep.value) cep.style.borderColor = 'red'
         if (!uf.value) uf.style.borderColor = 'red'
         if (!cidade.value) cidade.style.borderColor = 'red'
@@ -109,11 +109,10 @@ function update() {
         .then(res => res.json())
         .then(result =>{
             if(result.ok){
-                alert('Sucesso! Alteração realizada')
-                window.location.href='/admin/listar'
+                showToast('Alteração realizada com sucesso!', 'success')
+                setTimeout(() => { window.location.href = '/admin/listar' }, 1100)
             }else{
-                alert('Erro...Não foi possível efetuar a alteração')
-                window.location.reload()
+                showToast('Não foi possível efetuar a alteração.', 'error')
             }
         })
     }

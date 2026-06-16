@@ -1,20 +1,19 @@
 <script src="/js/product/fetchUpdate.js"></script>
 
 <div class="admin-header">
-    <h2>Alterar Produto</h2>
+    <h2>Alterar produto</h2>
     <a href="/admin/listarProduto" class="btn-action btn-edit"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
 </div>
 
-<div class="admin-form-card" style="max-width: 800px; margin: 0 auto;">
+<div class="admin-form-card">
     <input type="hidden" name="id" id="id" value="<%=produto.getPro_id()%>">
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-        
-        <div class="form-group" style="grid-column: 1 / -1;">
-            <label for="nome">Nome do Produto</label>
+
+    <div class="admin-form-grid">
+        <div class="form-group span-2">
+            <label for="nome">Nome do produto</label>
             <input type="text" class="form-control" name="nome" id="nome" value="<%=produto.getPro_nome()%>">
-        </div>        
-        
+        </div>
+
         <div class="form-group">
             <label for="preco">Preço (R$)</label>
             <input type="text" class="form-control" name="preco" id="preco" value="<%=produto.getPro_preco()%>">
@@ -23,14 +22,14 @@
         <div class="form-group">
             <label for="desconto">Desconto (%)</label>
             <input type="number" class="form-control" name="desconto" id="desconto" min="0" max="100" step="1" value="<%= parseFloat(produto.getPro_desconto()) || 0 %>">
-            <small style="color: var(--text-muted); font-size: 0.8rem;">Deixe 0 para produto sem promoção.</small>
+            <small class="form-hint">Deixe 0 para produto sem promoção.</small>
         </div>
 
         <div class="form-group">
-            <label for="quant">Quantidade em Estoque</label>
+            <label for="quant">Quantidade em estoque</label>
             <input type="number" class="form-control" name="quant" id="quant" value="<%=produto.getPro_quantidade()%>">
         </div>
-        
+
         <div class="form-group">
             <label for="status">Status</label>
             <select class="form-control" name="status" id="status">
@@ -39,7 +38,7 @@
                 <option value="SALDO" <%if(produto.getPro_status() === 'SALDO'){%>selected<%}%>>Saldo</option>
             </select>
         </div>
-        
+
         <div class="form-group">
             <label for="cat">Categoria</label>
             <select class="form-control" name="cat" id="cat">
@@ -50,8 +49,8 @@
                     <% }) %>
                 <% } %>
             </select>
-        </div>        
-        
+        </div>
+
         <div class="form-group">
             <label for="marca">Marca</label>
             <select class="form-control" name="marca" id="marca">
@@ -62,28 +61,28 @@
                     <% }) %>
                 <% } %>
             </select>
-        </div>        
-        
-        <div class="form-group" style="grid-column: 1 / -1;">
-            <label for="img">Imagem do Produto (Opcional)</label>
-            <input type="file" class="form-control" style="padding: 0.5rem; background: #fafafa;" name="img" id="img">
-            <div id="divPrevImg" style="margin-top: 1rem;">
-                <label style="font-size: 0.85rem; color: var(--text-muted);">Prévia da imagem atual</label>
-                <div style="border-radius: var(--radius-md); overflow: hidden; width: 150px; border: 1px solid var(--border); background: var(--bg-off);">
-                    <img alt="prevImg" id="imgPrev" src="<%= produto.getPro_image() ? '/image/produtos/' + produto.getPro_image() : '' %>" data-img="<%= produto.getPro_image()%>" style="width: 100%; display: block; object-fit: cover;">
+        </div>
+
+        <div class="form-group span-2">
+            <label for="img">Imagem do produto (opcional)</label>
+            <input type="file" class="form-control" name="img" id="img" accept="image/*">
+            <div id="divPrevImg">
+                <span class="form-hint">Prévia da imagem atual</span>
+                <div class="img-preview">
+                    <img alt="prevImg" id="imgPrev" src="<%= produto.getPro_image() ? '/image/produtos/' + produto.getPro_image() : '' %>" data-img="<%= produto.getPro_image()%>">
                 </div>
             </div>
         </div>
-        
-        <div class="form-group" style="grid-column: 1 / -1;">
-            <label for="desc">Descrição Detalhada</label>
+
+        <div class="form-group span-2">
+            <label for="desc">Descrição detalhada</label>
             <textarea class="form-control" name="desc" id="desc" rows="4"><%=produto.getPro_desc()%></textarea>
         </div>
     </div>
-    
-    <div style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
-        <button type="button" id="btn-update" class="btn-action btn-add" style="font-size: 1.1rem; padding: 1rem 2rem; width: 100%; justify-content: center; background-color: var(--primary);">
-            <i class="fa-solid fa-save"></i> Atualizar Produto
+
+    <div class="form-footer">
+        <button type="button" id="btn-update" class="btn-action btn-add btn-submit">
+            <i class="fa-solid fa-save"></i> Atualizar produto
         </button>
     </div>
 </div>

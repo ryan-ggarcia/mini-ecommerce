@@ -3,50 +3,49 @@ function efetuarLogin() {
     const email = document.getElementById('email')
     const senha = document.getElementById('senha')
 
-    email.style.borderColor = 'gree'
-    senha.style.borderColor = 'gree'
+    email.style.borderColor = ''
+    senha.style.borderColor = ''
 
     if (!email.value && !senha.value) {
-        alert('Preencha todos os campos para prosseguir!')
+        showToast('Preencha todos os campos para prosseguir!', 'error')
         email.style.borderColor = 'red'
         senha.style.borderColor = 'red'
         ok = false
     }
     if(!email.value.includes('@') || !email.value.includes('.com') ){
         if(!email.value.includes('@') && !email.value.includes('.com'))
-            alert('Gredenciais do emails estão incorretos! Insira @ e .com')
+            showToast('Credenciais de e-mail incorretas. Inclua @ e .com', 'error')
         if(!email.value.includes('@'))
-            alert('Insira o @ para conseguir logar!')
+            showToast('Inclua o @ para conseguir entrar.', 'error')
         if(!email.value.includes('.com'))
-            alert('Coloque ".com" no final! ')
+            showToast('Inclua ".com" no final do e-mail.', 'error')
 
         email.style.borderColor = 'red'
         ok = false
     }
     if(!senha.value.lenght > 6){
-        alert('Erro... A senha devera ter no mínimo 6 caracteres esses sendo letra minuscula e maiuscula e numeros')
+        showToast('A senha deve ter no mínimo 6 caracteres, com letras maiúsculas, minúsculas e números.', 'error')
         ok = false
     }
     if(!ok)
         return
-    fetch('/login/efetuarLogin',{
+    fetch('/efetuarLogin',{
         method:'POST',
         headers: { 'Content-type':'application/json' },
         body:JSON.stringify({
             email:email.value,
             senha:senha.value
         })
-    }) 
+    })
     .then(r =>{ return r.json() })
     .then(result =>{
         if(result.ok){
-            alert(result.msg)
-            if(result.perfil == 1)
-                window.location.href = '/admin'
-            else
-                window.location.href = '/'
+            showToast(result.msg || 'Login efetuado com sucesso!', 'success')
+            setTimeout(() => {
+                window.location.href = (result.perfil == 1) ? '/admin' : '/'
+            }, 1100)
         }else
-            alert(result.msg)
+            showToast(result.msg || 'Não foi possível entrar.', 'error')
     })
-    
+
 }

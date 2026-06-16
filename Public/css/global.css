@@ -81,12 +81,6 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.03em;
 }
 
-.text-gradient {
-    background: linear-gradient(135deg, var(--primary), #4a4a4a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
 /* Navbar */
 .navbar {
     display: flex;
@@ -437,108 +431,213 @@ h1, h2, h3, h4, h5, h6 {
 
 .product-card.is-out .price-now { color: var(--mist); }
 
-/* Single Product Page */
-.product-detail-container {
+/* ============================================================
+   Página de produto (detalhe) — pdp
+   ============================================================ */
+.pdp {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    max-width: 1200px;
-    margin: 4rem auto;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    max-width: 1180px;
+    margin: clamp(2rem, 5vw, 4rem) auto;
     padding: 0 5%;
+    align-items: start;
 }
 
-@media (max-width: 768px) {
-    .product-detail-container {
-        grid-template-columns: 1fr;
-    }
-}
-
-.product-gallery {
-    background-color: var(--bg-off);
+.pdp-gallery {
+    position: relative;
     border-radius: var(--radius-lg);
     overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-soft);
+    aspect-ratio: 4 / 5;
 }
 
-.product-gallery img {
+.pdp-gallery img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.product-meta {
+.pdp-gallery__empty {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mist);
+    background: var(--paper);
+}
+
+.pdp-badge {
+    position: absolute;
+    top: 1.1rem;
+    left: 1.1rem;
+    background: var(--ember);
+    color: #fff;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 0.55rem;
+    box-shadow: 0 10px 24px -8px rgb(232 85 43 / 0.65);
+}
+
+.pdp-meta {
+    position: sticky;
+    top: 96px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
-.product-meta .brand {
-    color: var(--text-muted);
+.pdp-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.18em;
+    color: var(--ember);
+    margin-bottom: 0.7rem;
 }
 
-.product-meta h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+.pdp-name {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3.1rem);
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1.1rem;
 }
 
-.product-meta .price {
+.pdp-price {
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.6rem 0.85rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.pdp-price__now {
     font-family: var(--display);
-    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 2rem;
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    line-height: 1;
+    color: var(--ink);
     font-variant-numeric: tabular-nums;
 }
 
-.product-meta .price-strike {
-    font-size: 1.25rem;
-    font-weight: 400;
+.pdp-price__was {
+    font-size: 1.15rem;
     color: var(--mist);
     text-decoration: line-through;
+    font-variant-numeric: tabular-nums;
 }
 
-.product-meta .price-final { color: var(--ink); }
-
-.product-meta .price-off {
-    font-family: var(--body);
-    font-size: 0.85rem;
+.pdp-price__off {
+    align-self: center;
+    font-size: 0.82rem;
     font-weight: 700;
     color: #fff;
     background: var(--ember);
-    padding: 0.25rem 0.6rem;
-    border-radius: 0.45rem;
-    align-self: center;
+    padding: 0.22rem 0.55rem;
+    border-radius: 0.4rem;
 }
 
-.product-description {
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-    line-height: 1.6;
+.pdp-desc {
+    color: var(--mist);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    max-width: 52ch;
 }
 
-.btn-add-cart {
-    width: 100%;
-    padding: 1.25rem;
-    background-color: var(--primary);
-    color: white;
-    font-size: 1.125rem;
+.pdp-stock {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: flex-start;
+    font-size: 0.85rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: var(--radius-md);
-    margin-bottom: 1rem;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 0.45rem 0.85rem;
+    border-radius: 2rem;
+    margin-bottom: 1.75rem;
 }
 
-.btn-add-cart:hover {
-    background-color: #333;
-    transform: translateY(-2px);
+.pdp-stock i { color: var(--mist); }
+.pdp-stock.is-low { color: var(--ember); border-color: var(--ember); }
+.pdp-stock.is-low i { color: var(--ember); }
+
+.pdp-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 1.15rem 1.5rem;
+    background: var(--ink);
+    color: #fff;
+    font-family: var(--body);
+    font-size: 1.02rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.pdp-add:hover {
+    background: var(--plum);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+.pdp-add:disabled {
+    background: var(--line);
+    color: var(--mist);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.pdp-trust {
+    list-style: none;
+    margin-top: 1.75rem;
+    display: grid;
+    gap: 0.7rem;
+}
+
+.pdp-trust li {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.9rem;
+    color: var(--ink);
+}
+
+.pdp-trust li::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 1px;
+    background: var(--ember);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+}
+
+.pdp-missing {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.pdp-missing h3 { color: var(--mist); margin-bottom: 1rem; }
+
+@media (max-width: 860px) {
+    .pdp { grid-template-columns: 1fr; }
+    .pdp-meta { position: static; }
+    .pdp-gallery { aspect-ratio: 1 / 1; }
 }
 
 /* Footer */

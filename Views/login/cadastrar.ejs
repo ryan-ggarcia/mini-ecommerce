@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Premium Store</title>
     
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Inter (UI) + Space Grotesk (display) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Global CSS -->
     <link rel="stylesheet" href="/css/global.css">
@@ -18,7 +18,11 @@
     
     <!-- IMask for input masks -->
     <script src="https://unpkg.com/imask"></script>
-    
+
+    <!-- Tailwind (Play CDN) — usado nos toasts/alerts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { corePlugins: { preflight: false } }</script>
+
     <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body>
@@ -114,6 +118,7 @@
         </div>
     </div>
 
+    <script src="/js/ui/toast.js"></script>
     <script src="/js/user/fetchRegister.js"></script>
     <script src="/js/admin/usuarioForm.js"></script>
 </body>

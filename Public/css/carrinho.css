@@ -1,96 +1,279 @@
-/* Carrinho Premium Style */
-.cart-container {
-    max-width: 1200px;
-    margin: 4rem auto;
+/* ============================================================
+   Carrinho — fluxo de pedido
+   ============================================================ */
+.cart {
+    max-width: 1180px;
+    margin: clamp(2rem, 5vw, 3.5rem) auto;
     padding: 0 5%;
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 1.7fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
 }
 
-@media (max-width: 768px) {
-    .cart-container {
-        grid-template-columns: 1fr;
-    }
+.cart-head {
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
 }
 
-.cart-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
+.cart-eyebrow {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ember);
+    margin-bottom: 0.4rem;
 }
 
-.cart-header h1 {
-    font-size: 2.5rem;
-    color: var(--primary);
+.cart-head h1 {
+    font-family: var(--display);
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    color: var(--ink);
 }
 
-.cart-items-section {
-    background: white;
-    border-radius: var(--radius-md);
-    padding: 2rem;
-    box-shadow: var(--shadow-sm);
+.cart-loading {
+    color: var(--mist);
+    text-align: center;
+    padding: 3rem 0;
 }
 
-.cart-summary-section {
-    background: var(--bg-off);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    border: 1px solid var(--border);
-    height: fit-content;
+/* --------- Itens --------- */
+.cart-item {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.cart-item__media {
+    width: 92px;
+    height: 92px;
+    flex-shrink: 0;
+    border-radius: 0.7rem;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--line);
+}
+
+.cart-item__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cart-item__info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.cart-item__info h3 {
+    font-family: var(--body);
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+}
+
+.cart-item__qty {
+    color: var(--mist);
+    font-size: 0.88rem;
+}
+
+.cart-item__side {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.cart-item__price {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 0.5rem;
+}
+
+.cart-item__actions {
+    display: flex;
+    gap: 0.9rem;
+    justify-content: flex-end;
+}
+
+.cart-item__actions a,
+.cart-item__actions button {
+    font-size: 0.82rem;
+    color: var(--mist);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.cart-item__actions a:hover { color: var(--ink); }
+.cart-item__actions button:hover { color: var(--ember); }
+
+.cart-clear {
+    margin-top: 1.25rem;
+    float: right;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1rem;
+    border-radius: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--mist);
+    font-size: 0.85rem;
+    transition: var(--transition);
+}
+
+.cart-clear:hover { color: var(--ember); border-color: var(--ember); }
+
+.clear { clear: both; }
+
+/* --------- Resumo (recibo plum) --------- */
+.cart-summary {
     position: sticky;
-    top: 100px;
+    top: 96px;
+    background: linear-gradient(160deg, var(--plum) 0%, var(--plum-deep) 100%);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 1.9rem;
+    box-shadow: var(--shadow-soft);
 }
 
-.cart-summary-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+.cart-summary h2 {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 1.4rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    color: var(--text-muted);
+    margin-bottom: 0.85rem;
+    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.72);
 }
+
+.summary-row span:last-child { font-variant-numeric: tabular-nums; }
 
 .summary-total {
     display: flex;
     justify-content: space-between;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
+    align-items: baseline;
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
-.btn-checkout {
+.summary-total span:first-child {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.summary-total span:last-child {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--accent); /* total em dourado — realce premium */
+    font-variant-numeric: tabular-nums;
+}
+
+.formaPagamento { margin-top: 1.75rem; }
+
+.cart-label {
     display: block;
-    width: 100%;
-    padding: 1.25rem;
-    background-color: var(--primary);
-    color: white;
-    text-align: center;
-    border-radius: var(--radius-md);
-    font-size: 1.1rem;
+    margin-bottom: 0.55rem;
+    font-size: 0.78rem;
     font-weight: 600;
     text-transform: uppercase;
-    margin-top: 2rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.cart-select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
     transition: var(--transition);
-    border: none;
-    cursor: pointer;
 }
 
-.btn-checkout:hover {
-    background-color: #333;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+.cart-select:focus { border-color: var(--ember); }
+.cart-select option { color: var(--ink); }
+
+.btn-checkout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1.1rem;
+    background: var(--ember);
+    color: #fff;
+    border-radius: var(--radius-md);
+    font-size: 1.02rem;
+    font-weight: 600;
+    box-shadow: 0 14px 30px -12px rgb(232 85 43 / 0.7);
+    transition: var(--transition);
 }
 
-#produtos-carrinho {
-    min-height: 200px;
+.btn-checkout:hover { background: #d8471f; transform: translateY(-2px); }
+.btn-checkout i { transition: transform 0.25s ease; }
+.btn-checkout:hover i { transform: translateX(4px); }
+
+.cart-note {
+    margin-top: 1.1rem;
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.62);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+}
+
+.cart-note i { color: #25d366; } /* verde WhatsApp — sinal funcional do canal de entrega */
+
+/* --------- Vazio --------- */
+.cart-empty {
+    text-align: center;
+    padding: 3.5rem 1rem;
+}
+
+.cart-empty i {
+    font-size: 2.75rem;
+    color: var(--line);
+    margin-bottom: 1.25rem;
+}
+
+.cart-empty h2 { color: var(--ink); margin-bottom: 0.6rem; }
+.cart-empty p { color: var(--mist); margin-bottom: 1.75rem; }
+
+.cart-account-empty {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.cart-account-empty p { margin-bottom: 1rem; }
+
+@media (max-width: 860px) {
+    .cart { grid-template-columns: 1fr; }
+    .cart-summary { position: static; }
 }

@@ -32,7 +32,7 @@ function register() {
     desc.style.borderColor = 'green'
 
     if (!nome.value && !preco.value && !quant.value && cat.value == '0' && marca.value == '0' && !desc.value) {
-        alert('Preencha todos os campos obrigatorios!')
+        showToast('Preencha todos os campos obrigatórios!', 'error')
         nome.style.borderColor = "red"
         preco.style.borderColor = 'red'
         quant.style.borderColor = 'red'
@@ -41,7 +41,7 @@ function register() {
         desc.style.borderColor = 'red'
     }
     if (!nome.value || !preco.value || !quant.value || cat.value == '0' || marca.value == '0' || !desc.value) {
-        alert('Preencha todos os campos obrigatorios!')
+        showToast('Preencha todos os campos obrigatórios!', 'error')
         if(!nome.value) nome.style.borderColor = "red"
         if(!preco.value)preco.style.borderColor = 'red'
         if(!quant.value) quant.style.borderColor = 'red'
@@ -67,11 +67,10 @@ function register() {
         .then(r => r.json())
         .then(res =>{
             if(res.ok){
-                alert(res.msg)
-                window.location.href = '/admin/listarProduto'
+                showToast(res.msg || 'Produto cadastrado com sucesso!', 'success')
+                setTimeout(() => { window.location.href = '/admin/listarProduto' }, 1100)
             }else{
-                alert(res.msg)
-                window.location.reload()
+                showToast(res.msg || 'Não foi possível cadastrar o produto.', 'error')
             }
         })
 

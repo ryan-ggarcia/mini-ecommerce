@@ -1,7 +1,9 @@
-
+const UsuarioModel = require('../Models/UsuarioModel')
 class PainelController{
     async homePage(req,res){
-        res.render('admin/home', { pagina: 'Dashboard' })
+        let usuario = new UsuarioModel()
+        usuario = await usuario.getForId(req.cookies.UsuarioLogado)
+        res.render('admin/home', { pagina: 'Dashboard', usuNome: usuario.getUsu_nome })
     }
 }
 
