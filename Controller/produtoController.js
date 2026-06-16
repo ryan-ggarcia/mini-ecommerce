@@ -8,6 +8,11 @@ class ProdutoController {
         let produto = await model.getAll()
         res.render('admin/produto/listar', { produto })
     }
+    async searchProduct(req,res){
+        let model = new ProdutoModel()
+        let busca = await model.getAll(req.params.produto)
+        return res.send({busca})
+    }
     async registerView(req, res) {
         let cat = new CategoriaModel()
         let marca = new MarcaModel()

@@ -73,13 +73,18 @@ class ProdutoModel{
         let result = await db.ExecutaComandoNonQuery(sql,values)
         return result
     }
-    async getAll(){
+    async getAll(busca){
         let sql = `SELECT p.*, c.cat_nome, m.marca_nome
                    FROM produto p
                    LEFT JOIN categoria c ON p.cat_id = c.cat_id
                    LEFT JOIN marca m ON p.marca_id = m.marca_id`
+        let values = []
+        if(busca != null){
+            sql += ` WHERE pro_id = ? OR pro_nome LIKE ?`
+            values = [busca, `%${busca}%`]
+        }
         let db = new database()
-        let result = await db.ExecutaComando(sql)
+        let result = await db.ExecutaComando(sql,values)
         let listar = []
         result.forEach(r =>{
             listar.push(this.#montar(r))
@@ -129,6 +134,23 @@ class ProdutoModel{
         let db = new database()
         let result = await db.ExecutaComandoNonQuery(sql,value)
         return result
+    }
+    toJSON(){
+        return{
+            pro_id: this.#pro_id,
+            pro_nome: this.#pro_nome,
+            pro_image: this.#pro_image,
+            pro_preco: this.#pro_preco,
+            pro_desconto: this.#pro_desconto,
+            pro_quantidade: this.#pro_quantidade,
+            cat_id: this.#cat_id,
+            marca_id: this.#marca_id,
+            pro_status: this.#pro_status,
+            cat_nome: this.#cat_nome,
+            marca_nome: this.#marca_nome,
+            preco_final: this.getPrecoFinal(),
+            em_promocao: this.emPromocao() 
+        }
     }
 }
 module.exports = ProdutoModel

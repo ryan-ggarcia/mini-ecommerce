@@ -7,7 +7,16 @@
     </div>
     <a href="/admin/registerProduto" class="btn-action btn-add"><i class="fa-solid fa-plus"></i> Novo produto</a>
 </div>
-
+<div class="filter-container">
+    <div class="filter-form">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="produto-search" class="filter-input" placeholder="Pesquisar por nome..." oninput="filtrarProdutos(this.value)" autocomplete="off">
+    </div>
+    <select id="filtro-promo" class="filter-select" onchange="filtrarPromocao(this.value)">
+        <option value="todos">Todos os produtos</option>
+        <option value="promo">Em promoção</option>
+    </select>
+</div>
 <div class="admin-table-container">
     <table class="admin-table">
         <thead>
@@ -23,7 +32,7 @@
                 <th>Ações</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="table">
             <% if(produto.length > 0){ %>
                 <% produto.forEach(p =>{ %>
                     <% const st = p.getPro_status();
