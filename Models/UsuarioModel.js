@@ -111,8 +111,8 @@ class UsuarioModel {
         return lista
     }
     async getForId(id) {
-        let sql = `SELECT * FROM usuario where usu_id = ?`
-        let values = [id]
+        let sql = `SELECT * FROM usuario WHERE usu_id = ? OR usu_nome LIKE ?`
+        let values = [id, `%${id}%`]
         let db = new database()
         let result = await db.ExecutaComando(sql, values)
         let lista = new UsuarioModel(
@@ -126,7 +126,6 @@ class UsuarioModel {
             result[0]['end_id'],
             result[0]['usu_status'],
             result[0]['usu_data']
-
         )
         return lista
     }

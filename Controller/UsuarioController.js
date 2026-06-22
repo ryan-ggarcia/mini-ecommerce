@@ -42,6 +42,16 @@ class UsuarioController {
             return res.json({end: null})
         }
     }
+    async fyndUserId(req,res){
+        let model = new UsuarioModel()
+        let result = await model.getAll(req.params.id) 
+        return res.json({
+            usu_id:result.getUsu_id,
+            usu_nome:result.getUsu_nome,
+            usu_email:result.getUsu_email,
+            usu_senha:result.getUsu_senha,
+        })
+    }
     async newRegister(req, res) {
         let ok = false
         let msg = ''

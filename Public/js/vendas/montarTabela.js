@@ -1,8 +1,12 @@
 
 async function montarTabela(termo){
-    const dados = await fetch(`/admin/buscarVendas/${termo}`)
-    const {res} = await dados.json()
     const tbody = document.getElementById('table')
+    if(!termo){
+        window.location.reload()
+        return
+    }
+    const dados = await fetch(`/admin/buscarVendas/${encodeURIComponent(termo)}`)
+    const {res} = await dados.json()
     let html = ``
     if(res.length > 0){
         res.forEach(r =>{
@@ -18,7 +22,7 @@ async function montarTabela(termo){
                            ${r.pro_nome}
                         </td>
                         <td>
-                            ${r.ped_data.toLocaleDateString('pt-BR', { day: '2-digit' , month: '2-digit' ,
+                            ${new Date(r.ped_data).toLocaleDateString('pt-BR', { day: '2-digit' , month: '2-digit' ,
                                 year: 'numeric' })}
                         </td>
                          <td>

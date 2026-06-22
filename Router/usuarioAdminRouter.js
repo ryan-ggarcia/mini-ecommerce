@@ -12,4 +12,5 @@ router.post('/fecthUpdate', controller.update)
 // Pegando o ID via URL e passando ela para a controller onde vai ser renderizada
 router.get('/update/:id', controller.updateView)
 router.get('/getEndereco/:id', controller.getEndereco)
+router.get('/fyndUserId/:id', controller.fyndUserId)
 module.exports = router

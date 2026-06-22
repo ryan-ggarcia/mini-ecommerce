@@ -58,14 +58,14 @@ class ItemProdutoModel {
         FROM item_produto i 
         INNER JOIN produto p ON p.pro_id = i.pro_id
         INNER JOIN pedido ped ON ped.ped_id = i.ped_id
-        INNER JOIN usuario u ON u.usu_id = ped.usu_id;`
+        INNER JOIN usuario u ON u.usu_id = ped.usu_id`
         let values = []
-        if (busca != null) {
+        if (busca != null &&busca.trim() != "") {
             sql += ` WHERE iPro_id = ? OR usu_nome LIKE ?  `
             values = [busca, `%${busca}%`]
         }
         let banco = new Database()
-        let result = await banco.ExecutaComando(sql)
+        let result = await banco.ExecutaComando(sql,values)
         let lista = []
         result.forEach(r => {
             lista.push(new ItemProdutoModel(

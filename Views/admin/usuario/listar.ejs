@@ -7,6 +7,13 @@
     </div>
     <a href="/admin/cadastrar" class="btn-action btn-add"><i class="fa-solid fa-plus"></i> Novo usuário</a>
 </div>
+<div class="filter-container">
+    <div class="filter-form">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="produto-search" class="filter-input" placeholder="Pesquisar por nome..."
+            oninput="montarTabela(this.value)" autocomplete="off">
+    </div>
+</div>
 
 <div class="admin-table-container">
     <table class="admin-table">
@@ -23,7 +30,7 @@
                 <th>Ações</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="user_table">
             <% if(clientes.length > 0){ %>
                 <% clientes.forEach(u => { %>
                     <% const ativo = (u.getUsu_status === 'ATIVO' || u.getUsu_status == 1); %>

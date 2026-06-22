@@ -5,6 +5,6 @@ let controller = new VendasController()
 const router = express.Router()
 
 router.get('/vendas',controller.listarView)
-router.get('/buscarVendas',controller.buscarVendas)
+router.get('/buscarVendas/:venda',controller.buscarVendas)
 
 module.exports = router

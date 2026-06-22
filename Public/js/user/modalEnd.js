@@ -54,3 +54,12 @@ openModal.addEventListener('click', function () {
     openModal.classList.remove('active')
 })
 
+async function montarTabela(termo){
+    if(!termo){
+        window.location.reload()
+        return
+    }
+    const tbody = document.getElementById("user_table")
+    const dados = await fetch(`/admin/fyndUserId/${encodeURIComponent(termo)}`)
+    const {res} = await dados.json()
+}
